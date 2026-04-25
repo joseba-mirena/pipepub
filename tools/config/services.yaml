@@ -1,0 +1,97 @@
+# tools/config/services.yaml - Service configurations
+# This file is committed to git (no secrets)
+
+services:
+  devto:
+    type: api_key
+    fields:
+      - name: token
+        required: true
+        description: "Dev.to API token"
+        env_var: DEVTO_TOKEN
+    requires_oauth: false
+
+  hashnode:
+    type: api_key
+    fields:
+      - name: token
+        required: true
+        description: "Hashnode Personal Access Token"
+        env_var: HASHNODE_TOKEN
+      - name: publication_id
+        required: true
+        description: "Hashnode Publication ID"
+        env_var: HASHNODE_PUBLICATION_ID
+    requires_oauth: false
+
+  medium:
+    type: oauth
+    fields:
+      - name: client_id
+        required: true
+        description: "Medium OAuth Client ID"
+        env_var: MEDIUM_CLIENT_ID
+      - name: client_secret
+        required: true
+        description: "Medium OAuth Client Secret"
+        env_var: MEDIUM_CLIENT_SECRET
+      - name: access_token
+        required: false
+        description: "Medium Access Token"
+        env_var: MEDIUM_ACCESS_TOKEN
+      - name: refresh_token
+        required: false
+        description: "Medium Refresh Token"
+        env_var: MEDIUM_REFRESH_TOKEN
+    auth_url: "https://medium.com/m/oauth/authorize"
+    token_url: "https://api.medium.com/v1/tokens"
+    scopes: "basicProfile,publishPost"
+    requires_oauth: true
+
+  twitter:
+    type: oauth
+    fields:
+      - name: client_id
+        required: true
+        description: "Twitter OAuth Client ID"
+        env_var: TWITTER_CLIENT_ID
+      - name: client_secret
+        required: true
+        description: "Twitter OAuth Client Secret"
+        env_var: TWITTER_CLIENT_SECRET
+      - name: access_token
+        required: false
+        description: "Twitter Access Token"
+        env_var: TWITTER_ACCESS_TOKEN
+      - name: refresh_token
+        required: false
+        description: "Twitter Refresh Token"
+        env_var: TWITTER_REFRESH_TOKEN
+    auth_url: "https://twitter.com/i/oauth2/authorize"
+    token_url: "https://api.twitter.com/2/oauth2/token"
+    scopes: "tweet.read tweet.write users.read"
+    requires_oauth: true
+
+  linkedin:
+    type: oauth
+    fields:
+      - name: client_id
+        required: true
+        description: "LinkedIn OAuth Client ID"
+        env_var: LINKEDIN_CLIENT_ID
+      - name: client_secret
+        required: true
+        description: "LinkedIn OAuth Client Secret"
+        env_var: LINKEDIN_CLIENT_SECRET
+      - name: access_token
+        required: false
+        description: "LinkedIn Access Token"
+        env_var: LINKEDIN_ACCESS_TOKEN
+      - name: refresh_token
+        required: false
+        description: "LinkedIn Refresh Token"
+        env_var: LINKEDIN_REFRESH_TOKEN
+    auth_url: "https://www.linkedin.com/oauth/v2/authorization"
+    token_url: "https://www.linkedin.com/oauth/v2/accessToken"
+    scopes: "w_member_social r_liteprofile"
+    requires_oauth: true

@@ -1,0 +1,126 @@
+name: 🐞 Bug Report
+description: File a bug report to help us improve PipePub
+title: "[Bug]: "
+labels: ["bug", "triage"]
+assignees: 
+  - pipepub
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting an issue! Please fill out the information below.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is
+      placeholder: When I run `./tools/pipepub.sh publish`...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: To Reproduce
+      description: Steps to reproduce the behavior
+      placeholder: |
+        1. Run `./tools/pipepub.sh secrets add devto`
+        2. Add token `xxx`
+        3. Run `./tools/pipepub.sh publish`
+        4. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: A clear description of what you expected to happen
+      placeholder: The article should publish to Dev.to as a draft
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots / Terminal output
+      description: If applicable, add screenshots or terminal output
+      placeholder: Paste terminal output or drag screenshots here
+    validations:
+      required: false
+
+  - type: dropdown
+    id: version
+    attributes:
+      label: PipePub version
+      description: Which version are you using?
+      options:
+        - v1.0.0
+        - v0.0.1
+        - Development (main branch)
+        - Other (please specify in additional context)
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: Operating System
+      description: Which OS are you using?
+      placeholder: macOS Sequoia / Ubuntu 22.04 / WSL2
+    validations:
+      required: true
+
+  - type: input
+    id: shell
+    attributes:
+      label: Shell
+      description: Which shell are you using?
+      placeholder: bash 5.2 / zsh 5.9
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: Which dependencies are installed?
+      options:
+        - label: git
+        - label: curl
+        - label: jq
+        - label: openssl
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Debug logs
+      description: Run with `LOG_LEVEL=debug` and paste the output here
+      render: shell
+      placeholder: |
+        LOG_LEVEL=debug ./tools/pipepub.sh publish
+        [DEBUG] ...
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Any other relevant information
+      placeholder: Related issues, workarounds you've tried, etc.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/pipepub/pipepub/blob/main/.github/CONTRIBUTING.md)
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true

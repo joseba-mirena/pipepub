@@ -1,0 +1,12 @@
+{
+  "canonicalUrl": "https://example.com/cover.jpg",
+  "content": "Test content",
+  "subtitle": "This is a test subtitle",
+  "tags": [
+    "delete-me",
+    "auto",
+    "test",
+    "draft"
+  ],
+  "title": "Test Article"
+}

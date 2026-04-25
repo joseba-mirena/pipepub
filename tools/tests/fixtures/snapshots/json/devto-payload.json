@@ -1,0 +1,12 @@
+{
+  "article": {
+    "published": false,
+    "tags": [
+      "deleteme",
+      "auto",
+      "test",
+      "draft"
+    ],
+    "title": "Test Article"
+  }
+}

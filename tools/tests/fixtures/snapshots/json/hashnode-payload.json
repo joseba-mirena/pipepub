@@ -1,0 +1,24 @@
+{
+  "input": {
+    "subtitle": "This is a test subtitle",
+    "tags": [
+      {
+        "name": "deleteme",
+        "slug": "deleteme"
+      },
+      {
+        "name": "auto",
+        "slug": "auto"
+      },
+      {
+        "name": "test",
+        "slug": "test"
+      },
+      {
+        "name": "draft",
+        "slug": "draft"
+      }
+    ],
+    "title": "Test Article"
+  }
+}

@@ -1,0 +1,18 @@
+blank_issues_enabled: false
+
+contact_links:
+  - name: 📚 Documentation
+    url: https://github.com/pipepub/pipepub/blob/main/docs/README.md
+    about: Check the official documentation for guides, settings, and troubleshooting
+
+  - name: ❓ FAQ
+    url: https://github.com/pipepub/pipepub/blob/main/docs/basics/faq.md
+    about: Frequently asked questions and common solutions
+
+  - name: 💬 Discussions
+    url: https://github.com/pipepub/pipepub/discussions
+    about: Ask questions, share ideas, and discuss PipePub with the community
+
+  - name: 🔒 Security
+    url: https://github.com/pipepub/pipepub/blob/main/docs/SECURITY.md
+    about: Report security vulnerabilities privately

@@ -1,0 +1,172 @@
+PipePub Manual
+==============
+
+Complete command-line reference for PipePub
+
+
+SYNOPSIS
+--------
+
+./tools/pipepub.sh [COMMAND] [OPTIONS]
+
+<!-- quick-help -->
+
+QUICK HELP
+----------
+
+./tools/pipepub.sh              - Interactive menu
+./tools/pipepub.sh publish      - Publish articles
+./tools/pipepub.sh secrets      - Manage secrets
+./tools/pipepub.sh check        - Check system dependencies
+./tools/pipepub.sh test         - Run test suite
+./tools/pipepub.sh --help       - Show this help
+./tools/pipepub.sh --man        - Show full manual
+./tools/pipepub.sh --doc        - Open manual file
+./tools/pipepub.sh --version    - Show version
+./tools/pipepub.sh -v           - Same as --version
+
+<!-- end-quick-help -->
+
+
+COMMANDS
+--------
+
+publish
+    Publish articles to configured platforms.
+
+    Environment variables:
+        MANUAL_FILENAMES    Space-separated list of files to publish
+        DRY_RUN             Set to true for test mode (no API calls)
+        LOG_LEVEL           Set to debug for verbose logging
+
+    Interactive mode: If no arguments provided, prompts for file selection.
+
+secrets
+    Manage API tokens and credentials in OS keychain.
+
+    Subcommands:
+        add devto           Add Dev.to API token
+        add hashnode        Add Hashnode token + publication ID
+        add medium          Add Medium legacy token
+        add github          Add GitHub token (gist scope)
+        list                List configured services
+        export              Export secrets as environment variables
+        delete <service>    Remove service secrets
+
+    Interactive mode: If no arguments provided, launches interactive menu.
+
+check
+    Verify system dependencies and configuration.
+
+    Checks performed:
+        - Dependencies: git, curl, jq, openssl
+        - Keychain: OS keychain availability
+        - Configuration: .env file presence and validity
+        - Secrets: Which services have configured secrets
+
+test
+    Run the test suite.
+
+    Options:
+        --filter=NAME       Run only test file matching NAME
+        --tag=TAG           Run only tests with TAG
+        --exclude=TAG       Exclude tests with TAG
+        --update-snapshots  Update snapshot files
+        --debug             Enable debug logging
+
+    Interactive mode: If no arguments provided, launches test selection menu.
+
+help
+    Display help documentation.
+    Aliases: --help, -h
+
+man
+    Display this full manual.
+    Aliases: --man, -m
+
+doc
+    Open documentation file in browser or default application.
+    Aliases: --doc, -d
+
+version
+    Display version information.
+    Aliases: --version, -v
+
+
+ENVIRONMENT VARIABLES
+---------------------
+
+Application Configuration:
+    APP_NAME        PipePub                     Application display name
+    APP_VERSION     v1.0.0                      Version shown in UI
+    APP_ICON        ⮻
+
+Logging Configuration:
+    LOG_LEVEL       info                        debug, info, warning, error
+    LOG_OUTPUT      console                     console, file, both
+    LOG_QUIET       false                       Suppress all output
+    LOG_NO_ICONS    false
+
+Publisher Defaults:
+    PUBLISHER_LANG  en-us                       Language/locale
+    PUBLISHER_STATUS draft                      draft, public
+    PUBLISHER_AUTO  true                        Auto-publish on push
+    PUBLISHER_GIST  true                        Table-to-Gist conversion
+
+Runtime Flags:
+    DRY_RUN         false
+    CI              (unset)
+    DEBUG           false                       Enable verbose output
+
+
+FILES
+-----
+
+.env                Local environment configuration
+.env.example        Template for .env
+posts/              User articles (markdown files)
+docs/               Documentation
+.tmp/               Temporary runtime files
+.logs/              Pipeline execution logs
+.reports/           Test reports (JSON)
+
+
+EXIT CODES
+----------
+
+0   Success
+1   General error
+2   Missing dependency
+3   Configuration error
+4   Secret error
+5   API error
+6   Validation error
+
+
+EXAMPLES
+--------
+
+Basic usage:
+
+    ./tools/pipepub.sh
+    ./tools/pipepub.sh publish
+    ./tools/pipepub.sh secrets add devto
+    ./tools/pipepub.sh check
+    ./tools/pipepub.sh test
+
+Advanced usage:
+
+    DRY_RUN=true ./tools/pipepub.sh publish
+    LOG_LEVEL=debug ./tools/pipepub.sh publish
+    MANUAL_FILENAMES="article1.md article2.md" ./tools/pipepub.sh publish
+    ./tools/pipepub.sh secrets export
+
+
+SEE ALSO
+--------
+
+Main Documentation: /docs/README.md
+Quick Start Guide:   /docs/basics/quickstart.md
+FAQ:                 /docs/basics/faq.md
+Environment Setup:   /docs/advanced/environment.md
+Test Suite:          /docs/advanced/tests.md

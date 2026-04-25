@@ -1,0 +1,98 @@
+name: Publish post(s)
+
+on:
+  push:
+    paths:
+      - 'posts/**/*.md'
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+    inputs:
+      filenames:
+        description: 'Filenames to publish (space-separated, e.g., "article1.md article2.md")'
+        required: false
+        type: string
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    name: Publish to Platforms
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 2
+      
+      - name: Check files to post
+        run: |
+          # Posts directory check
+
+          echo "📁 $(pwd)/posts:"
+          shopt -s nullglob
+          files=(posts/*)
+          if [ ${#files[@]} -gt 0 ]; then
+            for file in "${files[@]}"; do
+              echo "  📃 $(basename "$file")"
+            done
+          else
+            echo "  (empty)"
+          fi
+      
+      - name: Run PipePub pipeline
+        env:
+          GH_PAT_GIST_TOKEN: ${{ secrets.GH_PAT_GIST_TOKEN }}
+          DEVTO_TOKEN: ${{ secrets.DEVTO_TOKEN }}
+          HASHNODE_TOKEN: ${{ secrets.HASHNODE_TOKEN }}
+          HASHNODE_PUBLICATION_ID: ${{ secrets.HASHNODE_PUBLICATION_ID }}
+          MEDIUM_TOKEN: ${{ secrets.MEDIUM_TOKEN }}
+          PUBLISHER_LANG: ${{ vars.PUBLISHER_LANG || 'en-us' }}
+          PUBLISHER_STATUS: ${{ vars.PUBLISHER_STATUS || 'draft' }}
+          PUBLISHER_GIST: ${{ vars.PUBLISHER_GIST || 'true' }}
+          PUBLISHER_AUTO: ${{ vars.PUBLISHER_AUTO || true }}
+          DEBUG: ${{ vars.DEBUG || 'false' }}
+          MANUAL_FILENAMES: ${{ github.event.inputs.filenames }}
+          GITHUB_BEFORE_SHA: ${{ github.event.before }}
+        run: |
+          echo "Manual filenames: '${MANUAL_FILENAMES}'"
+          .github/scripts/main.sh
+      
+      - name: List logs before upload
+        if: always()
+        run: |
+          # Log file
+
+          echo "📁 $(pwd)/.tmp:"
+          shopt -s nullglob
+          tmp_files=(.tmp/*)
+          if [ ${#tmp_files[@]} -gt 0 ]; then
+            for file in "${tmp_files[@]}"; do
+              echo "  📄 $(basename "$file")"
+            done
+          else
+            echo "  (empty)"
+          fi
+      
+      - name: Upload processing logs
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: publish-logs
+          path: .tmp/
+          retention-days: 7
+          if-no-files-found: warn
+          include-hidden-files: true
+      
+      - name: Notify result
+        if: always()
+        run: |
+          # PipePub result
+
+          if [ "${{ job.status }}" == "success" ]; then
+            echo "✅ Publishing like a PRO!"
+            echo "📎 Full log: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          else
+            echo "❌ Pipeline failed!"
+            echo "🔍 Check log: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          fi

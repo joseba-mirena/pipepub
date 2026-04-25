@@ -1,0 +1,148 @@
+name: CI Tests
+
+on:
+  pull_request:
+    branches: [main, master]
+    paths-ignore:
+      - '**.md'
+      - 'docs/assets/**'
+      - 'images/**'
+  push:
+    branches: [main, master]
+    paths-ignore:
+      - '**.md'
+      - 'docs/assets/**'
+      - 'images/**'
+
+env:
+  DRY_RUN: true
+  CI: true
+  LOG_LEVEL: debug
+  LOG_OUTPUT: both
+
+jobs:
+  quick-tests:
+    name: Quick Tests (PR)
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+      
+      - name: Run quick test suite
+        run: ./tools/tests/run_all_tests.sh
+      
+      - name: List files before upload
+        if: always()
+        run: |
+          # Test log and report files
+
+          echo "📁 $(pwd)/.logs:"
+          shopt -s nullglob
+          log_files=(.logs/*)
+          if [ ${#log_files[@]} -gt 0 ]; then
+            for file in "${log_files[@]}"; do
+              echo "  📄 $(basename "$file")"
+            done
+          else
+            echo "  (empty)"
+          fi
+          echo "📁 $(pwd)/.reports:"
+          shopt -s nullglob
+          report_files=(.reports/*)
+          if [ ${#report_files[@]} -gt 0 ]; then
+            for file in "${report_files[@]}"; do
+              echo "  📄 $(basename "$file")"
+            done
+          else
+            echo "  (empty)"
+          fi
+
+      - name: Upload test logs
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: test-artifacts-pr
+          path: |
+            .logs/
+            .reports/
+          retention-days: 3
+          if-no-files-found: warn
+          include-hidden-files: true
+
+      - name: Notify result
+        if: always()
+        run: |
+          # Quick Test result
+
+          if [ "${{ job.status }}" == "success" ]; then
+            echo "✅ Quick Tests (PR) success!"
+            echo "📎 Full log: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          else
+            echo "❌ Quick Tests (PR) failed!"
+            echo "🔍 Check log: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          fi
+
+  full-tests:
+    name: Full Tests (Merge)
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+      
+      - name: Run full test suite
+        run: ./tools/tests/run_all_tests.sh --debug
+
+      - name: List files before upload
+        if: always()
+        run: |
+          # Test log and report files
+
+          echo "📁 $(pwd)/.logs:"
+          shopt -s nullglob
+          log_files=(.logs/*)
+          if [ ${#log_files[@]} -gt 0 ]; then
+            for file in "${log_files[@]}"; do
+              echo "  📄 $(basename "$file")"
+            done
+          else
+            echo "  (empty)"
+          fi
+          echo "📁 $(pwd)/.reports:"
+          shopt -s nullglob
+          report_files=(.reports/*)
+          if [ ${#report_files[@]} -gt 0 ]; then
+            for file in "${report_files[@]}"; do
+              echo "  📄 $(basename "$file")"
+            done
+          else
+            echo "  (empty)"
+          fi
+
+      - name: Upload test logs
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: test-artifacts-merge
+          path: |
+            .logs/
+            .reports/
+          retention-days: 7
+          if-no-files-found: warn
+          include-hidden-files: true
+
+      - name: Notify result
+        if: always()
+        run: |
+          # Full Test result
+
+          if [ "${{ job.status }}" == "success" ]; then
+            echo "✅ Full Tests (Merge) success!"
+            echo "📎 Full log: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          else
+            echo "❌ Full Tests (Merge) failed!"
+            echo "🔍 Check log: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          fi
