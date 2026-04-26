@@ -1,4 +1,6 @@
-[![Publish like a PRO](/docs/assets/img/pipepub-logo-top-right.jpg)](https://github.com/pipepub "PipeHub - Publish like a PRO")
+<a id="top"></a>
+
+[![Publish like a PRO](https://pipepub.github.io/cdn/image/logo/pipepub-full-right.png)](https://github.com/pipepub "PipeHub - Publish like a PRO")
 
 ### Quick Start
 
@@ -11,11 +13,11 @@
 
 | Info | Details |
 |------|---------|
-| **Name** | [![PipePub](https://img.shields.io/badge/Pipe-Pub-red?labelColor=white)](https://github.com/pipepub "PipePub - Publish like a PRO") |
-| **Package** | ![Repository](https://img.shields.io/badge/pipepub/pipepub-white?labelColor=white "GitHub Repository") |
-| **Version** | [![Version](https://img.shields.io/badge/v-1.0.0-green)](/CHANGELOG.md#v1.0.0 "PipePub v.1.0.0") |
-| **DOC** | [![quickstart](https://img.shields.io/badge/DOC-quickstart-white)](/docs/basics/quickstart.md "Quick Start document") |
-| **License** | [![License](https://img.shields.io/badge/license-MIT-yellow)](/LICENSE "Free MIT license") |
+| **Name** | [![PipePub](https://pipepub.github.io/cdn/image/badge/logo/pipepub.svg)](https://github.com/pipepub "PipePub - Publish like a PRO") |
+| **Package** | ![Repository](https://pipepub.github.io/cdn/image/badge/repo/pipepub.svg "GitHub Repository") |
+| **Version** | [![Version](https://pipepub.github.io/cdn/image/badge/version/current.svg)](/CHANGELOG.md#v1.0.0 "PipePub v.1.0.0") |
+| **DOC** | [![quickstart](https://pipepub.github.io/cdn/image/badge/doc/quickstart.svg)](/docs/basics/quickstart.md "Quick Start document") |
+| **License** | [![License](https://pipepub.github.io/cdn/image/badge/license/current.svg)](/LICENSE "Free MIT license") |
 
 </details>
 
@@ -40,6 +42,8 @@
 
 ## 🚀 Create your copy
 
+![PipePub GitHub use template](https://pipepub.github.io/cdn/image/screenshot/pipepub-github-use-template.png "PipePub GitHub use template")
+
 > *Start by creating your own repository from the template.*
 
 1. Go to the [PipePub repository](https://github.com/pipepub/pipepub)
@@ -54,6 +58,8 @@
 
 ## 🔑 Add your secrets
 
+![GitHub repository secret](https://pipepub.github.io/cdn/image/screenshot/github-repository-secret-thumb.jpg "GitHub repository secret")
+
 > *Configure API tokens for the platforms you want to publish to.*
 
 **Navigate to:** `Settings` → `Secrets and variables` → `Actions` → `Repository secrets`
@@ -62,7 +68,7 @@ Click **"New repository secret"** and add any of the following (only add the pla
 
 | Secret | Platform | Required for |
 |--------|----------|--------------|
-| `DEVTO_TOKEN` | Dev.to | Publishing to Dev.to |
+| `DEVTO_TOKEN` | DEV.to | Publishing to DEV.to |
 | `HASHNODE_TOKEN` | Hashnode | Publishing to Hashnode |
 | `HASHNODE_PUBLICATION_ID` | Hashnode | Publishing to Hashnode |
 | `MEDIUM_TOKEN` | Medium | Publishing to Medium (legacy only) |
@@ -76,6 +82,8 @@ Click **"New repository secret"** and add any of the following (only add the pla
 
 ## 🌐 Upload your article
 
+![GitHub upload or create file](https://pipepub.github.io/cdn/image/screenshot/github-upload-create-file.jpg "GitHub upload or create file")
+
 > *Publish your article — no terminal, no git commands.*
 
 **Step 1:** Go to your repository on GitHub
@@ -88,7 +96,7 @@ Click **"New repository secret"** and add any of the following (only add the pla
 
 **Step 5:** Scroll down and click **"Commit changes"**
 
-**That's it!** Your article will be published to your configured platforms within 1-2 minutes.
+**That's it!** Your article will be published to your configured platforms within seconds.
 
 > ✏️ **Don't have an article yet?** [Write it on GitHub!](#write-your-article)
 
@@ -114,6 +122,8 @@ Click **"New repository secret"** and add any of the following (only add the pla
 <a id="write-your-article"></a>
 
 ## 📝 Write your article
+
+![GitHub upload or create file](https://pipepub.github.io/cdn/image/screenshot/github-upload-create-file.jpg "GitHub upload or create file")  
 
 > *Create a markdown file directly on GitHub.*
 
@@ -160,8 +170,8 @@ Your content goes here...
 
 **Related documentation**:
 
-[![README](https://img.shields.io/badge/DOC-README-white)](/docs/README.md "Main documentation")
-[![Markdown](https://img.shields.io/badge/DOC-markdown-white)](/docs/basics/markdown.md "Markdown guide")
-[![Settings](https://img.shields.io/badge/DOC-settings-white)](/docs/basics/settings.md "Settings guide")
-[![FAQ](https://img.shields.io/badge/DOC-faq-white)](/docs/basics/faq.md "FAQ")
-[![Publishing](https://img.shields.io/badge/DOC-publishing-white)](/docs/basics/publishing.md "All publishing methods")
+[![README](https://pipepub.github.io/cdn/image/badge/doc/readme.svg)](/docs/README.md "Main documentation")
+[![Markdown](https://pipepub.github.io/cdn/image/badge/doc/markdown.svg)](/docs/basics/markdown.md "Markdown guide")
+[![Settings](https://pipepub.github.io/cdn/image/badge/doc/settings.svg)](/docs/basics/settings.md "Settings guide")
+[![FAQ](https://pipepub.github.io/cdn/image/badge/doc/faq.svg)](/docs/basics/faq.md "FAQ")
+[![Publishing](https://pipepub.github.io/cdn/image/badge/doc/publishing.svg)](/docs/basics/publishing.md "All publishing methods")

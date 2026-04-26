@@ -1,4 +1,6 @@
-[![Publish like a PRO](/docs/assets/img/pipepub-logo-top-right.jpg)](https://github.com/pipepub "PipeHub - Publish like a PRO")
+<a id="top"></a>
+
+[![Publish like a PRO](https://pipepub.github.io/cdn/image/logo/pipepub-full-right.png)](https://github.com/pipepub "PipeHub - Publish like a PRO")
 
 ### CLI Commands Reference
 
@@ -11,11 +13,11 @@
 
 | Info | Details |
 |------|---------|
-| **Name** | [![PipePub](https://img.shields.io/badge/Pipe-Pub-red?labelColor=white)](https://github.com/pipepub "PipePub - Publish like a PRO") |
-| **Package** | ![Repository](https://img.shields.io/badge/pipepub/pipepub-white?labelColor=white "GitHub Repository") |
-| **Version** | [![Version](https://img.shields.io/badge/v-1.0.0-green)](/CHANGELOG.md#v1.0.0 "PipePub v.1.0.0") |
-| **DOC** | [![commands](https://img.shields.io/badge/DOC-commands-white)](/docs/advanced/commands.md "Commands reference") |
-| **License** | [![License](https://img.shields.io/badge/license-MIT-yellow)](/LICENSE "Free MIT license") |
+| **Name** | [![PipePub](https://pipepub.github.io/cdn/image/badge/logo/pipepub.svg)](https://github.com/pipepub "PipePub - Publish like a PRO") |
+| **Package** | ![Repository](https://pipepub.github.io/cdn/image/badge/repo/pipepub.svg "GitHub Repository") |
+| **Version** | [![Version](https://pipepub.github.io/cdn/image/badge/version/current.svg)](/CHANGELOG.md#v1.0.0 "PipePub v.1.0.0") |
+| **DOC** | [![commands](https://pipepub.github.io/cdn/image/badge/doc/commands.svg)](/docs/advanced/commands.md "Commands reference") |
+| **License** | [![License](https://pipepub.github.io/cdn/image/badge/license/current.svg)](/LICENSE "Free MIT license") |
 
 </details>
 
@@ -44,6 +46,8 @@
 
 > *The primary entry point for all PipePub operations.*
 
+![PipePub CLI interactive menu](https://pipepub.github.io/cdn/image/screenshot/pipepub-cli-interactive-menu.png "PipePub CLI interactive menu")
+
 ```bash
 ./tools/pipepub.sh
 ```
@@ -65,6 +69,8 @@
 > *Publish articles using the PipePub CLI.*
 
 ### Interactive menu
+
+![PipePub CLI interactive publish](https://pipepub.github.io/cdn/image/screenshot/pipepub-cli-interactive-publish.png "PipePub CLI interactive publish")
 
 ```bash
 ./tools/pipepub.sh publish
@@ -148,6 +154,8 @@ git push origin main
 
 ### Interactive secrets menu
 
+![PipePub CLI interactive secrets](https://pipepub.github.io/cdn/image/screenshot/pipepub-cli-interactive-secrets.png "PipePub CLI interactive secrets")
+
 ```bash
 ./tools/pipepub.sh secrets
 ```
@@ -158,13 +166,13 @@ Launches the interactive secrets management interface.
 
 | Command | Description |
 |---------|-------------|
-| `./tools/pipepub.sh secrets add devto` | Add Dev.to token |
+| `./tools/pipepub.sh secrets add devto` | Add DEV.to token |
 | `./tools/pipepub.sh secrets add hashnode` | Add Hashnode token + publication ID |
 | `./tools/pipepub.sh secrets add medium` | Add Medium legacy token |
 | `./tools/pipepub.sh secrets add github` | Add GitHub token (gist scope) |
 | `./tools/pipepub.sh secrets list` | List configured services |
 | `./tools/pipepub.sh secrets export` | Export secrets as environment variables |
-| `./tools/pipepub.sh secrets delete devto` | Remove Dev.to token |
+| `./tools/pipepub.sh secrets delete devto` | Remove DEV.to token |
 
 📖 **[Detailed secrets guide →](/docs/advanced/environment.md#secrets-management)**
 
@@ -177,6 +185,8 @@ Launches the interactive secrets management interface.
 > *Check dependencies and system configuration.*
 
 ### Check system
+
+![PipePub CLI interactive check system](https://pipepub.github.io/cdn/image/screenshot/pipepub-cli-interactive-system.png "PipePub CLI interactive check system")
 
 ```bash
 ./tools/pipepub.sh check
@@ -198,6 +208,8 @@ Verifies:
 > *Run test suites to validate functionality.*
 
 ### Interactive test menu
+
+![PipePub CLI interactive tests](https://pipepub.github.io/cdn/image/screenshot/pipepub-cli-interactive-tests.png "PipePub CLI interactive tests")
 
 ```bash
 ./tools/pipepub.sh test
@@ -271,8 +283,8 @@ Launches the test selection interface.
 
 **Related documentation**:
 
-[![README](https://img.shields.io/badge/DOC-README-white)](/docs/README.md "Main documentation")
+[![README](https://pipepub.github.io/cdn/image/badge/doc/readme.svg)](/docs/README.md "Main documentation")
 [![Interactive Menu](https://img.shields.io/badge/DOC-cli--interactive-white)](/docs/advanced/cli-interactive.md "Interactive menu guide")
-[![Tools](https://img.shields.io/badge/DOC-tools-white)](/docs/advanced/tools.md "Local tools guide")
-[![Environment](https://img.shields.io/badge/DOC-environment-white)](/docs/advanced/environment.md "Environment setup")
-[![Tests](https://img.shields.io/badge/DOC-tests-white)](/docs/advanced/tests.md "Test suite")
+[![Tools](https://pipepub.github.io/cdn/image/badge/doc/tools.svg)](/docs/advanced/tools.md "Local tools guide")
+[![Environment](https://pipepub.github.io/cdn/image/badge/doc/environment.svg)](/docs/advanced/environment.md "Environment setup")
+[![Tests](https://pipepub.github.io/cdn/image/badge/doc/tests.svg)](/docs/advanced/tests.md "Test suite")

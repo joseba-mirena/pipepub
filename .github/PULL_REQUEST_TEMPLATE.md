@@ -1,4 +1,4 @@
-[![Publish like a PRO](/docs/assets/img/pipepub-logo-top-right.jpg)](https://github.com/pipepub "PipeHub - Publish like a PRO")
+[![Publish like a PRO](https://pipepub.github.io/cdn/image/logo/pipepub-full-right.png)](https://github.com/pipepub "PipeHub - Publish like a PRO")
 
 ### Pull Request
 
@@ -81,6 +81,6 @@ Closes #
 
 **Related documentation**:
 
-[![CONTRIBUTING](https://img.shields.io/badge/DOC-contributing-white)](/.github/CONTRIBUTING.md "Contributing guide")
-[![Tests](https://img.shields.io/badge/DOC-tests-white)](/docs/advanced/tests.md "Test suite")
-[![Reference](https://img.shields.io/badge/DOC-reference-white)](/docs/advanced/reference.md "Architecture reference")
+[![CONTRIBUTING](https://pipepub.github.io/cdn/image/badge/doc/contributing.svg)](/.github/CONTRIBUTING.md "Contributing guide")
+[![Tests](https://pipepub.github.io/cdn/image/badge/doc/tests.svg)](/docs/advanced/tests.md "Test suite")
+[![Reference](https://pipepub.github.io/cdn/image/badge/doc/reference.svg)](/docs/advanced/reference.md "Architecture reference")

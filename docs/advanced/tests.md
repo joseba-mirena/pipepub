@@ -1,4 +1,6 @@
-[![Publish like a PRO](/docs/assets/img/pipepub-logo-top-right.jpg)](https://github.com/pipepub "PipeHub - Publish like a PRO")
+<a id="top"></a>
+
+[![Publish like a PRO](https://pipepub.github.io/cdn/image/logo/pipepub-full-right.png)](https://github.com/pipepub "PipeHub - Publish like a PRO")
 
 ### Test Suite Guide
 
@@ -11,11 +13,11 @@
 
 | Info | Details |
 |------|---------|
-| **Name** | [![PipePub](https://img.shields.io/badge/Pipe-Pub-red?labelColor=white)](https://github.com/pipepub "PipePub - Publish like a PRO") |
-| **Package** | ![Repository](https://img.shields.io/badge/pipepub/pipepub-white?labelColor=white "GitHub Repository") |
-| **Version** | [![Version](https://img.shields.io/badge/v-1.0.0-green)](/CHANGELOG.md#v1.0.0 "PipePub v.1.0.0") |
-| **DOC** | [![tests](https://img.shields.io/badge/DOC-tests-white)](/docs/advanced/tests.md "Test suite guide") |
-| **License** | [![License](https://img.shields.io/badge/license-MIT-yellow)](/LICENSE "Free MIT license") |
+| **Name** | [![PipePub](https://pipepub.github.io/cdn/image/badge/logo/pipepub.svg)](https://github.com/pipepub "PipePub - Publish like a PRO") |
+| **Package** | ![Repository](https://pipepub.github.io/cdn/image/badge/repo/pipepub.svg "GitHub Repository") |
+| **Version** | [![Version](https://pipepub.github.io/cdn/image/badge/version/current.svg)](/CHANGELOG.md#v1.0.0 "PipePub v.1.0.0") |
+| **DOC** | [![tests](https://pipepub.github.io/cdn/image/badge/doc/tests.svg)](/docs/advanced/tests.md "Test suite guide") |
+| **License** | [![License](https://pipepub.github.io/cdn/image/badge/license/current.svg)](/LICENSE "Free MIT license") |
 
 </details>
 
@@ -89,7 +91,7 @@
 | `test_frontmatter_config.sh` | Frontmatter configuration options |
 | `test_tags.sh` | Tag sanitization, platform-specific rules |
 | `test_content.sh` | Content extraction, H1 title detection |
-| `test_devto_api.sh` | Dev.to API payload construction |
+| `test_devto_api.sh` | DEV.to API payload construction |
 | `test_hashnode_api.sh` | Hashnode GraphQL payload construction |
 | `test_medium_api.sh` | Medium API payload construction |
 | `test_smoke.sh` | Basic smoke tests |
@@ -392,8 +394,8 @@ jobs:
 
 **Related documentation**:
 
-[![README](https://img.shields.io/badge/DOC-README-white)](/docs/README.md "Main documentation")
-[![Commands](https://img.shields.io/badge/DOC-commands-white)](/docs/advanced/commands.md "CLI commands")
-[![Tools](https://img.shields.io/badge/DOC-tools-white)](/docs/advanced/tools.md "Local tools guide")
-[![Environment](https://img.shields.io/badge/DOC-environment-white)](/docs/advanced/environment.md "Environment setup")
-[![Infra](https://img.shields.io/badge/DOC-infra-white)](/docs/advanced/infra.md "CI/CD infrastructure")
+[![README](https://pipepub.github.io/cdn/image/badge/doc/readme.svg)](/docs/README.md "Main documentation")
+[![Commands](https://pipepub.github.io/cdn/image/badge/doc/commands.svg)](/docs/advanced/commands.md "CLI commands")
+[![Tools](https://pipepub.github.io/cdn/image/badge/doc/tools.svg)](/docs/advanced/tools.md "Local tools guide")
+[![Environment](https://pipepub.github.io/cdn/image/badge/doc/environment.svg)](/docs/advanced/environment.md "Environment setup")
+[![Infra](https://pipepub.github.io/cdn/image/badge/doc/infra.svg)](/docs/advanced/infra.md "CI/CD infrastructure")

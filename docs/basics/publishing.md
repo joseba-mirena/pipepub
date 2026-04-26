@@ -1,4 +1,6 @@
-[![Publish like a PRO](/docs/assets/img/pipepub-logo-top-right.jpg)](https://github.com/pipepub "PipeHub - Publish like a PRO")
+<a id="top"></a>
+
+[![Publish like a PRO](https://pipepub.github.io/cdn/image/logo/pipepub-full-right.png)](https://github.com/pipepub "PipeHub - Publish like a PRO")
 
 ### Publishing Methods
 
@@ -11,11 +13,11 @@
 
 | Info | Details |
 |------|---------|
-| **Name** | [![PipePub](https://img.shields.io/badge/Pipe-Pub-red?labelColor=white)](https://github.com/pipepub "PipePub - Publish like a PRO") |
-| **Package** | ![Repository](https://img.shields.io/badge/pipepub/pipepub-white?labelColor=white "GitHub Repository") |
-| **Version** | [![Version](https://img.shields.io/badge/v-1.0.0-green)](/CHANGELOG.md#v1.0.0 "PipePub v.1.0.0") |
-| **DOC** | [![publishing](https://img.shields.io/badge/DOC-publishing-white)](/docs/basics/publishing.md "Publishing methods") |
-| **License** | [![License](https://img.shields.io/badge/license-MIT-yellow)](/LICENSE "Free MIT license") |
+| **Name** | [![PipePub](https://pipepub.github.io/cdn/image/badge/logo/pipepub.svg)](https://github.com/pipepub "PipePub - Publish like a PRO") |
+| **Package** | ![Repository](https://pipepub.github.io/cdn/image/badge/repo/pipepub.svg "GitHub Repository") |
+| **Version** | [![Version](https://pipepub.github.io/cdn/image/badge/version/current.svg)](/CHANGELOG.md#v1.0.0 "PipePub v.1.0.0") |
+| **DOC** | [![publishing](https://pipepub.github.io/cdn/image/badge/doc/publishing.svg)](/docs/basics/publishing.md "Publishing methods") |
+| **License** | [![License](https://pipepub.github.io/cdn/image/badge/license/current.svg)](/LICENSE "Free MIT license") |
 
 </details>
 
@@ -39,11 +41,13 @@
 
 ## 🌐 Method 1: Upload your article
 
+![GitHub upload or create file](https://pipepub.github.io/cdn/image/screenshot/github-upload-create-file.jpg "GitHub upload or create file")
+
 > *Best if you already wrote your article in a markdown editor.*
 
 **Step 1:** Go to your repository on GitHub
 
-**Step 2:** Navigate to the `posts/` folder
+**Step 2:** Navigate to the [`posts/`](/posts/) folder
 
 **Step 3:** Click **"Add file"** → **"Upload files"**
 
@@ -67,9 +71,11 @@ posts/
 
 ## ✏️ Method 2: Create your article on GitHub
 
+![GitHub upload or create file](https://pipepub.github.io/cdn/image/screenshot/github-upload-create-file.jpg "GitHub upload or create file")
+
 > *Best if you want to write directly in your browser — no external editor needed.*
 
-**Step 1:** Go to your repository → `posts/` folder
+**Step 1:** Go to your repository → [`posts/`](/posts/) folder
 
 **Step 2:** Click **"Add file"** → **"Create new file"**
 
@@ -180,7 +186,7 @@ This gives you **total control**:
 
 **Related documentation**:
 
-[![README](https://img.shields.io/badge/DOC-README-white)](/docs/README.md "Main documentation")
-[![Quick Start](https://img.shields.io/badge/DOC-quickstart-white)](/docs/basics/quickstart.md "Quick Start guide")
-[![Markdown](https://img.shields.io/badge/DOC-markdown-white)](/docs/basics/markdown.md "Markdown guide")
-[![Settings](https://img.shields.io/badge/DOC-settings-white)](/docs/basics/settings.md "Settings guide")
+[![README](https://pipepub.github.io/cdn/image/badge/doc/readme.svg)](/docs/README.md "Main documentation")
+[![Quick Start](https://pipepub.github.io/cdn/image/badge/doc/quickstart.svg)](/docs/basics/quickstart.md "Quick Start guide")
+[![Markdown](https://pipepub.github.io/cdn/image/badge/doc/markdown.svg)](/docs/basics/markdown.md "Markdown guide")
+[![Settings](https://pipepub.github.io/cdn/image/badge/doc/settings.svg)](/docs/basics/settings.md "Settings guide")

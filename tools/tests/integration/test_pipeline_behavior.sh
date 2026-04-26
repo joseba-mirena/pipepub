@@ -28,7 +28,7 @@ run_tests() {
     exit_code=$?
     
     assert_equals "$exit_code" "0" "pipeline exit code"
-    assert_contains "$output" "Publishing to Dev.to" "should publish to Dev.to"
+    assert_contains "$output" "Publishing to DEV.to" "should publish to DEV.to"
     assert_not_contains "$output" "Publishing to Hashnode" "should NOT publish to Hashnode"
     assert_not_contains "$output" "Publishing to Medium" "should NOT publish to Medium"
     
@@ -43,7 +43,7 @@ run_tests() {
     exit_code=$?
     
     assert_equals "$exit_code" "0" "pipeline exit code"
-    assert_contains "$output" "Publishing to Dev.to" "should publish to Dev.to"
+    assert_contains "$output" "Publishing to DEV.to" "should publish to DEV.to"
     assert_contains "$output" "Publishing to Hashnode" "should publish to Hashnode"
     assert_not_contains "$output" "Publishing to Medium" "should NOT publish to Medium"
     

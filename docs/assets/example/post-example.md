@@ -4,12 +4,11 @@ publisher: devto, hashnode, medium
 gist: true
 title: PipePub Test Article
 subtitle: Publish like a PRO 
-image: https://raw.githubusercontent.com/pipepub/pipepub/main/docs/assets/img/publish-like-a-pro-hero.jpg
+image: https://pipepub.github.io/cdn/image/hero/publish-like-a-pro.jpg
 status: draft
 auto: true
 ---
-
-[![PipeHub](https://raw.githubusercontent.com/pipepub/pipepub/main/docs/assets/img/pipepub-logo-top-right.jpg)](https://github.com/pipepub)
+[![PipeHub](https://pipepub.github.io/cdn/image/logo/pipepub-full-right.png)](https://github.com/pipepub "PipePub - Publish like a PRO")
 
 ## It Works!
 
@@ -23,7 +22,7 @@ auto: true
 | **Frontmatter** | YAML metadata support |
 | **Tag sanitization** | Normalization platform-specific rules |
 | **Gist tables** | Convert tables to embedded gists |
-| **Multi-platform** | Dev.to + Hashnode + Medium support |
+| **Multi-platform** | DEV.to + Hashnode + Medium support |
 | **Flexible** | Use a GitHub repo and/or your local enviroment |
 | **Open source** | Use freely, use as template, modify, and share. |
 
@@ -33,49 +32,55 @@ auto: true
 
 | Field | Values | Default | Description |
 |-------|--------|---------|-------------|
-| `tags` | string | n/a | Article tags (max 4 for Dev.to, 5 for Medium) |
+| `tags` | string | n/a | Article tags (comma-separated) |
 | `publisher` | `devto`, `hashnode`, `medium` | all platforms | Which platforms to publish to |
 | `gist` | `true`, `false` | `true` | Convert tables to GitHub Gists |
+| `title` | string | n/a | Article title (uses # header if not provided) |
+| `subtitle` | string | n/a | Article subtitle |
 | `image` | string | n/a | Article cover image url |
 | `status` | `draft`, `public` | `draft` | Publish as draft or public |
-| `auto` | `true`, `false` | `true` | Automatically publish on push (false = manual trigger only) |
+| `auto` | `true`, `false` | `true` | Automatically publish (false = manual trigger only) |
 
 <hr>
 
-### Optional Frontmatter example
+### Article example
 
-```yaml
+```markdown
 ---
 tags: tag1, tag2, tag3, tag4, tag5
 publisher: devto, hashnode, medium
 gist: true
-image: https://<image-url>
+title: Article title
+subtitle: Article subtitle
+image: https://pipepub.github.io/cdn/image/hero/publish-like-a-pro.jpg
 status: draft
 auto: true
 ---
 
-# Article title
+## My awesome article
 
 Rest of your article content.
 ```
 
 <hr>
 
-### Code Example
+## How it Works?
 
-```bash
-#!/bin/bash
-cp docs/test-post.md posts/test-post.md
-git add posts/test-post.md
-git push origin main
-```
+1. **Use our template** — click "Use this template" on [github.com/pipepub/pipepub](https://github.com/pipepub/pipepub)
+2. **Add your API tokens** as GitHub secrets
+3. **Write your article** — upload a `.md` file or create one directly on GitHub
+
+**Published** — your article appears on your platforms within seconds. No terminal. No git commands. Just your browser.
 
 <hr>
 
-*For writers who want to focus on content, not formatting.*
+📖 **[Full Documentation](https://github.com/pipepub/pipepub/blob/main/README.md)**
 
----
+<hr>
 
-[![PipeHub - Publish like a PRO](https://raw.githubusercontent.com/pipepub/pipepub/main/docs/assets/img/icon.png)](https://github.com/pipepub)
+[![PipeHub - Publish like a PRO](https://pipepub.github.io/cdn/image/logo/pipepub-full-left.png)](https://github.com/pipepub "PipePub - Publish like a PRO")
+
+> For writers who want to focus on content, not formatting.
+
 
 *Made with ❤️ by [Joseba Mirena](https://www.josebamirena.com)*

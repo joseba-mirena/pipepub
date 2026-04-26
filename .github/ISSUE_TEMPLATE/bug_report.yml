@@ -38,7 +38,7 @@ body:
     attributes:
       label: Expected behavior
       description: A clear description of what you expected to happen
-      placeholder: The article should publish to Dev.to as a draft
+      placeholder: The article should publish to DEV.to as a draft
     validations:
       required: true
 

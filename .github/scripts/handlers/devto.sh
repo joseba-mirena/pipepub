@@ -1,5 +1,5 @@
 #!/bin/bash
-# .github/scripts/handlers/devto.sh - Dev.to publisher handler
+# .github/scripts/handlers/devto.sh - DEV.to publisher handler
 
 publish_to_devto() {
     local title="$1"
@@ -9,11 +9,11 @@ publish_to_devto() {
     local status="$5"
     local cover_image="$6"
     
-    log_info "Publishing to Dev.to: ${title:-Untitled}"
+    log_info "Publishing to DEV.to: ${title:-Untitled}"
     
     # DRY RUN MODE
     if [[ "${DRY_RUN:-false}" == "true" ]]; then
-        log_debug "DRY RUN: Would publish to Dev.to"
+        log_debug "DRY RUN: Would publish to DEV.to"
         return 0
     fi
     
@@ -28,7 +28,7 @@ publish_to_devto() {
     fi
     
     if [[ -n "$subtitle" ]]; then
-        log_debug "Dev.to does not support subtitle, ignoring: '$subtitle'"
+        log_debug "DEV.to does not support subtitle, ignoring: '$subtitle'"
     fi
     
     local published="false"
@@ -36,7 +36,7 @@ publish_to_devto() {
         published="true"
     fi
     
-    # Format gist URLs for Dev.to: {% embed URL %}
+    # Format gist URLs for DEV.to: {% embed URL %}
     local final_content="$content"
     final_content=$(echo "$final_content" | sed -E 's|(https://gist\.github\.com/[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+)|{% embed \1 %}|g')
     
@@ -44,28 +44,28 @@ publish_to_devto() {
     local -a parsed_tags=()
     parse_tags "$tags" parsed_tags
     
-    # Apply Dev.to specific rules: max 4 tags, remove underscores/hyphens
+    # Apply DEV.to specific rules: max 4 tags, remove underscores/hyphens
     local -a devto_tags=()
     for tag in "${parsed_tags[@]}"; do
         if [[ ${#devto_tags[@]} -ge 4 ]]; then
-            log_debug "Dev.to: Max 4 tags reached, stopping"
+            log_debug "DEV.to: Max 4 tags reached, stopping"
             break
         fi
         local devto_tag=$(echo "$tag" | sed 's/[-_]//g')
         if [[ ${#devto_tag} -ge 2 ]] && [[ ${#devto_tag} -le 30 ]]; then
             devto_tags+=("$devto_tag")
-            log_debug "Dev.to tag accepted: '$tag' -> '$devto_tag'"
+            log_debug "DEV.to tag accepted: '$tag' -> '$devto_tag'"
         else
-            log_debug "Dev.to tag rejected (length ${#devto_tag}): '$tag'"
+            log_debug "DEV.to tag rejected (length ${#devto_tag}): '$tag'"
         fi
     done
     
     if [[ ${#devto_tags[@]} -eq 0 ]]; then
         devto_tags=("technology" "programming")
-        log_warning "No valid tags for Dev.to, using defaults"
+        log_warning "No valid tags for DEV.to, using defaults"
     fi
     
-    log_info "Final Dev.to tags (${#devto_tags[@]}): ${devto_tags[*]}"
+    log_info "Final DEV.to tags (${#devto_tags[@]}): ${devto_tags[*]}"
     
     # Build tags JSON array
     local tags_json=$(tags_to_json devto_tags)
@@ -106,10 +106,10 @@ publish_to_devto() {
     
     # API call - HTTP 2xx means success
     if call_api_with_retry "https://dev.to/api/articles" "$DEVTO_TOKEN" "$payload" "POST" "application/json" "api-key" > /dev/null; then
-        log_success "Published to Dev.to"
+        log_success "Published to DEV.to"
         return 0
     fi
     
-    log_error "Failed to publish to Dev.to"
+    log_error "Failed to publish to DEV.to"
     return 1
 }

@@ -1,8 +1,10 @@
-[![Publish like a PRO](/docs/assets/img/pipepub-logo-top-right.jpg)](https://github.com/pipepub "PipeHub - Publish like a PRO")
+<a id="top"></a>
 
-### Dev.to Integration Guide
+[![Publish like a PRO](https://pipepub.github.io/cdn/image/logo/pipepub-full-right.png)](https://github.com/pipepub "PipeHub - Publish like a PRO")
 
-> *Publish your articles to Dev.to automatically*
+### DEV.to Integration Guide
+
+> *Publish your articles to DEV.to automatically*
 
 <hr>
 
@@ -11,11 +13,11 @@
 
 | Info | Details |
 |------|---------|
-| **Name** | [![PipePub](https://img.shields.io/badge/Pipe-Pub-red?labelColor=white)](https://github.com/pipepub "PipePub - Publish like a PRO") |
-| **Package** | ![Repository](https://img.shields.io/badge/pipepub/pipepub-white?labelColor=white "GitHub Repository") |
-| **Version** | [![Version](https://img.shields.io/badge/v-1.0.0-green)](/CHANGELOG.md#v1.0.0 "PipePub v.1.0.0") |
-| **DOC** | [![devto](https://img.shields.io/badge/DOC-devto-white)](/docs/services/devto.md "Dev.to guide") |
-| **License** | [![License](https://img.shields.io/badge/license-MIT-yellow)](/LICENSE "Free MIT license") |
+| **Name** | [![PipePub](https://pipepub.github.io/cdn/image/badge/logo/pipepub.svg)](https://github.com/pipepub "PipePub - Publish like a PRO") |
+| **Package** | ![Repository](https://pipepub.github.io/cdn/image/badge/repo/pipepub.svg "GitHub Repository") |
+| **Version** | [![Version](https://pipepub.github.io/cdn/image/badge/version/current.svg)](/CHANGELOG.md#v1.0.0 "PipePub v.1.0.0") |
+| **DOC** | [![devto](https://pipepub.github.io/cdn/image/badge/doc/devto.svg)](/docs/services/devto.md "DEV.to guide") |
+| **License** | [![License](https://pipepub.github.io/cdn/image/badge/license/current.svg)](/LICENSE "Free MIT license") |
 
 </details>
 
@@ -40,11 +42,11 @@
 
 ## 🔑 Getting your API key
 
-![Dev.to API key](/docs/assets/img/devto-community-api-key-thumb.jpg "Dev.to API key")
+![DEV.to API key](https://pipepub.github.io/cdn/image/screenshot/devto-community-api-key-thumb.jpg "DEV.to API key")
 
-> *Generate your Dev.to API key for authentication.*
+> *Generate your DEV.to API key for authentication.*
 
-1. Log in to your [Dev.to account](https://dev.to/)
+1. Log in to your [DEV.to account](https://dev.to/)
 2. Go to **Settings** → **Extensions** (`https://dev.to/settings/extensions`)
 3. Under "API Keys", click **"Generate API key"**
 4. Copy the generated key immediately (you won't see it again)
@@ -58,17 +60,17 @@
 
 ## ⚙️ Configuration
 
-> *Set up Dev.to publishing in your repository.*
+> *Set up DEV.to publishing in your repository.*
 
 ### Repository Secret
 
 | Secret | Value |
 |--------|-------|
-| `DEVTO_TOKEN` | Your Dev.to API key |
+| `DEVTO_TOKEN` | Your DEV.to API key |
 
 ### Optional Frontmatter
 
-To publish only to Dev.to (and not other platforms):
+To publish only to DEV.to (and not other platforms):
 
 ```yaml
 ---
@@ -82,7 +84,7 @@ publisher: devto
 
 ## 🏷️ Tag rules
 
-> *Dev.to has specific tag requirements.*
+> *DEV.to has specific tag requirements.*
 
 | Rule | Limit / Requirement |
 |------|---------------------|
@@ -103,7 +105,7 @@ publisher: devto
 | `CI/CD` | `cicd` |
 | `c# programming` | `cprogramming` |
 
-### Best practices for Dev.to tags
+### Best practices for DEV.to tags
 
 1. **Use simple, single words** — spaces and special characters are removed
 2. **Keep tags short** — under 30 characters
@@ -118,7 +120,7 @@ publisher: devto
 
 ## 📝 Publishing behavior
 
-> *How Dev.to handles your articles.*
+> *How DEV.to handles your articles.*
 
 | Setting | Default | Behavior |
 |---------|---------|----------|
@@ -145,7 +147,7 @@ Or change the default in your workflow variables (`PUBLISHER_STATUS=public`).
 
 ## 🔧 Troubleshooting
 
-### ❌ Article not appearing on Dev.to
+### ❌ Article not appearing on DEV.to
 
 **Checklist:**
 
@@ -156,7 +158,7 @@ Or change the default in your workflow variables (`PUBLISHER_STATUS=public`).
 
 ### ❌ Tags not showing correctly
 
-Dev.to only accepts alphanumeric characters. Special characters and spaces are removed automatically.
+DEV.to only accepts alphanumeric characters. Special characters and spaces are removed automatically.
 
 **Example:** `"cloud computing"` → `"cloudcomputing"`
 
@@ -166,7 +168,7 @@ Ensure `GH_PAT_GIST_TOKEN` is configured for Gist conversion, or set `gist: fals
 
 ### ❌ Rate limit exceeded
 
-Dev.to API allows 5,000 requests per hour. Space out your commits if publishing many articles at once.
+DEV.to API allows 5,000 requests per hour. Space out your commits if publishing many articles at once.
 
 <br>
 
@@ -176,8 +178,8 @@ Dev.to API allows 5,000 requests per hour. Space out your commits if publishing 
 
 **Related documentation**:
 
-[![README](https://img.shields.io/badge/DOC-README-white)](/docs/README.md "Main documentation")
-[![Hashnode](https://img.shields.io/badge/DOC-hashnode-white)](/docs/services/hashnode.md "Hashnode guide")
-[![Medium](https://img.shields.io/badge/DOC-medium-white)](/docs/services/medium.md "Medium guide")
-[![GitHub](https://img.shields.io/badge/DOC-github-white)](/docs/services/github.md "GitHub Gist guide")
-[![Markdown](https://img.shields.io/badge/DOC-markdown-white)](/docs/basics/markdown.md "Markdown guide")
+[![README](https://pipepub.github.io/cdn/image/badge/doc/readme.svg)](/docs/README.md "Main documentation")
+[![Hashnode](https://pipepub.github.io/cdn/image/badge/doc/hashnode.svg)](/docs/services/hashnode.md "Hashnode guide")
+[![Medium](https://pipepub.github.io/cdn/image/badge/doc/medium.svg)](/docs/services/medium.md "Medium guide")
+[![GitHub](https://pipepub.github.io/cdn/image/badge/doc/github.svg)](/docs/services/github.md "GitHub Gist guide")
+[![Markdown](https://pipepub.github.io/cdn/image/badge/doc/markdown.svg)](/docs/basics/markdown.md "Markdown guide")

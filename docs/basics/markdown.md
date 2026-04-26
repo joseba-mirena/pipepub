@@ -1,4 +1,6 @@
-[![Publish like a PRO](/docs/assets/img/pipepub-logo-top-right.jpg)](https://github.com/pipepub "PipeHub - Publish like a PRO")
+<a id="top"></a>
+
+[![Publish like a PRO](https://pipepub.github.io/cdn/image/logo/pipepub-full-right.png)](https://github.com/pipepub "PipeHub - Publish like a PRO")
 
 ### Markdown Format Guide
 
@@ -11,11 +13,11 @@
 
 | Info | Details |
 |------|---------|
-| **Name** | [![PipePub](https://img.shields.io/badge/Pipe-Pub-red?labelColor=white)](https://github.com/pipepub "PipePub - Publish like a PRO") |
-| **Package** | ![Repository](https://img.shields.io/badge/pipepub/pipepub-white?labelColor=white "GitHub Repository") |
-| **Version** | [![Version](https://img.shields.io/badge/v-1.0.0-green)](/CHANGELOG.md#v1.0.0 "PipePub v.1.0.0") |
-| **DOC** | [![markdown](https://img.shields.io/badge/DOC-markdown-white)](/docs/basics/markdown.md "Markdown guide") |
-| **License** | [![License](https://img.shields.io/badge/license-MIT-yellow)](/LICENSE "Free MIT license") |
+| **Name** | [![PipePub](https://pipepub.github.io/cdn/image/badge/logo/pipepub.svg)](https://github.com/pipepub "PipePub - Publish like a PRO") |
+| **Package** | ![Repository](https://pipepub.github.io/cdn/image/badge/repo/pipepub.svg "GitHub Repository") |
+| **Version** | [![Version](https://pipepub.github.io/cdn/image/badge/version/current.svg)](/CHANGELOG.md#v1.0.0 "PipePub v.1.0.0") |
+| **DOC** | [![markdown](https://pipepub.github.io/cdn/image/badge/doc/markdown.svg)](/docs/basics/markdown.md "Markdown guide") |
+| **License** | [![License](https://pipepub.github.io/cdn/image/badge/license/current.svg)](/LICENSE "Free MIT license") |
 
 </details>
 
@@ -50,11 +52,16 @@ Place frontmatter at the very beginning of your `.md` file, surrounded by `---`:
 tags: technology, github, automation
 publisher: devto, hashnode
 gist: true
+title: Article title
+subtitle: Article subtitle
+image: https://pipepub.github.io/cdn/image/hero/publish-like-a-pro.jpg
 status: draft
 auto: true
 ---
 
 # Your Article Title
+
+Your article content
 ```
 
 ### Frontmatter Reference
@@ -64,6 +71,9 @@ auto: true
 | `tags` | comma-separated string | (empty) | Article tags (platform limits apply) |
 | `publisher` | comma-separated string | all configured platforms | Which platforms to publish to |
 | `gist` | boolean | `true` | Convert tables to GitHub Gists |
+| `title` | string | (empty) | Article title (uses # header if not provided) |
+| `subtitle` | string | (empty) | Article subtitle |
+| `image` | string | (empty) | Article cover image url |
 | `status` | `draft` or `public` | `draft` | Publish as draft or public |
 | `auto` | boolean | `true` | Auto-publish on push (`false` = manual only) |
 
@@ -215,13 +225,13 @@ https://raw.githubusercontent.com/<your-username>/<your-repo>/main/images/my-pho
 
 | Platform | Max Tags | Allowed Characters | Space Handling | Underscore `_` | Hyphen `-` | Length Limit | Case |
 |----------|----------|-------------------|----------------|----------------|------------|--------------|------|
-| **Dev.to** | 4 | Alphanumeric only (a-z, 0-9) | Removed | Removed | Removed | 2-30 chars | Lowercase |
+| **DEV.to** | 4 | Alphanumeric only (a-z, 0-9) | Removed | Removed | Removed | 2-30 chars | Lowercase |
 | **Hashnode** | 5 | Alphanumeric + `_` + `-` | Converted to `_` | Kept (name), `_` → `-` (slug) | Kept | No explicit limit | Preserved |
 | **Medium** | 5 | Alphanumeric + `_` + `-` | Converted to `-` | Converted to `-` | Kept | 1-25 chars | Lowercase (converted) |
 
 ### Tag conversion examples
 
-| Original Tag | Dev.to | Hashnode | Medium |
+| Original Tag | DEV.to | Hashnode | Medium |
 |--------------|--------|----------|--------|
 | `cloud computing` | `cloudcomputing` | `cloud_computing` | `cloud-computing` |
 | `github-actions` | `githubactions` | `github-actions` | `github-actions` |
@@ -232,7 +242,7 @@ https://raw.githubusercontent.com/<your-username>/<your-repo>/main/images/my-pho
 
 ### Platform-specific notes
 
-#### Dev.to
+#### DEV.to
 - **Most restrictive** - Only alphanumeric characters allowed
 - Removes all special characters including spaces, underscores, and hyphens
 - Converts multi-word tags to single words: `"cloud computing"` → `"cloudcomputing"`
@@ -257,7 +267,7 @@ To ensure your tags work well across all platforms:
 1. **Use alphanumeric characters** whenever possible
 2. **Avoid spaces** - use hyphens or underscores instead: `cloud-computing`
 3. **Keep tags short** - under 25 characters
-4. **Limit to 4 tags** - works everywhere (Dev.to max)
+4. **Limit to 4 tags** - works everywhere (DEV.to max)
 5. **Use lowercase** for consistency
 
 <br>
@@ -268,7 +278,7 @@ To ensure your tags work well across all platforms:
 
 **Related documentation**:
 
-[![README](https://img.shields.io/badge/DOC-README-white)](/docs/README.md "Main documentation")
-[![Quick Start](https://img.shields.io/badge/DOC-quickstart-white)](/docs/basics/quickstart.md "Quick Start guide")
-[![Settings](https://img.shields.io/badge/DOC-settings-white)](/docs/basics/settings.md "Settings guide")
-[![FAQ](https://img.shields.io/badge/DOC-faq-white)](/docs/basics/faq.md "FAQ")
+[![README](https://pipepub.github.io/cdn/image/badge/doc/readme.svg)](/docs/README.md "Main documentation")
+[![Quick Start](https://pipepub.github.io/cdn/image/badge/doc/quickstart.svg)](/docs/basics/quickstart.md "Quick Start guide")
+[![Settings](https://pipepub.github.io/cdn/image/badge/doc/settings.svg)](/docs/basics/settings.md "Settings guide")
+[![FAQ](https://pipepub.github.io/cdn/image/badge/doc/faq.svg)](/docs/basics/faq.md "FAQ")

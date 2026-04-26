@@ -1,4 +1,6 @@
-[![Publish like a PRO](/docs/assets/img/pipepub-logo-top-right.jpg)](https://github.com/pipepub "PipeHub - Publish like a PRO")
+<a id="top"></a>
+
+[![Publish like a PRO](https://pipepub.github.io/cdn/image/logo/pipepub-full-right.png)](https://github.com/pipepub "PipeHub - Publish like a PRO")
 
 ### FAQ - Frequently Asked Questions
 
@@ -11,11 +13,11 @@
 
 | Info | Details |
 |------|---------|
-| **Name** | [![PipePub](https://img.shields.io/badge/Pipe-Pub-red?labelColor=white)](https://github.com/pipepub "PipePub - Publish like a PRO") |
-| **Package** | ![Repository](https://img.shields.io/badge/pipepub/pipepub-white?labelColor=white "GitHub Repository") |
-| **Version** | [![Version](https://img.shields.io/badge/v-1.0.0-green)](/CHANGELOG.md#v1.0.0 "PipePub v.1.0.0") |
-| **DOC** | [![faq](https://img.shields.io/badge/DOC-faq-white)](/docs/basics/faq.md "FAQ document") |
-| **License** | [![License](https://img.shields.io/badge/license-MIT-yellow)](/LICENSE "Free MIT license") |
+| **Name** | [![PipePub](https://pipepub.github.io/cdn/image/badge/logo/pipepub.svg)](https://github.com/pipepub "PipePub - Publish like a PRO") |
+| **Package** | ![Repository](https://pipepub.github.io/cdn/image/badge/repo/pipepub.svg "GitHub Repository") |
+| **Version** | [![Version](https://pipepub.github.io/cdn/image/badge/version/current.svg)](/CHANGELOG.md#v1.0.0 "PipePub v.1.0.0") |
+| **DOC** | [![faq](https://pipepub.github.io/cdn/image/badge/doc/faq.svg)](/docs/basics/faq.md "FAQ document") |
+| **License** | [![License](https://pipepub.github.io/cdn/image/badge/license/current.svg)](/LICENSE "Free MIT license") |
 
 </details>
 
@@ -44,11 +46,13 @@
 
 ### ❓ What is PipePub?
 
-PipePub is an open-source GitHub Actions pipeline that automatically publishes markdown articles to Dev.to, Hashnode, Medium, and other platforms — with support for tags, tables, and images.
+PipePub is an open-source GitHub Actions pipeline that automatically publishes markdown articles to DEV.to, Hashnode, Medium, and other platforms — with support for tags, tables, and images.
 
 <br>
 
 ### ❓ Do I need to install anything?
+
+![PipePub GitHub use template](https://pipepub.github.io/cdn/image/screenshot/pipepub-github-use-template.png "PipePub GitHub use template")
 
 **No.** If you only use the GitHub Actions workflow (the template), you don't need to install anything locally. Just add your secrets and push markdown files.
 
@@ -60,7 +64,7 @@ PipePub is an open-source GitHub Actions pipeline that automatically publishes m
 
 | Platform | Status |
 |----------|--------|
-| Dev.to | ✅ Live |
+| DEV.to | ✅ Live |
 | Hashnode | ✅ Live |
 | Medium | ⚠️ Legacy tokens only (OAuth 🔜 Coming soon) |
 | GitHub (Gists) | ✅ Live |
@@ -109,7 +113,7 @@ We'll support both WordPress.com (via API) and self-hosted (via Application Pass
 
 ### ❓ Where do I add my API tokens?
 
-![GitHub repository secret](/docs/assets/img/github-repository-secret-thumb.jpg "GitHub repository secret")
+![GitHub repository secret](https://pipepub.github.io/cdn/image/screenshot/github-repository-secret-thumb.jpg "GitHub repository secret")
 
 Go to your repository: `Settings` → `Secrets and variables` → `Actions` → `Repository secrets` → `New repository secret`
 
@@ -119,7 +123,7 @@ Go to your repository: `Settings` → `Secrets and variables` → `Actions` → 
 
 | Secret | Required for | Optional? |
 |--------|--------------|-----------|
-| `DEVTO_TOKEN` | Dev.to publishing | ✅ Yes |
+| `DEVTO_TOKEN` | DEV.to publishing | ✅ Yes |
 | `HASHNODE_TOKEN` | Hashnode publishing | ✅ Yes |
 | `HASHNODE_PUBLICATION_ID` | Hashnode publishing | ✅ Yes |
 | `MEDIUM_TOKEN` | Medium publishing | ✅ Yes (legacy only) |
@@ -141,6 +145,19 @@ Go to your repository: `Settings` → `Secrets and variables` → `Actions` → 
 <a id="publishing-issues"></a>
 
 ## 📝 Publishing issues
+
+<br>
+
+### ❓ How do I publish an article?
+
+![GitHub upload or create file](https://pipepub.github.io/cdn/image/screenshot/github-upload-create-file.jpg "GitHub upload or create file")
+
+1. Go to your [`posts/`](/posts/) folder.
+2. Upload or write (save when finished) your article (`*.md` extension).
+
+That is it!
+
+📖 **[All publishing methods →](/docs/basics/publishing.md)**
 
 <br>
 
@@ -177,7 +194,7 @@ PipePub automatically converts markdown tables to GitHub Gists. This requires:
 1. `GH_PAT_GIST_TOKEN` secret configured with `gist` scope
 2. Table written in standard markdown format
 
-If Gist conversion fails, the table will remain as plain markdown (which many platforms don't support).
+If Gist conversion fails, or it is set to false, the table will remain as plain markdown (which many platforms don't support).
 
 <br>
 
@@ -185,7 +202,7 @@ If Gist conversion fails, the table will remain as plain markdown (which many pl
 
 Each publishing platform handles tables differently. Here's what you need to know:
 
-- **Dev.to**: If your article is published as a draft, you may need to open the draft and save it (or publish it publicly) for tables to render correctly. Public articles should display tables immediately.
+- **DEV.to**: If your article is published as a draft, you may need to open the draft and save it (or publish it publicly) for tables to render correctly. Public articles should display tables immediately.
 - **Hashnode**: Tables may not appear until you publish the post publicly. Draft mode may not render embedded Gists.
 - **Medium**: Tables are converted to GitHub Gists. Ensure `GH_PAT_GIST_TOKEN` is configured and the Gist is publicly accessible.
 
@@ -199,7 +216,7 @@ Each platform has different tag rules:
 
 | Platform | Max tags | Spaces | Special chars |
 |----------|----------|--------|---------------|
-| Dev.to | 4 | Removed | Removed |
+| DEV.to | 4 | Removed | Removed |
 | Hashnode | 5 | → `_` | `_` and `-` allowed |
 | Medium | 5 | → `-` | `-` allowed, `_` → `-` |
 
@@ -259,13 +276,13 @@ When running `./tools/tests/run_all_tests.sh`, you'll see:
 
 <br>
 
-### ❓ Dev.to: How do I get my API token?
+### ❓ DEV.to: How do I get my API token?
 
-1. Go to [Dev.to Settings → Extensions](https://dev.to/settings/extensions)
+1. Go to [DEV.to Settings → Extensions](https://dev.to/settings/extensions)
 2. Click "Generate API key"
 3. Copy the key and add as `DEVTO_TOKEN` secret
 
-📖 **[Full Dev.to guide →](/docs/services/devto.md)**
+📖 **[Full DEV.to guide →](/docs/services/devto.md)**
 
 <br>
 
@@ -348,10 +365,10 @@ PipePub converts markdown tables to GitHub Gists for proper rendering. This requ
 
 **Related documentation**:
 
-[![README](https://img.shields.io/badge/DOC-README-white)](/docs/README.md "Main documentation")
-[![Quick Start](https://img.shields.io/badge/DOC-quickstart-white)](/docs/basics/quickstart.md "Quick Start guide")
-[![Publishing](https://img.shields.io/badge/DOC-publishing-white)](/docs/basics/publishing.md "Publishing methods")
-[![Markdown](https://img.shields.io/badge/DOC-markdown-white)](/docs/basics/markdown.md "Markdown guide")
-[![Settings](https://img.shields.io/badge/DOC-settings-white)](/docs/basics/settings.md "Settings guide")
-[![Security](https://img.shields.io/badge/DOC-security-white)](/docs/SECURITY.md "Security policy")
-[![Support](https://img.shields.io/badge/DOC-support-white)](/docs/SUPPORT.md "Support guide")
+[![README](https://pipepub.github.io/cdn/image/badge/doc/readme.svg)](/docs/README.md "Main documentation")
+[![Quick Start](https://pipepub.github.io/cdn/image/badge/doc/quickstart.svg)](/docs/basics/quickstart.md "Quick Start guide")
+[![Publishing](https://pipepub.github.io/cdn/image/badge/doc/publishing.svg)](/docs/basics/publishing.md "Publishing methods")
+[![Markdown](https://pipepub.github.io/cdn/image/badge/doc/markdown.svg)](/docs/basics/markdown.md "Markdown guide")
+[![Settings](https://pipepub.github.io/cdn/image/badge/doc/settings.svg)](/docs/basics/settings.md "Settings guide")
+[![Security](https://pipepub.github.io/cdn/image/badge/doc/security.svg)](/docs/SECURITY.md "Security policy")
+[![Support](https://pipepub.github.io/cdn/image/badge/doc/support.svg)](/docs/SUPPORT.md "Support guide")

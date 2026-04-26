@@ -45,7 +45,7 @@ secrets
     Manage API tokens and credentials in OS keychain.
 
     Subcommands:
-        add devto           Add Dev.to API token
+        add devto           Add DEV.to API token
         add hashnode        Add Hashnode token + publication ID
         add medium          Add Medium legacy token
         add github          Add GitHub token (gist scope)

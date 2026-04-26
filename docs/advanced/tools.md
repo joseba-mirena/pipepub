@@ -1,4 +1,6 @@
-[![Publish like a PRO](/docs/assets/img/pipepub-logo-top-right.jpg)](https://github.com/pipepub "PipeHub - Publish like a PRO")
+<a id="top"></a>
+
+[![Publish like a PRO](https://pipepub.github.io/cdn/image/logo/pipepub-full-right.png)](https://github.com/pipepub "PipeHub - Publish like a PRO")
 
 ### Local Tools Guide
 
@@ -11,11 +13,11 @@
 
 | Info | Details |
 |------|---------|
-| **Name** | [![PipePub](https://img.shields.io/badge/Pipe-Pub-red?labelColor=white)](https://github.com/pipepub "PipePub - Publish like a PRO") |
-| **Package** | ![Repository](https://img.shields.io/badge/pipepub/pipepub-white?labelColor=white "GitHub Repository") |
-| **Version** | [![Version](https://img.shields.io/badge/v-1.0.0-green)](/CHANGELOG.md#v1.0.0 "PipePub v.1.0.0") |
-| **DOC** | [![tools](https://img.shields.io/badge/DOC-tools-white)](/docs/advanced/tools.md "Local tools guide") |
-| **License** | [![License](https://img.shields.io/badge/license-MIT-yellow)](/LICENSE "Free MIT license") |
+| **Name** | [![PipePub](https://pipepub.github.io/cdn/image/badge/logo/pipepub.svg)](https://github.com/pipepub "PipePub - Publish like a PRO") |
+| **Package** | ![Repository](https://pipepub.github.io/cdn/image/badge/repo/pipepub.svg "GitHub Repository") |
+| **Version** | [![Version](https://pipepub.github.io/cdn/image/badge/version/current.svg)](/CHANGELOG.md#v1.0.0 "PipePub v.1.0.0") |
+| **DOC** | [![tools](https://pipepub.github.io/cdn/image/badge/doc/tools.svg)](/docs/advanced/tools.md "Local tools guide") |
+| **License** | [![License](https://pipepub.github.io/cdn/image/badge/license/current.svg)](/LICENSE "Free MIT license") |
 
 </details>
 
@@ -156,13 +158,13 @@ Menu options:
 
 | Command | Description |
 |---------|-------------|
-| `./tools/commands/secrets.sh add devto` | Add Dev.to token |
+| `./tools/commands/secrets.sh add devto` | Add DEV.to token |
 | `./tools/commands/secrets.sh add hashnode` | Add Hashnode credentials |
 | `./tools/commands/secrets.sh add medium` | Add Medium token (legacy) |
 | `./tools/commands/secrets.sh add github` | Add GitHub token (gist scope) |
 | `./tools/commands/secrets.sh list` | List configured services |
 | `./tools/commands/secrets.sh export` | Export as environment variables |
-| `./tools/commands/secrets.sh delete devto` | Remove Dev.to token |
+| `./tools/commands/secrets.sh delete devto` | Remove DEV.to token |
 
 📖 **[Secrets management guide →](/docs/advanced/environment.md#secrets-management)**
 
@@ -202,7 +204,7 @@ Configuration:
   .env file: present and valid
 
 Secrets:
-  ✅ Dev.to: configured
+  ✅ DEV.to: configured
   ✅ Hashnode: configured
   ❌ Medium: missing
   ❌ GitHub: missing
@@ -311,8 +313,8 @@ tools/
 
 **Related documentation**:
 
-[![README](https://img.shields.io/badge/DOC-README-white)](/docs/README.md "Main documentation")
-[![Commands](https://img.shields.io/badge/DOC-commands-white)](/docs/advanced/commands.md "CLI commands reference")
+[![README](https://pipepub.github.io/cdn/image/badge/doc/readme.svg)](/docs/README.md "Main documentation")
+[![Commands](https://pipepub.github.io/cdn/image/badge/doc/commands.svg)](/docs/advanced/commands.md "CLI commands reference")
 [![Interactive Menu](https://img.shields.io/badge/DOC-cli--interactive-white)](/docs/advanced/cli-interactive.md "Interactive menu guide")
-[![Environment](https://img.shields.io/badge/DOC-environment-white)](/docs/advanced/environment.md "Environment setup")
-[![Tests](https://img.shields.io/badge/DOC-tests-white)](/docs/advanced/tests.md "Test suite")
+[![Environment](https://pipepub.github.io/cdn/image/badge/doc/environment.svg)](/docs/advanced/environment.md "Environment setup")
+[![Tests](https://pipepub.github.io/cdn/image/badge/doc/tests.svg)](/docs/advanced/tests.md "Test suite")

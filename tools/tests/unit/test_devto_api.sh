@@ -11,7 +11,7 @@ load_pipeline_lib "tags"
 tag "test_devto_api.sh" "unit"
 
 run_tests() {
-    echo "# Test: Dev.to Payload Generation"
+    echo "# Test: DEV.to Payload Generation"
     
     local test_title="Test Article"
     local test_tags="delete me, auto, test, draft"
@@ -36,7 +36,7 @@ run_tests() {
         --argjson tags "$tags_json" \
         '{article: {title: $title, tags: $tags, published: false}}')
     
-    assert_json_snapshot "$actual_payload" "devto-payload.json" "Dev.to payload"
+    assert_json_snapshot "$actual_payload" "devto-payload.json" "DEV.to payload"
 }
 
 run_tests

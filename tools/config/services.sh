@@ -4,14 +4,10 @@
 # Service definitions
 # Format: "service_name|fields|display_name|icon|requires_oauth|doc_url"
 declare -A SERVICE_CONFIG=(
-    ["devto"]="devto|token|Dev.to|📚|false|https://dev.to/settings/account"
+    ["devto"]="devto|token|DEV.to|📚|false|https://dev.to/settings/account"
     ["hashnode"]="hashnode|token,publication_id|Hashnode|📚|false|https://hashnode.com/settings/developer"
     # Medium legacy API
     ["medium"]="medium|token|Medium|📚|false|https://medium.com/me/settings"
-    # Medium OAUTH not implement ATM
-    #["medium"]="medium|client_id,client_secret,access_token,refresh_token|Medium|📚|true|https://medium.com/oauth-register"
-    ["twitter"]="twitter|client_id,client_secret,access_token,refresh_token|X (Twitter)|📚|true|https://developer.twitter.com/en/portal/dashboard"
-    ["linkedin"]="linkedin|client_id,client_secret,access_token,refresh_token|LinkedIn|📚|true|https://www.linkedin.com/developers/apps"
 )
 
 # Helper functions
@@ -47,7 +43,7 @@ get_service_doc_url() {
 
 # Get all services (preserves order)
 get_all_services() {
-    echo "devto hashnode medium twitter linkedin"
+    printf '%s\n' "${!SERVICE_CONFIG[@]}" | sort | tr '\n' ' '
 }
 
 # Get required fields for a service (returns array via nameref)

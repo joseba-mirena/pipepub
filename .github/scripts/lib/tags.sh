@@ -152,7 +152,7 @@ validate_tag_for_platform() {
     
     case "$platform" in
         devto)
-            # Dev.to: alphanumeric, 2-30 chars
+            # DEV.to: alphanumeric, 2-30 chars
             if [[ ${#tag} -lt 2 ]]; then
                 return 1
             fi

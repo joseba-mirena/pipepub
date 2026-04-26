@@ -1,4 +1,6 @@
-[![Publish like a PRO](/docs/assets/img/pipepub-logo-top-right.jpg)](https://github.com/pipepub "PipeHub - Publish like a PRO")
+<a id="top"></a>
+
+[![Publish like a PRO](https://pipepub.github.io/cdn/image/logo/pipepub-full-right.png)](https://github.com/pipepub "PipeHub - Publish like a PRO")
 
 ### GitHub Integration Guide
 
@@ -11,11 +13,11 @@
 
 | Info | Details |
 |------|---------|
-| **Name** | [![PipePub](https://img.shields.io/badge/Pipe-Pub-red?labelColor=white)](https://github.com/pipepub "PipePub - Publish like a PRO") |
-| **Package** | ![Repository](https://img.shields.io/badge/pipepub/pipepub-white?labelColor=white "GitHub Repository") |
-| **Version** | [![Version](https://img.shields.io/badge/v-1.0.0-green)](/CHANGELOG.md#v1.0.0 "PipePub v.1.0.0") |
-| **DOC** | [![github](https://img.shields.io/badge/DOC-github-white)](/docs/services/github.md "GitHub guide") |
-| **License** | [![License](https://img.shields.io/badge/license-MIT-yellow)](/LICENSE "Free MIT license") |
+| **Name** | [![PipePub](https://pipepub.github.io/cdn/image/badge/logo/pipepub.svg)](https://github.com/pipepub "PipePub - Publish like a PRO") |
+| **Package** | ![Repository](https://pipepub.github.io/cdn/image/badge/repo/pipepub.svg "GitHub Repository") |
+| **Version** | [![Version](https://pipepub.github.io/cdn/image/badge/version/current.svg)](/CHANGELOG.md#v1.0.0 "PipePub v.1.0.0") |
+| **DOC** | [![github](https://pipepub.github.io/cdn/image/badge/doc/github.svg)](/docs/services/github.md "GitHub guide") |
+| **License** | [![License](https://pipepub.github.io/cdn/image/badge/license/current.svg)](/LICENSE "Free MIT license") |
 
 </details>
 
@@ -56,7 +58,7 @@ PipePub uses GitHub Gists to display tables on platforms that don't support nati
 
 ## 🔧 Getting your GitHub token
 
-![GitHub personal access token Gist](/docs/assets/img/github-personal-access-token-gist-thumb.jpg "GitHub personal access token Gist")
+![GitHub personal access token Gist](https://pipepub.github.io/cdn/image/screenshot/github-personal-access-token-gist-thumb.jpg "GitHub personal access token Gist")
 
 > *Generate a Personal Access Token with `gist` scope.*
 
@@ -75,7 +77,7 @@ https://github.com/settings/tokens/new?scopes=gist&description=PipePub%20Gist%20
 
 ### Step 2: Copy and add as secret
 
-![GitHub repository secret](/docs/assets/img/github-repository-secret-thumb.jpg "GitHub repository secret")
+![GitHub repository secret](https://pipepub.github.io/cdn/image/screenshot/github-repository-secret-thumb.jpg "GitHub repository secret")
 
 1. **Copy the token immediately** — you won't see it again!
 2. Go to your repository: `Settings` → `Secrets and variables` → `Actions`
@@ -147,7 +149,7 @@ gist: false   # Disable Gist conversion for this article only
 <script src="https://gist.github.com/user/abc123.js"></script>
 ```
 
-**Result on Medium/Dev.to/Hashnode:** A beautifully rendered, interactive table.
+**Result on Medium/DEV.to/Hashnode:** A beautifully rendered, interactive table.
 
 ### Requirements
 
@@ -210,8 +212,8 @@ Tables will remain as plain markdown (may not render on some platforms).
 
 **Related documentation**:
 
-[![README](https://img.shields.io/badge/DOC-README-white)](/docs/README.md "Main documentation")
-[![Dev.to](https://img.shields.io/badge/DOC-devto-white)](/docs/services/devto.md "Dev.to guide")
-[![Hashnode](https://img.shields.io/badge/DOC-hashnode-white)](/docs/services/hashnode.md "Hashnode guide")
-[![Medium](https://img.shields.io/badge/DOC-medium-white)](/docs/services/medium.md "Medium guide")
-[![Markdown](https://img.shields.io/badge/DOC-markdown-white)](/docs/basics/markdown.md "Markdown guide")
+[![README](https://pipepub.github.io/cdn/image/badge/doc/readme.svg)](/docs/README.md "Main documentation")
+[![DEV.to](https://pipepub.github.io/cdn/image/badge/doc/devto.svg)](/docs/services/devto.md "DEV.to guide")
+[![Hashnode](https://pipepub.github.io/cdn/image/badge/doc/hashnode.svg)](/docs/services/hashnode.md "Hashnode guide")
+[![Medium](https://pipepub.github.io/cdn/image/badge/doc/medium.svg)](/docs/services/medium.md "Medium guide")
+[![Markdown](https://pipepub.github.io/cdn/image/badge/doc/markdown.svg)](/docs/basics/markdown.md "Markdown guide")

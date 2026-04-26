@@ -1,4 +1,6 @@
-[![Publish like a PRO](/docs/assets/img/pipepub-logo-top-right.jpg)](https://github.com/pipepub "PipeHub - Publish like a PRO")
+<a id="top"></a>
+
+[![Publish like a PRO](https://pipepub.github.io/cdn/image/logo/pipepub-full-right.png)](https://github.com/pipepub "PipeHub - Publish like a PRO")
 
 ### Technical Reference
 
@@ -11,11 +13,11 @@
 
 | Info | Details |
 |------|---------|
-| **Name** | [![PipePub](https://img.shields.io/badge/Pipe-Pub-red?labelColor=white)](https://github.com/pipepub "PipePub - Publish like a PRO") |
-| **Package** | ![Repository](https://img.shields.io/badge/pipepub/pipepub-white?labelColor=white "GitHub Repository") |
-| **Version** | [![Version](https://img.shields.io/badge/v-1.0.0-green)](/CHANGELOG.md#v1.0.0 "PipePub v.1.0.0") |
-| **DOC** | [![reference](https://img.shields.io/badge/DOC-reference-white)](/docs/advanced/reference.md "Technical reference") |
-| **License** | [![License](https://img.shields.io/badge/license-MIT-yellow)](/LICENSE "Free MIT license") |
+| **Name** | [![PipePub](https://pipepub.github.io/cdn/image/badge/logo/pipepub.svg)](https://github.com/pipepub "PipePub - Publish like a PRO") |
+| **Package** | ![Repository](https://pipepub.github.io/cdn/image/badge/repo/pipepub.svg "GitHub Repository") |
+| **Version** | [![Version](https://pipepub.github.io/cdn/image/badge/version/current.svg)](/CHANGELOG.md#v1.0.0 "PipePub v.1.0.0") |
+| **DOC** | [![reference](https://pipepub.github.io/cdn/image/badge/doc/reference.svg)](/docs/advanced/reference.md "Technical reference") |
+| **License** | [![License](https://pipepub.github.io/cdn/image/badge/license/current.svg)](/LICENSE "Free MIT license") |
 
 </details>
 
@@ -87,7 +89,7 @@
 | `panel.sh` | `tools/lib/panel.sh` | Menu rendering (background panels + clean chat methods) |
 | `options.sh` | `tools/lib/options.sh` | Footer handling (Exit/Back and Help) |
 | `keychain.sh` | `tools/lib/keychain.sh` | OS keychain abstraction (macOS/Linux) |
-| `services.sh` | `tools/config/services.sh` | Service definitions (Dev.to, Hashnode, Medium, etc.) |
+| `services.sh` | `tools/config/services.sh` | Service definitions (DEV.to, Hashnode, Medium, etc.) |
 
 ### Library responsibilities
 
@@ -117,7 +119,7 @@
 
 | Service | Secret keys | Required |
 |---------|-------------|----------|
-| Dev.to | `devto_token` | Yes |
+| DEV.to | `devto_token` | Yes |
 | Hashnode | `hashnode_token`, `hashnode_publication_id` | Yes |
 | Medium | `medium_token` | Yes (legacy) |
 | GitHub | `github_token` | No (for Gists) |
@@ -248,7 +250,7 @@ fi
 
 **Related documentation**:
 
-[![README](https://img.shields.io/badge/DOC-README-white)](/docs/README.md "Main documentation")
-[![Environment](https://img.shields.io/badge/DOC-environment-white)](/docs/advanced/environment.md "Environment setup")
-[![Commands](https://img.shields.io/badge/DOC-commands-white)](/docs/advanced/commands.md "CLI commands")
-[![Tests](https://img.shields.io/badge/DOC-tests-white)](/docs/advanced/tests.md "Test suite")
+[![README](https://pipepub.github.io/cdn/image/badge/doc/readme.svg)](/docs/README.md "Main documentation")
+[![Environment](https://pipepub.github.io/cdn/image/badge/doc/environment.svg)](/docs/advanced/environment.md "Environment setup")
+[![Commands](https://pipepub.github.io/cdn/image/badge/doc/commands.svg)](/docs/advanced/commands.md "CLI commands")
+[![Tests](https://pipepub.github.io/cdn/image/badge/doc/tests.svg)](/docs/advanced/tests.md "Test suite")

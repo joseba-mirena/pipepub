@@ -1,19 +1,19 @@
 <a id="top"></a>
 
-# [![PipePub](https://img.shields.io/badge/Pipe-Pub-red?labelColor=white)](https://github.com/pipepub) Publish like a PRO
+# [![PipePub](https://pipepub.github.io/cdn/image/badge/logo/pipepub.svg)](https://github.com/pipepub) Publish like a PRO
 
-![Publish like a PRO](/docs/assets/img/hero.jpg)
+![Publish like a PRO](https://pipepub.github.io/cdn/image/hero/pipepub.jpg)
 
 *One push. Multiple platforms. Zero formatting headaches.*
 
 <hr>
 
-[![PipePub](https://img.shields.io/badge/Pipe-Pub-red?labelColor=white)](https://github.com/pipepub "PipePub - Publish like a PRO")
-[![Version](https://img.shields.io/badge/v-1.0.0-green)](/CHANGELOG.md#v1.0.0 "PipePub v.1.0.0")
-[![Documentation index](https://img.shields.io/badge/DOC-INDEX-white)](/docs/INDEX.md "Documentation index")
-[![README](https://img.shields.io/badge/DOC-README-white)](/docs/README.md "Documentation home")
-[![Quick Start](https://img.shields.io/badge/DOC-quickstart-white)](/docs/basics/quickstart.md "Quick Start guide")
-[![License](https://img.shields.io/badge/license-MIT-yellow)](/LICENSE "Free MIT license")
+[![PipePub](https://pipepub.github.io/cdn/image/badge/logo/pipepub.svg)](https://github.com/pipepub "PipePub - Publish like a PRO")
+[![Version](https://pipepub.github.io/cdn/image/badge/version/current.svg)](/CHANGELOG.md#v1.0.0 "PipePub v.1.0.0")
+[![Documentation index](https://pipepub.github.io/cdn/image/badge/doc/index.svg)](/docs/INDEX.md "Documentation index")
+[![README](https://pipepub.github.io/cdn/image/badge/doc/readme.svg)](/docs/README.md "Documentation home")
+[![Quick Start](https://pipepub.github.io/cdn/image/badge/doc/quickstart.svg)](/docs/basics/quickstart.md "Quick Start guide")
+[![License](https://pipepub.github.io/cdn/image/badge/license/current.svg)](/LICENSE "Free MIT license")
 
 <br>
 
@@ -50,14 +50,20 @@
 
 ## 📦 How it works?
 
+![GitHub upload or create file](https://pipepub.github.io/cdn/image/screenshot/github-upload-create-file.jpg "GitHub upload or create file")
+
 > *In plain English*
 
-1. **Create** your markdown file in the `posts/` folder
-2. **Push** to GitHub
-3. **Review** your draft on your platform(s)
-4. **Publish** when you're ready
+1. **Create or upload** your markdown file in your `posts/` folder
 
-That's it!
+**That's it!**
+
+*By default your article is sent as draft.*
+
+2. **Review** your draft on your platform(s)
+3. **Publish** when you're ready
+
+📖 **[All publishing methods →](/docs/basics/publishing.md)**
 
 <br>
 
@@ -65,7 +71,7 @@ That's it!
 
 | Platform | Status |
 |----------|--------|
-| Dev.to | ✅ Live |
+| DEV.to | ✅ Live |
 | Hashnode | ✅ Live |
 | Medium | ⚠️ Legacy token (OAuth coming soon) |
 | Ghost | 🔜 Coming soon |
@@ -117,12 +123,12 @@ Built with ❤️ by [Joseba Mirena](https://www.josebamirena.com), for writers 
 
 **Related documentation**:
 
-[![Documentation index](https://img.shields.io/badge/DOC-INDEX-white)](/docs/INDEX.md "Documentation index")
-[![README](https://img.shields.io/badge/DOC-README-white)](/docs/README.md "Main documentation")
-[![Quick Start](https://img.shields.io/badge/DOC-quickstart-white)](/docs/basics/quickstart.md "Quick Start guide")
-[![Publishing](https://img.shields.io/badge/DOC-publishing-white)](/docs/basics/publishing.md "Publishing methods")
-[![Markdown](https://img.shields.io/badge/DOC-markdown-white)](/docs/basics/markdown.md "Markdown guide")
-[![FAQ](https://img.shields.io/badge/DOC-faq-white)](/docs/basics/faq.md "FAQ")
-[![Security](https://img.shields.io/badge/DOC-security-white)](/docs/SECURITY.md "Security policy")
-[![Contributing](https://img.shields.io/badge/DOC-contributing-white)](/.github/CONTRIBUTING.md "Contributing guide")
-[![Support](https://img.shields.io/badge/DOC-support-white)](/docs/SUPPORT.md "Support guide")
+[![Documentation index](https://pipepub.github.io/cdn/image/badge/doc/index.svg)](/docs/INDEX.md "Documentation index")
+[![README](https://pipepub.github.io/cdn/image/badge/doc/readme.svg)](/docs/README.md "Main documentation")
+[![Quick Start](https://pipepub.github.io/cdn/image/badge/doc/quickstart.svg)](/docs/basics/quickstart.md "Quick Start guide")
+[![Publishing](https://pipepub.github.io/cdn/image/badge/doc/publishing.svg)](/docs/basics/publishing.md "Publishing methods")
+[![Markdown](https://pipepub.github.io/cdn/image/badge/doc/markdown.svg)](/docs/basics/markdown.md "Markdown guide")
+[![FAQ](https://pipepub.github.io/cdn/image/badge/doc/faq.svg)](/docs/basics/faq.md "FAQ")
+[![Security](https://pipepub.github.io/cdn/image/badge/doc/security.svg)](/docs/SECURITY.md "Security policy")
+[![Contributing](https://pipepub.github.io/cdn/image/badge/doc/contributing.svg)](/.github/CONTRIBUTING.md "Contributing guide")
+[![Support](https://pipepub.github.io/cdn/image/badge/doc/support.svg)](/docs/SUPPORT.md "Support guide")

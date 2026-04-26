@@ -6,4 +6,4 @@ publisher: devto
 ---
 # Single Publisher Test
 
-This post should only go to Dev.to.
+This post should only go to DEV.to.
