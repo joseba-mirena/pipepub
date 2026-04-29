@@ -1,11 +1,15 @@
 # OS generated files
 .DS_Store
-.DS_Store?
 ._*
 .Spotlight-V100
 .Trashes
-ehthumbs.db
 Thumbs.db
+ehthumbs.db
+
+# Development tools files (local only)
+tools/config/
+tools/handlers-dev/
+tools/tests/dev/
 
 # IDE files
 .vscode/
@@ -14,29 +18,27 @@ Thumbs.db
 *.swo
 *~
 
-# Runtime and test artifacts (hidden directories)
+# Runtime artifacts
 .tmp/
 .logs/
 .reports/
 *.log
 
 # Temporary files
-/*.bak/
 *.bak
-*.url
 *.tmp
+*.url
 
 # Local configuration
 .env
 .env.local
 
-# Test artifacts and notes
+# Test artifacts
 *.test.md
 /posts/.test-*.md
-/posts/test-post.md
 *.notes.md
 *.notes
 
-# Tools cache
-/tools/__pycache__/
-/tools/*.pyc
+# Python cache
+__pycache__/
+*.pyc

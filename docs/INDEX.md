@@ -15,7 +15,7 @@
 |------|---------|
 | **Name** | [![PipePub](https://pipepub.github.io/cdn/image/badge/logo/pipepub.svg)](https://github.com/pipepub "PipePub - Publish like a PRO") |
 | **Package** | ![Repository](https://pipepub.github.io/cdn/image/badge/repo/pipepub.svg "GitHub Repository") |
-| **Version** | [![Version](https://pipepub.github.io/cdn/image/badge/version/current.svg)](/CHANGELOG.md#v1.0.0 "PipePub v.1.0.0") |
+| **Version** | [![Version](https://pipepub.github.io/cdn/image/badge/version/current.svg)](/CHANGELOG.md#history "PipePub v.1.0.0") |
 | **DOC** | [![Documentation Index](https://pipepub.github.io/cdn/image/badge/doc/index.svg)](/docs/INDEX.md "Documentation Index document") |
 | **License** | [![License](https://pipepub.github.io/cdn/image/badge/license/current.svg)](/LICENSE "Free MIT license") |
 
@@ -127,147 +127,168 @@
 ```markdown
 /
 ├── .github/
-│   ├── config/
-│   │   ├── services/
-│   │   │   ├── devto.conf
-│   │   │   ├── hashnode.conf
-│   │   │   └── medium.conf
-│   │   └── registry.conf
-│   ├── ISSUE_TEMPLATE/
-│   │   ├── bug_report.yml
-│   │   ├── config.yml
-│   │   └── feature_request.yml
-│   ├── lang/                  # to be implemented
-│   │   ├── en-us.sh
-│   │   └── es-es.sh
-│   ├── scripts/
-│   │   ├── core/
-│   │   │   └── registry.sh
-│   │   ├── handlers/
-│   │   │   ├── devto.sh
-│   │   │   ├── gist_tables.sh
-│   │   │   ├── hashnode.sh
-│   │   │   └── medium.sh
-│   │   ├── lib/
-│   │   │   ├── api.sh
-│   │   │   ├── common.sh
-│   │   │   ├── content.sh
-│   │   │   ├── frontmatter.sh
-│   │   │   ├── html.sh
-│   │   │   ├── logging.sh
-│   │   │   ├── tags.sh
-│   │   │   └── validation.sh
-│   │   └── main.sh
-│   ├── workflows/
-│   │   ├── ci.yml
-│   │   └── pipepub.yml
-│   ├── CONTRIBUTING.md
-│   ├── FUNDING.yml
-│   └── PULL_REQUEST_TEMPLATE.md
-├── .logs/                    # tests (auto-generated)
-├── .reports/                 # tests (auto-generated)
-├── .tmp/                     # debug (auto-generated)
+│   ├── config/
+│   │   ├── services/
+│   │   │   ├── devto.conf
+│   │   │   ├── hashnode.conf
+│   │   │   └── medium.conf
+│   │   └── registry.conf
+│   ├── ISSUE_TEMPLATE/
+│   │   ├── bug_report.yml
+│   │   ├── config.yml
+│   │   └── feature_request.yml
+│   ├── lang/                           # to be implemented
+│   │   ├── en-us.sh
+│   │   └── es-es.sh
+│   ├── scripts/
+│   │   ├── core/
+│   │   │   └── registry.sh
+│   │   ├── handlers/
+│   │   │   ├── devto.sh
+│   │   │   ├── gist_tables.sh
+│   │   │   ├── hashnode.sh
+│   │   │   └── medium.sh
+│   │   ├── lib/
+│   │   │   ├── api.sh
+│   │   │   ├── common.sh
+│   │   │   ├── content.sh
+│   │   │   ├── frontmatter.sh
+│   │   │   ├── html.sh
+│   │   │   ├── logging.sh
+│   │   │   ├── tags.sh
+│   │   │   └── validation.sh
+│   │   └── main.sh
+│   ├── workflows/
+│   │   ├── ci.yml
+│   │   └── pipepub.yml
+│   ├── CONTRIBUTING.md
+│   ├── FUNDING.yml
+│   └── PULL_REQUEST_TEMPLATE.md
+│
+├── .logs/                              # tests (auto-generated)
+├── .reports/                           # tests (auto-generated)
+├── .tmp/                               # debug (auto-generated)
+│
 ├── docs/
-│   ├── advanced/
-│   │   ├── cli-interactive.md
-│   │   ├── commands.md
-│   │   ├── environment.md
-│   │   ├── infra.md
-│   │   ├── reference.md
-│   │   ├── tests.md
-│   │   └── tools.md
-│   ├── assets/
-│   │   └── example/
-│   │       └── post-example.md
-│   ├── basics/
-│   │   ├── faq.md
-│   │   ├── markdown.md
-│   │   ├── publishing.md
-│   │   ├── quickstart.md
-│   │   └── settings.md
-│   ├── services/
-│   │   ├── devto.md
-│   │   ├── github.md
-│   │   ├── hashnode.md
-│   │   └── medium.md
-│   ├── INDEX.md
-│   ├── MAN
-│   ├── README.md
-│   ├── SECURITY.md
-│   └── SUPPORT.md
-├── images/
-│   └── .gitkeep
-├── posts/
-│   └── .gitkeep
+│   ├── advanced/
+│   │   ├── cli-interactive.md
+│   │   ├── commands.md
+│   │   ├── environment.md
+│   │   ├── infra.md
+│   │   ├── reference.md
+│   │   ├── tests.md
+│   │   └── tools.md
+│   ├── assets/
+│   │   └── example/
+│   │   │   ├── dev                     # dev code
+│   │   │   │   └── service
+│   │   │   │       ├── README.md
+│   │   │   │       └── tools
+│   │   │   │           ├── config
+│   │   │   │           │   ├── registry-dev.conf
+│   │   │   │           │   └── services-dev
+│   │   │   │           │       └── ghost.conf
+│   │   │   │           ├── handlers-dev
+│   │   │   │           │   └── ghost.sh
+│   │   │   │           └── tests
+│   │   │   │               └── dev
+│   │   │   │                   └── test_ghost_dev.sh
+│   │       └── post-example.md
+│   ├── basics/
+│   │   ├── faq.md
+│   │   ├── markdown.md
+│   │   ├── publishing.md
+│   │   ├── quickstart.md
+│   │   └── settings.md
+│   ├── services/
+│   │   ├── devto.md
+│   │   ├── github.md
+│   │   ├── hashnode.md
+│   │   └── medium.md
+│   ├── INDEX.md
+│   ├── MAN
+│   ├── README.md
+│   ├── SECURITY.md
+│   └── SUPPORT.md
+│
+├── images/                             # user images
+│   └── .gitkeep
+│
+├── posts/                              # user articles
+│   └── .gitkeep
+│
 ├── tools/
-│   ├── commands/
-│   │   ├── check.sh
-│   │   ├── help.sh
-│   │   ├── publish.sh
-│   │   ├── secrets.sh
-│   │   └── test.sh
-│   ├── config/
-│   │   ├── services.sh
-│   │   └── services.yaml
-│   ├── lib/
-│   │   ├── common.sh
-│   │   ├── keychain.sh
-│   │   ├── options.sh
-│   │   ├── panel.sh
-│   │   └── setup.sh
-│   ├── tests/
-│   │   ├── e2e/
-│   │   │   └── run_dry_run.sh
-│   │   ├── fixtures/
-│   │   │   ├── input/
-│   │   │   │   └── posts/
-│   │   │   │       ├── config
-│   │   │   │       ├── all-fields.md
-│   │   │   │       ├── auto-false.md
-│   │   │   │       ├── auto-true.md
-│   │   │   │       ├── basic.md
-│   │   │   │       ├── full.md
-│   │   │   │       ├── gist-false.md
-│   │   │   │       ├── gist-true.md
-│   │   │   │       ├── minimal.md
-│   │   │   │       ├── multi-publisher.md
-│   │   │   │       ├── single-publisher.md
-│   │   │   │       ├── status-draft.md
-│   │   │   │       ├── status-public.md
-│   │   │   │       ├── with-cover.md
-│   │   │   │       ├── with-multiple-tables.md
-│   │   │   │       ├── with-table.md
-│   │   │   │       └── with-tags.md
-│   │   │   └── snapshots/
-│   │   │       └── json/
-│   │   │           ├── devto-payload.json
-│   │   │           ├── hashnode-payload.json
-│   │   │           └── medium-payload.json
-│   │   ├── integration/
-│   │   │   ├── test_gist_integration.sh
-│   │   │   ├── test_multipost.sh
-│   │   │   └── test_pipeline_behavior.sh
-│   │   ├── lib/
-│   │   │   ├── assertions.sh
-│   │   │   ├── deps.sh
-│   │   │   ├── fixtures.sh
-│   │   │   ├── setup.sh
-│   │   │   ├── tags.sh
-│   │   │   ├── tap.sh
-│   │   │   ├── test_runner.sh
-│   │   │   └── timeout.sh
-│   │   ├── unit/
-│   │   │   ├── test_content.sh
-│   │   │   ├── test_devto_api.sh
-│   │   │   ├── test_frontmatter_config.sh
-│   │   │   ├── test_frontmatter.sh
-│   │   │   ├── test_hashnode_api.sh
-│   │   │   ├── test_medium_api.sh
-│   │   │   ├── test_smoke.sh
-│   │   │   └── test_tags.sh
-│   │   └── run_all_tests.sh
-│   └── pipepub.sh
-├── .env                      # pipepub (auto-generated)
+│   ├── commands/
+│   │   ├── check.sh
+│   │   ├── help.sh
+│   │   ├── publish.sh
+│   │   ├── secrets.sh
+│   │   └── test.sh
+│   ├── config/                         # GIT IGNORED (development)
+│   ├── handlers-dev/                   # GIT IGNORED (development)
+│   ├── lib/
+│   │   ├── common.sh
+│   │   ├── keychain.sh
+│   │   ├── options.sh
+│   │   ├── panel.sh
+│   │   └── services.sh
+│   ├── tests/
+│   │   ├── dev/                        # GIT IGNORED (development tests)
+│   │   ├── e2e/
+│   │   │   └── run_dry_run.sh
+│   │   ├── fixtures/
+│   │   │   ├── input/
+│   │   │   │   └── posts/
+│   │   │   │       ├── all-fields.md
+│   │   │   │       ├── auto-false.md
+│   │   │   │       ├── auto-true.md
+│   │   │   │       ├── basic.md
+│   │   │   │       ├── config
+│   │   │   │       ├── full.md
+│   │   │   │       ├── gist-false.md
+│   │   │   │       ├── gist-true.md
+│   │   │   │       ├── minimal.md
+│   │   │   │       ├── multi-publisher.md
+│   │   │   │       ├── single-publisher.md
+│   │   │   │       ├── status-draft.md
+│   │   │   │       ├── status-public.md
+│   │   │   │       ├── with-cover.md
+│   │   │   │       ├── with-multiple-tables.md
+│   │   │   │       ├── with-table.md
+│   │   │   │       └── with-tags.md
+│   │   │   └── snapshots/
+│   │   │       └── json/
+│   │   │           ├── devto-payload.json
+│   │   │           ├── hashnode-payload.json
+│   │   │           └── medium-payload.json
+│   │   ├── integration/
+│   │   │   ├── test_gist_integration.sh
+│   │   │   ├── test_multipost.sh
+│   │   │   └── test_pipeline_behavior.sh
+│   │   ├── lib/
+│   │   │   ├── assertions.sh
+│   │   │   ├── deps.sh
+│   │   │   ├── fixtures.sh
+│   │   │   ├── hooks.sh
+│   │   │   ├── isolation.sh
+│   │   │   ├── logger.sh
+│   │   │   ├── setup.sh
+│   │   │   ├── tags.sh
+│   │   │   ├── test_runner.sh
+│   │   │   └── timeout.sh
+│   │   ├── unit/
+│   │   │   ├── test_content.sh
+│   │   │   ├── test_devto_api.sh
+│   │   │   ├── test_frontmatter_config.sh
+│   │   │   ├── test_frontmatter.sh
+│   │   │   ├── test_hashnode_api.sh
+│   │   │   ├── test_medium_api.sh
+│   │   │   ├── test_smoke.sh
+│   │   │   └── test_tags.sh
+│   │   └── run.sh
+│   └── pipepub.sh                      # TUI menu
+│
+├── .env                                # auto-generated
 ├── .env.example
 ├── .gitignore
 ├── CHANGELOG.md

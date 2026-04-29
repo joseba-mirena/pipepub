@@ -1,55 +1,23 @@
 #!/bin/bash
-# tools/tests/lib/test_runner.sh - Main test runner with TAP output
+# tools/tests/lib/test_runner.sh - Test execution functions
 
-# Source all test libraries
-TEST_RUNNER_LIB_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-if [[ -z "${_TAP_SH_LOADED:-}" ]] && [[ -f "$TEST_RUNNER_LIB_DIR/tap.sh" ]]; then
-    source "$TEST_RUNNER_LIB_DIR/tap.sh"
-fi
-
-if [[ -z "${_ASSERTIONS_SH_LOADED:-}" ]] && [[ -f "$TEST_RUNNER_LIB_DIR/assertions.sh" ]]; then
-    source "$TEST_RUNNER_LIB_DIR/assertions.sh"
-fi
-
-if [[ -z "${_TIMEOUT_SH_LOADED:-}" ]] && [[ -f "$TEST_RUNNER_LIB_DIR/timeout.sh" ]]; then
-    source "$TEST_RUNNER_LIB_DIR/timeout.sh"
-fi
-
-if [[ -z "${_DEPS_SH_LOADED:-}" ]] && [[ -f "$TEST_RUNNER_LIB_DIR/deps.sh" ]]; then
-    source "$TEST_RUNNER_LIB_DIR/deps.sh"
-fi
-
-if [[ -z "${_TAGS_SH_LOADED:-}" ]] && [[ -f "$TEST_RUNNER_LIB_DIR/tags.sh" ]]; then
-    source "$TEST_RUNNER_LIB_DIR/tags.sh"
-fi
-
-if [[ -z "${_FIXTURES_SH_LOADED:-}" ]] && [[ -f "$TEST_RUNNER_LIB_DIR/fixtures.sh" ]]; then
-    source "$TEST_RUNNER_LIB_DIR/fixtures.sh"
-fi
-
-# Global test counters
+# Global counters
 TOTAL_TESTS=0
 PASSED_TESTS=0
 FAILED_TESTS=0
 SKIPPED_TESTS=0
+TOTAL_SUITES=0
+PASSED_SUITES=0
+FAILED_SUITES=0
 
-reset_test_state() {
-    TOTAL_TESTS=0
-    PASSED_TESTS=0
-    FAILED_TESTS=0
-    SKIPPED_TESTS=0
-    clear_dependencies
-}
-
-# Run a test file and count its tests by parsing TAP output
+# Run a single test file
 run_test_file() {
     local test_file="$1"
     local test_name=$(basename "$test_file" .sh)
     
-    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    echo "# Test File: $test_name"
-    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    tlog_separator
+    tlog_info "Test File: $test_name"
+    tlog_separator
     
     # Run test file in subshell to capture output
     local output
@@ -75,63 +43,65 @@ run_test_file() {
     TOTAL_TESTS=$((TOTAL_TESTS + file_total))
     PASSED_TESTS=$((PASSED_TESTS + file_passed))
     FAILED_TESTS=$((FAILED_TESTS + file_failed))
+    SKIPPED_TESTS=$((SKIPPED_TESTS + (file_total - file_passed - file_failed)))
     
-    # Print the output
+    # Print the output (TAP lines go to stdout)
     echo "$output"
     
-    if [[ $test_exit_code -eq 0 ]]; then
-        echo "# ✅ $test_name PASSED ($file_passed/$file_total tests)"
+    if [[ $file_failed -eq 0 ]]; then
+        tlog_success "$test_name PASSED ($file_passed/$file_total tests)"
         return 0
     else
-        echo "# ❌ $test_name FAILED ($file_failed/$file_total tests failed)"
+        tlog_error "$test_name FAILED ($file_failed/$file_total tests failed)"
         return 1
     fi
 }
 
 # Run a test suite (directory)
-run_test_suite() {
+run_suite() {
     local suite_name="$1"
     local suite_dir="$2"
-    local filter="${3:-}"
     
-    echo ""
-    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    echo "# Suite: $suite_name"
-    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    TOTAL_SUITES=$((TOTAL_SUITES + 1))
+    
+    tlog_info "Suite: $suite_name"
+    tlog_separator
     
     if [[ ! -d "$suite_dir" ]]; then
-        echo "# WARNING: Suite directory not found: $suite_dir"
-        return 0
+        tlog_warning "Suite directory not found: $suite_dir"
+        ((FAILED_SUITES++))
+        return 1
     fi
     
     local test_files=()
     
-    if [[ -n "$filter" ]]; then
-        local specific_file="$suite_dir/$filter"
+    if [[ -n "$TEST_FILTER" ]]; then
+        local specific_file="$suite_dir/$TEST_FILTER"
         if [[ -f "$specific_file" ]]; then
             test_files+=("$specific_file")
         else
-            echo "# WARNING: Test file not found: $specific_file"
-            return 0
+            tlog_warning "Test file not found: $specific_file"
+            ((FAILED_SUITES++))
+            return 1
         fi
     else
         while IFS= read -r file; do
             local base_name=$(basename "$file")
-            if [[ "$base_name" != "run_all_tests.sh" ]] && [[ "$base_name" != "setup.sh" ]]; then
+            if [[ "$base_name" != "run.sh" ]] && [[ "$base_name" != "setup.sh" ]]; then
                 test_files+=("$file")
             fi
         done < <(find "$suite_dir" -maxdepth 1 -type f -name "*.sh" | sort)
     fi
     
-    echo "# Found ${#test_files[@]} test file(s):"
+    tlog_info "Found ${#test_files[@]} test file(s):"
     for f in "${test_files[@]}"; do
-        echo "#   - $(basename "$f")"
+        tlog_info "  - $(basename "$f")"
     done
-    echo ""
     
     if [[ ${#test_files[@]} -eq 0 ]]; then
-        echo "# No test files found in $suite_dir"
-        return 0
+        tlog_warning "No test files found in $suite_dir"
+        ((FAILED_SUITES++))
+        return 1
     fi
     
     local suite_passed=0
@@ -143,115 +113,39 @@ run_test_suite() {
         else
             ((suite_failed++))
         fi
-        echo ""
+        tlog_blank
     done
     
-    echo "# Suite $suite_name: $suite_passed passed, $suite_failed failed"
+    tlog_info "Suite $suite_name: $suite_passed passed, $suite_failed failed"
     
-    return 0
-}
-
-# Run all test suites
-run_all_suites() {
-    local tests_base_dir="${1:-$TEST_RUNNER_LIB_DIR/..}"
-    
-    local suites_passed=0
-    local suites_failed=0
-    
-    local grand_total=0
-    local grand_passed=0
-    local grand_failed=0
-    local grand_skipped=0
-    
-    if [[ ! -d "$tests_base_dir" ]]; then
-        echo "# ERROR: Test base directory not found: $tests_base_dir"
+    if [[ $suite_failed -gt 0 ]]; then
+        ((FAILED_SUITES++))
         return 1
-    fi
-    
-    echo "# Test base directory: $tests_base_dir"
-    
-    # Run unit tests
-    local unit_dir="$tests_base_dir/unit"
-    if [[ -d "$unit_dir" ]]; then
-        local before_total=$TOTAL_TESTS
-        local before_passed=$PASSED_TESTS
-        local before_failed=$FAILED_TESTS
-        local before_skipped=$SKIPPED_TESTS
-        
-        run_test_suite "Unit Tests" "$unit_dir" "${TEST_FILTER:-}"
-        
-        if [[ $? -eq 0 ]]; then
-            ((suites_passed++))
-        else
-            ((suites_failed++))
-        fi
-        
-        grand_total=$((grand_total + (TOTAL_TESTS - before_total)))
-        grand_passed=$((grand_passed + (PASSED_TESTS - before_passed)))
-        grand_failed=$((grand_failed + (FAILED_TESTS - before_failed)))
-        grand_skipped=$((grand_skipped + (SKIPPED_TESTS - before_skipped)))
-    fi
-    
-    # Run integration tests
-    local integration_dir="$tests_base_dir/integration"
-    if [[ -d "$integration_dir" ]]; then
-        local before_total=$TOTAL_TESTS
-        local before_passed=$PASSED_TESTS
-        local before_failed=$FAILED_TESTS
-        local before_skipped=$SKIPPED_TESTS
-        
-        run_test_suite "Integration Tests" "$integration_dir" "${TEST_FILTER:-}"
-        
-        if [[ $? -eq 0 ]]; then
-            ((suites_passed++))
-        else
-            ((suites_failed++))
-        fi
-        
-        grand_total=$((grand_total + (TOTAL_TESTS - before_total)))
-        grand_passed=$((grand_passed + (PASSED_TESTS - before_passed)))
-        grand_failed=$((grand_failed + (FAILED_TESTS - before_failed)))
-        grand_skipped=$((grand_skipped + (SKIPPED_TESTS - before_skipped)))
-    fi
-    
-    # Run E2E tests
-    local e2e_dir="$tests_base_dir/e2e"
-    if [[ -d "$e2e_dir" ]]; then
-        local before_total=$TOTAL_TESTS
-        local before_passed=$PASSED_TESTS
-        local before_failed=$FAILED_TESTS
-        local before_skipped=$SKIPPED_TESTS
-        
-        run_test_suite "E2E Tests" "$e2e_dir" "${TEST_FILTER:-}"
-        
-        if [[ $? -eq 0 ]]; then
-            ((suites_passed++))
-        else
-            ((suites_failed++))
-        fi
-        
-        grand_total=$((grand_total + (TOTAL_TESTS - before_total)))
-        grand_passed=$((grand_passed + (PASSED_TESTS - before_passed)))
-        grand_failed=$((grand_failed + (FAILED_TESTS - before_failed)))
-        grand_skipped=$((grand_skipped + (SKIPPED_TESTS - before_skipped)))
-    fi
-    
-    echo ""
-    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    echo "# Final Summary"
-    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    echo "# Suites: $suites_passed passed, $suites_failed failed"
-    echo "# Tests:  $grand_passed passed, $grand_failed failed, $grand_skipped skipped"
-    echo "# Total:  $grand_total tests run"
-    
-    if [[ $grand_failed -eq 0 ]]; then
-        echo "# ✅ All tests passed!"
-        return 0
     else
-        echo "# ❌ $grand_failed test(s) failed"
-        return 1
+        ((PASSED_SUITES++))
+        return 0
     fi
 }
 
-# Export functions for use in test files
-export -f reset_test_state run_test_file run_test_suite run_all_suites
+# Print final summary
+print_summary() {
+    tlog_blank
+    tlog_decoration
+    tlog_info " Final Summary"
+    tlog_decoration
+    tlog_info "Suites: $PASSED_SUITES passed, $FAILED_SUITES failed"
+    tlog_info "Tests:  $PASSED_TESTS passed, $FAILED_TESTS failed, $SKIPPED_TESTS skipped"
+    tlog_info "Total:  $TOTAL_TESTS tests run"
+    tlog_blank
+    
+    if [[ $FAILED_TESTS -eq 0 ]] && [[ $FAILED_SUITES -eq 0 ]]; then
+        tlog_success "All tests passed!"
+    else
+        if [[ $FAILED_SUITES -gt 0 ]]; then
+            tlog_error "$FAILED_SUITES suite(s) failed"
+        fi
+        if [[ $FAILED_TESTS -gt 0 ]]; then
+            tlog_error "$FAILED_TESTS test(s) failed"
+        fi
+    fi
+}

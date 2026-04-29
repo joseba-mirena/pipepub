@@ -12,24 +12,24 @@ load_pipeline_lib "tags"
 tag "test_gist_integration.sh" "integration"
 
 run_tests() {
-    echo "# Test: Gist Integration"
+    tlog_section "Test: Gist Integration"
+    
+    # Setup test environment with all mocks
+    setup_test_environment
     
     # Create test post from fixture with gist enabled
     use_fixture "posts/with-multiple-tables.md" "posts/.test-gist.md"
     
-    export DRY_RUN=true
     export MANUAL_FILENAMES=".test-gist.md"
-    export DEVTO_TOKEN="mock"
-    export HASHNODE_TOKEN="mock"
-    export HASHNODE_PUBLICATION_ID="mock"
-    export MEDIUM_TOKEN="mock"
-    export GH_PAT_GIST_TOKEN="mock_token"
     
     output=$(./.github/scripts/main.sh 2>&1)
     exit_code=$?
     
+    # Assertion using assert_equals
     assert_equals "$exit_code" "0" "pipeline exit code"
 }
 
-run_tests
-tap_exit_code
+# Run in subshell to prevent environment pollution
+(
+    run_tests
+)

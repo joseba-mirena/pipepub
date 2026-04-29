@@ -1,5 +1,5 @@
 #!/bin/bash
-# tools/tests/lib/setup.sh - Common test environment setup
+# tools/tests/lib/setup.sh - Test environment setup
 
 # Prevent multiple sourcing
 if [[ -n "${_SETUP_SH_LOADED:-}" ]]; then
@@ -29,12 +29,11 @@ else
     PROJECT_ROOT="$(cd "$CALLER_DIR/../.." && pwd)"
 fi
 
-# Export for use in tests
 export PROJECT_ROOT
 export CALLER_DIR
 
 # ============================================================================
-# Environment Loading (.env first - sets defaults)
+# Environment Loading
 # ============================================================================
 
 if [[ -f "$PROJECT_ROOT/.env" ]]; then
@@ -43,7 +42,6 @@ if [[ -f "$PROJECT_ROOT/.env" ]]; then
     set +a
 fi
 
-# Set defaults if not defined by .env
 LOG_LEVEL="${LOG_LEVEL:-info}"
 LOG_OUTPUT="${LOG_OUTPUT:-console}"
 
@@ -61,6 +59,10 @@ while [[ $# -gt 0 ]]; do
             LOG_OUTPUT="both"
             shift
             ;;
+        --dev)
+            TEST_DEV_MODE=true
+            shift
+            ;;
         *)
             shift
             ;;
@@ -69,86 +71,84 @@ done
 
 export LOG_LEVEL
 export LOG_OUTPUT
+export TEST_DEV_MODE
 
 # ============================================================================
 # Output Capture (when LOG_LEVEL=debug)
 # ============================================================================
 
 if [[ "$LOG_LEVEL" == "debug" ]] && [[ -z "${_OUTPUT_CAPTURED:-}" ]]; then
-    # Create logs directory
     mkdir -p "$PROJECT_ROOT/.logs"
     
-    # Generate log filename based on test name
     TEST_NAME=$(basename "${BASH_SOURCE[1]}" .sh 2>/dev/null || echo "unknown")
     TIMESTAMP=$(date +%Y%m%d_%H%M%S)
     TEST_LOG_FILE="$PROJECT_ROOT/.logs/test_${TEST_NAME}_${TIMESTAMP}.log"
     
-    # Capture output to file while still showing on console
     exec > >(tee -a "$TEST_LOG_FILE") 2>&1
     readonly _OUTPUT_CAPTURED=1
-    
-    echo "# Test output captured to: $TEST_LOG_FILE"
 fi
 
 # ============================================================================
-# System Information (once per process)
-# ============================================================================
-
-print_system_info() {
-    local kernel_name=$(uname -s)
-    local hostname=$(uname -n)
-    local kernel_release=$(uname -r)
-    local machine=$(uname -m)
-    local processor=$(uname -p 2>/dev/null || echo "unknown")
-    
-    local os_pretty=""
-    if [[ -f /etc/os-release ]]; then
-        os_pretty=$(grep "^PRETTY_NAME=" /etc/os-release | cut -d= -f2 | tr -d '"')
-    fi
-    
-    echo "# ================================================================"
-    echo "# System Information"
-    echo "# ================================================================"
-    echo "#   OS: ${os_pretty:-$kernel_name}"
-    echo "#   Kernel: $kernel_release"
-    echo "#   Machine: $machine"
-    echo "#   Processor: $processor"
-    echo "#   Hostname: $hostname"
-    echo "#   Bash: $BASH_VERSION"
-    echo "#   Date: $(date '+%Y-%m-%d %H:%M:%S %Z')"
-    echo "#   Timeout: $(command -v timeout 2>/dev/null || echo 'not found')"
-    echo "#   jq: $(command -v jq 2>/dev/null || echo 'not found')"
-    echo "# ================================================================"
-    echo "# Environment Configuration"
-    echo "# ================================================================"
-    echo "#   LOG_LEVEL: ${LOG_LEVEL:-not set}"
-    echo "#   LOG_OUTPUT: ${LOG_OUTPUT:-not set}"
-    echo "#   DRY_RUN: ${DRY_RUN:-not set}"
-    echo "#   TEST_MODE: ${TEST_MODE:-not set}"
-    echo "#   CI: ${CI:-not set}"
-    echo "# ================================================================"
-    echo ""
-}
-
-if [[ -z "${_SYSTEM_INFO_PRINTED:-}" ]] && [[ "${LOG_LEVEL}" == "debug" ]]; then
-    print_system_info
-    readonly _SYSTEM_INFO_PRINTED=1
-fi
-
-# ============================================================================
-# Create Log Directories in Project Root
+# Create Log Directories
 # ============================================================================
 
 mkdir -p "$PROJECT_ROOT/.tmp" "$PROJECT_ROOT/.reports"
 
-# Set absolute path for pipeline logs (used by logging.sh)
-export LOG_FILE="$PROJECT_ROOT/.tmp/pipepub_$(date +%Y%m%d_%H%M%S).log"
+timestamp=$(date +%Y%m%d_%H%M%S)
+if [[ "${TEST_DEV_MODE:-false}" == "true" ]]; then
+    export LOG_FILE="$PROJECT_ROOT/.tmp/pipepub_dev_${timestamp}.log"
+else
+    export LOG_FILE="$PROJECT_ROOT/.tmp/pipepub_${timestamp}.log"
+fi
 
 # ============================================================================
 # Load Pipeline Libraries
 # ============================================================================
 
 source "$PROJECT_ROOT/.github/scripts/lib/logging.sh"
+
+# ============================================================================
+# Source Test Libraries (must be before they are used)
+# ============================================================================
+
+# Get the directory where this script lives
+SETUP_LIB_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Log light library
+source "$SETUP_LIB_DIR/logger.sh"
+
+# Test runner (provides run_suite, run_test_file, print_summary)
+source "$SETUP_LIB_DIR/test_runner.sh"
+
+# Test assertion libraries
+for test_lib in assertions timeout deps tags fixtures; do
+    lib_path="$SETUP_LIB_DIR/${test_lib}.sh"
+    if [[ -f "$lib_path" ]]; then
+        source "$lib_path"
+    fi
+done
+
+# ============================================================================
+# System Information (once per process) - logger is now available
+# ============================================================================
+
+if [[ -z "${_SYSTEM_INFO_PRINTED:-}" ]] && [[ "${LOG_LEVEL}" == "debug" ]]; then
+    tlog_summary "System Information" \
+        "  OS: $(uname -s)" \
+        "  Kernel: $(uname -r)" \
+        "  Machine: $(uname -m)" \
+        "  Bash: $BASH_VERSION" \
+        "  Date: $(date '+%Y-%m-%d %H:%M:%S %Z')" \
+        "============================================================" \
+        " Environment Configuration" \
+        "============================================================" \
+        "  LOG_LEVEL: ${LOG_LEVEL:-not set}" \
+        "  LOG_OUTPUT: ${LOG_OUTPUT:-not set}" \
+        "  CI: ${CI:-not set}" \
+        "  TEST_DEV_MODE: ${TEST_DEV_MODE:-not set}"
+    
+    readonly _SYSTEM_INFO_PRINTED=1
+fi
 
 # ============================================================================
 # Helper Functions
@@ -161,9 +161,45 @@ load_pipeline_lib() {
     if [[ -f "$lib_path" ]]; then
         source "$lib_path"
         return 0
-    else
-        echo "ERROR: Pipeline library not found: $lib_path" >&2
-        return 1
+    fi
+    tlog_error "Pipeline library not found: $lib_path"
+    return 1
+}
+
+# ============================================================================
+# Test Environment Setup
+# ============================================================================
+
+setup_test_environment() {
+    # Read registry from temp .github directory
+    local registry_file=".github/config/registry.conf"
+    if [[ -f "$registry_file" ]]; then
+        while IFS='|' read -r name handler required_fields; do
+            [[ -z "$name" || "$name" =~ ^[[:space:]]*# ]] && continue
+            for field in $required_fields; do
+                export "$(echo "$field" | xargs)"="mock"
+            done
+        done < "$registry_file"
+    fi
+    
+    export GH_PAT_GIST_TOKEN="mock"
+    export DRY_RUN=true
+}
+
+# Overlay dev files for --dev mode
+overlay_dev_files() {
+    if [[ -d "$PROJECT_ROOT/tools/config/services-dev" ]]; then
+        mkdir -p ".github/config/services"
+        cp -r "$PROJECT_ROOT/tools/config/services-dev"/* ".github/config/services/" 2>/dev/null || true
+    fi
+    
+    if [[ -f "$PROJECT_ROOT/tools/config/registry-dev.conf" ]]; then
+        cp "$PROJECT_ROOT/tools/config/registry-dev.conf" ".github/config/registry.conf" 2>/dev/null || true
+    fi
+    
+    if [[ -d "$PROJECT_ROOT/tools/handlers-dev" ]]; then
+        mkdir -p ".github/scripts/handlers"
+        cp "$PROJECT_ROOT/tools/handlers-dev"/*.sh ".github/scripts/handlers/" 2>/dev/null || true
     fi
 }
 
@@ -177,17 +213,15 @@ use_fixture() {
     local source_file="$PROJECT_ROOT/tools/tests/fixtures/input/$fixture_path"
     
     if [[ ! -f "$source_file" ]]; then
-        echo "ERROR: Fixture not found: $source_file"
+        tlog_error "Fixture not found: $source_file"
         return 1
     fi
     
     local target_dir=$(dirname "$target_path")
-    if [[ "$target_dir" != "." ]]; then
-        mkdir -p "$target_dir"
-    fi
+    [[ "$target_dir" != "." ]] && mkdir -p "$target_dir"
     
     cp "$source_file" "$target_path"
-    echo "$target_path"
+    tlog_debug "Fixture copied: $fixture_path -> $target_path"
 }
 
 create_test_post() {
@@ -207,19 +241,6 @@ create_test_post() {
 }
 
 # ============================================================================
-# Source Test Libraries
-# ============================================================================
-
-TEST_LIB_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-for test_lib in assertions timeout deps tags fixtures test_runner; do
-    lib_path="$TEST_LIB_DIR/${test_lib}.sh"
-    if [[ -f "$lib_path" ]]; then
-        source "$lib_path"
-    fi
-done
-
-# ============================================================================
 # Automatic Test Isolation
 # ============================================================================
 
@@ -235,6 +256,11 @@ if [[ -d "$PROJECT_ROOT/.github" ]]; then
     cp -r "$PROJECT_ROOT/.github" . 2>/dev/null || true
 fi
 
+# Overlay dev files if in dev mode
+if [[ "${TEST_DEV_MODE:-false}" == "true" ]]; then
+    overlay_dev_files
+fi
+
 # Create posts directory
 mkdir -p posts
 
@@ -243,10 +269,9 @@ if [[ -d "$PROJECT_ROOT/tools/tests/fixtures/input/posts" ]]; then
     cp -r "$PROJECT_ROOT/tools/tests/fixtures/input/posts"/* posts/ 2>/dev/null || true
 fi
 
-# Export temp directory for any cleanup needs
 export TEST_TEMP_DIR
 
-# Register cleanup on exit (only removes temp dir)
+# Register cleanup on exit
 cleanup_test_environment() {
     cd "$PROJECT_ROOT"
     rm -rf "$TEST_TEMP_DIR"
@@ -260,9 +285,23 @@ trap cleanup_test_environment EXIT
 TEST_TIMEOUT_SECONDS="${TEST_TIMEOUT_SECONDS:-30}"
 
 if [[ "${LOG_LEVEL}" == "debug" ]]; then
-    echo "# DEBUG: Test setup complete" >&2
-    echo "# DEBUG:   TEST_NAME: $TEST_NAME" >&2
-    echo "# DEBUG:   TEST_TEMP_DIR: $TEST_TEMP_DIR" >&2
-    echo "# DEBUG:   PROJECT_ROOT: $PROJECT_ROOT" >&2
-    echo "# DEBUG:   LOG_FILE: $LOG_FILE" >&2
+    tlog_debug "Test setup complete"
+    tlog_debug "  TEST_NAME: $TEST_NAME"
+    tlog_debug "  TEST_TEMP_DIR: $TEST_TEMP_DIR"
+    tlog_debug "  PROJECT_ROOT: $PROJECT_ROOT"
+    tlog_debug "  LOG_FILE: $LOG_FILE"
+    tlog_debug "  TEST_DEV_MODE: ${TEST_DEV_MODE:-false}"
+    tlog_decoration
 fi
+
+# Load service config for a specific service (for tests that need it)
+load_test_service_config() {
+    local service="$1"
+    local config_file="$PROJECT_ROOT/.github/config/services/${service}.conf"
+    
+    if [[ -f "$config_file" ]]; then
+        source "$config_file"
+        return 0
+    fi
+    return 1
+}

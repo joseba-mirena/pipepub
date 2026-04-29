@@ -7,40 +7,105 @@ if [[ -n "${_REGISTRY_SH_LOADED:-}" ]]; then
 fi
 readonly _REGISTRY_SH_LOADED=1
 
-# Load minimal registry and check tokens
-get_active_services() {
+# ============================================================================
+# Phase 1: Check service availability (token + config + handler files)
+# ============================================================================
+
+# Get required fields for a service from registry
+_get_service_required_fields() {
+    local service="$1"
+    local registry_file="${2:-$DIR_CFG/registry.conf}"
+    local fields=""
+    
+    if [[ ! -f "$registry_file" ]]; then
+        echo ""
+        return 1
+    fi
+    
+    while IFS='|' read -r name handler_file required_fields; do
+        [[ -z "$name" || "$name" =~ ^[[:space:]]*# ]] && continue
+        name=$(echo "$name" | xargs)
+        if [[ "$name" == "$service" ]]; then
+            fields=$(echo "$required_fields" | xargs)
+            break
+        fi
+    done < "$registry_file"
+    
+    echo "$fields"
+}
+
+# Check if a service is available (can be loaded when needed)
+is_service_available() {
+    local service="$1"
+    
+    # Get required fields from registry
+    local required_fields=$(_get_service_required_fields "$service")
+    if [[ -z "$required_fields" ]]; then
+        log_debug "Service $service: not found in registry"
+        return 1
+    fi
+    
+    # Check all required fields (tokens) exist
+    local missing_fields=""
+    for field in $required_fields; do
+        if [[ -z "${!field:-}" ]]; then
+            missing_fields="$missing_fields $field"
+        fi
+    done
+    
+    if [[ -n "$missing_fields" ]]; then
+        log_debug "Service $service: missing token(s):$missing_fields"
+        return 1
+    fi
+    
+    # Check config file exists
+    local config_file="$DIR_CFG/services/${service}.conf"
+    if [[ ! -f "$config_file" ]]; then
+        log_warning "Service $service: config file not found: $config_file"
+        return 1
+    fi
+    
+    # Check handler file exists
+    local handler_file="$DIR_HDL/${service}.sh"
+    if [[ ! -f "$handler_file" ]]; then
+        log_warning "Service $service: handler file not found: $handler_file"
+        return 1
+    fi
+    
+    log_info "Service $service available"
+    return 0
+}
+
+# Get all available services (from registry, filtered by availability)
+get_available_services() {
     local -n result=$1
     local registry_file="${2:-$DIR_CFG/registry.conf}"
     
-    # Clear result array
     result=()
     
-    # Check if registry file exists
     if [[ ! -f "$registry_file" ]]; then
         log_error "Registry file not found: $registry_file"
         return 1
     fi
     
-    while IFS='|' read -r name token_var handler_file; do
-        # Skip comments and empty lines
+    while IFS='|' read -r name handler_file required_fields; do
         [[ -z "$name" || "$name" =~ ^[[:space:]]*# ]] && continue
-        
-        # Trim whitespace
         name=$(echo "$name" | xargs)
-        token_var=$(echo "$token_var" | xargs)
-        handler_file=$(echo "$handler_file" | xargs)
         
-        # Check if token exists
-        if [[ -n "${!token_var:-}" ]]; then
-            result+=("$name|$token_var|$handler_file")
-            log_debug "Service $name active (token found)"
+        if is_service_available "$name"; then
+            result+=("$name")
+            log_debug "Service $name registered as available"
         else
-            log_debug "Service $name inactive (no token)"
+            log_debug "Service $name not available"
         fi
     done < "$registry_file"
     
     return 0
 }
+
+# ============================================================================
+# Phase 2: Load service (config + handler) when needed
+# ============================================================================
 
 # Load full configuration for a service
 load_service_config() {
@@ -72,34 +137,73 @@ load_service_handler() {
     fi
 }
 
-# Register and load all active services
+# Load a service (config + handler) and validate it's ready for use
+# Returns 0 if successful, 1 otherwise
+load_service() {
+    local service="$1"
+    
+    # Verify service is available first
+    if ! is_service_available "$service"; then
+        log_error "Service $service not available, cannot load"
+        return 1
+    fi
+    
+    # Load config
+    if ! load_service_config "$service"; then
+        log_error "Failed to load config for service: $service"
+        return 1
+    fi
+    
+    # Load handler
+    if ! load_service_handler "$service"; then
+        log_error "Failed to load handler for service: $service"
+        return 1
+    fi
+    
+    # Validate handler function exists
+    if [[ -z "${SERVICE_HANDLER_FUNC:-}" ]]; then
+        log_error "SERVICE_HANDLER_FUNC not defined in $service.conf"
+        return 1
+    fi
+    
+    if ! declare -F "$SERVICE_HANDLER_FUNC" >/dev/null 2>&1; then
+        log_error "Handler function '$SERVICE_HANDLER_FUNC' not found for $service"
+        return 1
+    fi
+    
+    log_debug "Service $service loaded and ready"
+    return 0
+}
+
+# ============================================================================
+# Legacy compatibility (deprecated, use get_available_services + load_service)
+# ============================================================================
+
+# Register and load all active services (deprecated - use lazy loading)
+# Kept for backward compatibility
 register_active_services() {
     local -n active_ref=$1
     active_ref=()
     
-    local -a active_entries=()
-    get_active_services active_entries
+    local -a available_services=()
+    get_available_services available_services
     
-    for entry in "${active_entries[@]}"; do
-        IFS='|' read -r name token_var handler_file <<< "$entry"
-        
-        # Load full config
-        if load_service_config "$name"; then
-            # Load handler
-            if load_service_handler "$name"; then
-                # Verify handler function exists
-                if declare -F "$SERVICE_HANDLER_FUNC" >/dev/null 2>&1; then
-                    active_ref+=("$name")
-                    log_success "$SERVICE_DISPLAY publisher active"
-                else
-                    log_warning "Handler function '$SERVICE_HANDLER_FUNC' not found for $name"
-                fi
-            fi
+    # For backward compatibility, load all available services immediately
+    for service in "${available_services[@]}"; do
+        if load_service "$service"; then
+            active_ref+=("$service")
+            log_success "$SERVICE_DISPLAY publisher active"
+        else
+            log_warning "$SERVICE_DISPLAY publisher inactive"
         fi
     done
     
     return 0
 }
+
+# ============================================================================
+# Service Configuration Getters
+# ============================================================================
 
 # Get service configuration value (must be called after load_service_config)
 get_service_config() {
@@ -107,29 +211,37 @@ get_service_config() {
     local config_key="$2"
     local default="${3:-}"
     
-    # The config variables are already in scope from load_service_config
     case "$config_key" in
         display) echo "${SERVICE_DISPLAY:-$service_name}" ;;
         auth_type) echo "${SERVICE_AUTH_TYPE:-Bearer}" ;;
         endpoint) echo "${SERVICE_ENDPOINT:-}" ;;
-        handler_func) echo "${SERVICE_HANDLER_FUNC:-publish_to_$service_name}" ;;
+        handler_func) echo "${SERVICE_HANDLER_FUNC:-}" ;;
         max_tags) echo "${SERVICE_MAX_TAGS:-5}" ;;
+        min_tag_length) echo "${SERVICE_TAG_MIN_LENGTH:-1}" ;;
+        max_tag_length) echo "${SERVICE_TAG_MAX_LENGTH:-25}" ;;
+        tag_pattern) echo "${SERVICE_TAG_PATTERN:-^[a-z0-9_-]+$}" ;;
         supports_subtitle) echo "${SERVICE_SUPPORTS_SUBTITLE:-false}" ;;
         supports_cover_image) echo "${SERVICE_SUPPORTS_COVER_IMAGE:-false}" ;;
-        gist_format) echo "${SERVICE_GIST_FORMAT:-%s}" ;;
-        requires_publication_id) echo "${SERVICE_REQUIRES_PUBLICATION_ID:-false}" ;;
-        requires_user_id) echo "${SERVICE_REQUIRES_USER_ID:-false}" ;;
+        fetches_user_id) echo "${SERVICE_FETCHES_USER_ID:-false}" ;;
+        requires_oauth) echo "${SERVICE_REQUIRES_OAUTH:-false}" ;;
+        doc_url) echo "${SERVICE_DOC_URL:-}" ;;
+        default_status) echo "${SERVICE_DEFAULT_STATUS:-draft}" ;;
+        default_auto) echo "${SERVICE_DEFAULT_AUTO:-true}" ;;
         *) echo "$default" ;;
     esac
 }
 
-# Service tokens validation
+# ============================================================================
+# Validation
+# ============================================================================
+
+# Service tokens validation (checks if any service is available)
 validate_service_tokens() {
-    local -a active_entries=()
-    get_active_services active_entries
+    local -a available_services=()
+    get_available_services available_services
     
-    if [[ ${#active_entries[@]} -eq 0 ]]; then
-        log_error "No active services found with valid tokens"
+    if [[ ${#available_services[@]} -eq 0 ]]; then
+        log_error "No available services found in registry"
         return 1
     fi
     

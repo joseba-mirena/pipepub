@@ -1,6 +1,7 @@
 name: CI Tests
 
 on:
+  workflow_dispatch:
   pull_request:
     branches: [main, master]
     paths-ignore:
@@ -31,7 +32,7 @@ jobs:
         uses: actions/checkout@v6
       
       - name: Run quick test suite
-        run: ./tools/tests/run_all_tests.sh
+        run: ./tools/tests/run.sh --quick
       
       - name: List files before upload
         if: always()
@@ -87,14 +88,14 @@ jobs:
   full-tests:
     name: Full Tests (Merge)
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    if: (github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')) || (github.event_name == 'workflow_dispatch')
     
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
       
       - name: Run full test suite
-        run: ./tools/tests/run_all_tests.sh --debug
+        run: ./tools/tests/run.sh --debug
 
       - name: List files before upload
         if: always()

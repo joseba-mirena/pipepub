@@ -9,7 +9,7 @@
 <hr>
 
 [![PipePub](https://pipepub.github.io/cdn/image/badge/logo/pipepub.svg)](https://github.com/pipepub "PipePub - Publish like a PRO")
-[![Version](https://pipepub.github.io/cdn/image/badge/version/current.svg)](/CHANGELOG.md#v1.0.0 "PipePub v.1.0.0")
+[![Version](https://pipepub.github.io/cdn/image/badge/version/current.svg)](/CHANGELOG.md#history "PipePub v.1.0.0")
 [![Documentation index](https://pipepub.github.io/cdn/image/badge/doc/index.svg)](/docs/INDEX.md "Documentation index")
 [![README](https://pipepub.github.io/cdn/image/badge/doc/readme.svg)](/docs/README.md "Documentation home")
 [![Quick Start](https://pipepub.github.io/cdn/image/badge/doc/quickstart.svg)](/docs/basics/quickstart.md "Quick Start guide")
@@ -49,8 +49,6 @@
 <br>
 
 ## 📦 How it works?
-
-![GitHub upload or create file](https://pipepub.github.io/cdn/image/screenshot/github-upload-create-file.jpg "GitHub upload or create file")
 
 > *In plain English*
 
@@ -94,6 +92,16 @@
 🔄 **[Use this template](https://github.com/pipepub/pipepub/generate)**
 
 🐛 **[Report an issue](https://github.com/pipepub/pipepub/issues)**
+
+<br>
+
+## ⚙️ Important: Enable GitHub Actions
+
+After creating your repository from the template, **enable GitHub Actions** in your repository settings:
+
+`Settings` → `Actions` → `General` → **"Allow all actions and reusable workflows"**
+
+> GitHub disables Actions on forked repositories by default for security.
 
 <br>
 

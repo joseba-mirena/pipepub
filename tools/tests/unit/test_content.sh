@@ -11,24 +11,19 @@ load_pipeline_lib "content"
 tag "test_content.sh" "unit fast"
 
 run_tests() {
-    echo "# Test 1: Basic content extraction"
+    tlog_section "Test 1: Basic content extraction"
     
     use_fixture "posts/basic.md" "post.md"
-    
-    content=$(extract_clean_content "post.md")
-    title=$(extract_title "$content")
+    content=$(cat "post.md")
+    clean_content=$(extract_clean_content "$content")
+    title=$(extract_title "$clean_content")
     
     assert_equals "$title" "Basic Test Post Title" "extracted title"
     
-    echo ""
-    echo "# Test 2: Tag extraction from content"
+    tlog_section "Test 2: Tag extraction from content"
     
-    cat > "tags_content.md" << 'EOF'
-# Article
-Content with #bash and #github-actions tags.
-EOF
-    
-    content=$(cat "tags_content.md")
+    use_fixture "posts/with-tags.md" "posts/with-tags.md"
+    content=$(cat "posts/with-tags.md")
     tags=$(extract_tags "" "$content")
     
     assert_contains "$tags" "bash" "contains bash tag"
@@ -36,4 +31,3 @@ EOF
 }
 
 run_tests
-tap_exit_code

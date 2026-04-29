@@ -11,7 +11,7 @@ load_pipeline_lib "tags"
 tag "test_medium_api.sh" "unit"
 
 run_tests() {
-    echo "# Test: Medium Payload Generation"
+    tlog_section "Test: Medium Payload Generation"
     
     local test_title="Test Article"
     local test_subtitle="This is a test subtitle"
@@ -46,4 +46,3 @@ run_tests() {
 }
 
 run_tests
-tap_exit_code

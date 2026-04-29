@@ -15,7 +15,7 @@
 |------|---------|
 | **Name** | [![PipePub](https://pipepub.github.io/cdn/image/badge/logo/pipepub.svg)](https://github.com/pipepub "PipePub - Publish like a PRO") |
 | **Package** | ![Repository](https://pipepub.github.io/cdn/image/badge/repo/pipepub.svg "GitHub Repository") |
-| **Version** | [![Version](https://pipepub.github.io/cdn/image/badge/version/current.svg)](/CHANGELOG.md#v1.0.0 "PipePub v.1.0.0") |
+| **Version** | [![Version](https://pipepub.github.io/cdn/image/badge/version/current.svg)](/CHANGELOG.md#history "PipePub v.1.0.0") |
 | **DOC** | [![environment](https://pipepub.github.io/cdn/image/badge/doc/environment.svg)](/docs/advanced/environment.md "Environment guide") |
 | **License** | [![License](https://pipepub.github.io/cdn/image/badge/license/current.svg)](/LICENSE "Free MIT license") |
 
@@ -94,7 +94,7 @@ If `.env` doesn't exist, PipePub automatically copies `.env.example` to `.env` o
 
 ### Configuration variables
 
-```text
+```bash
 # ============================================================================
 # Application Configuration
 # ============================================================================
@@ -126,12 +126,6 @@ LOG_OUTPUT=both
 # Language: en-us, es-es, etc.
 PUBLISHER_LANG=en-us
 
-# Default publish status: draft, public
-PUBLISHER_STATUS=draft
-
-# Auto-publish: true, false
-PUBLISHER_AUTO=true
-
 # Gist table conversion: true, false
 PUBLISHER_GIST=false
 
@@ -153,10 +147,30 @@ DRY_RUN=false
 | `LOG_QUIET` | `true`, `false` | `false` | Suppress all output |
 | `LOG_NO_ICONS` | `true`, `false` | `false` | Plain text logs (no emoji) |
 | `PUBLISHER_LANG` | locale string | `en-us` | Content language |
-| `PUBLISHER_STATUS` | `draft`, `public` | `draft` | Default publish status |
-| `PUBLISHER_AUTO` | `true`, `false` | `true` | Auto-publish on push |
-| `PUBLISHER_GIST` | `true`, `false` | `false` | Table-to-Gist conversion |
+| `PUBLISHER_GIST` | `true`, `false` | `false` | Table-to-Gist conversion (global) |
 | `DRY_RUN` | `true`, `false` | `false` | Test mode (no API calls) |
+
+### Service-specific defaults
+
+Default publish status and auto-publish behavior are configured **per service** in `.github/config/services/*.conf`:
+
+| Service | Config file | `SERVICE_DEFAULT_STATUS` | `SERVICE_DEFAULT_AUTO` |
+|---------|-------------|--------------------------|------------------------|
+| DEV.to | `devto.conf` | `draft` | `true` |
+| Medium | `medium.conf` | `draft` | `true` |
+| Hashnode | `hashnode.conf` | `draft` | `true` |
+
+These can be overridden per article using frontmatter:
+
+```yaml
+---
+title: My Article
+status: public
+auto: false
+---
+```
+
+📖 **[Service configuration reference →](/docs/advanced/reference.md#service-configuration)**
 
 <br>
 
@@ -196,10 +210,10 @@ Or direct commands:
 
 | Service | Required secrets |
 |---------|------------------|
-| DEV.to | `devto_token` |
-| Hashnode | `hashnode_token`, `hashnode_publication_id` |
-| Medium | `medium_token` (legacy only) |
-| GitHub | `github_token` (gist scope) |
+| DEV.to | `DEVTO_TOKEN` |
+| Hashnode | `HASHNODE_TOKEN`, `HASHNODE_PUBLICATION_ID` |
+| Medium | `MEDIUM_TOKEN` (legacy only) |
+| GitHub | `GH_PAT_GIST_TOKEN` (gist scope) |
 
 📖 **[Platform-specific guides →](/docs/INDEX.md#services)**
 
@@ -271,7 +285,7 @@ Keychain is **not available** in headless environments (servers, containers, CI 
 ### Local debug mode
 
 Set in `.env`:
-```text
+```bash
 LOG_LEVEL=debug
 LOG_OUTPUT=both
 ```
@@ -317,13 +331,11 @@ env:
   CI: true
   LOG_LEVEL: debug
   LOG_OUTPUT: both
-  
+
   # Publisher defaults
   PUBLISHER_LANG: en-us
-  PUBLISHER_STATUS: draft
   PUBLISHER_GIST: true
-  PUBLISHER_AUTO: true
-  
+
   # Secrets (from repository secrets)
   DEVTO_TOKEN: ${{ secrets.DEVTO_TOKEN }}
   HASHNODE_TOKEN: ${{ secrets.HASHNODE_TOKEN }}
@@ -331,6 +343,13 @@ env:
   MEDIUM_TOKEN: ${{ secrets.MEDIUM_TOKEN }}
   GH_PAT_GIST_TOKEN: ${{ secrets.GH_PAT_GIST_TOKEN }}
 ```
+
+### Service defaults in CI
+
+Service-specific defaults (`SERVICE_DEFAULT_STATUS`, `SERVICE_DEFAULT_AUTO`) are defined in `.github/config/services/*.conf` files. To change them:
+
+1. Modify the `.conf` file directly in your repository
+2. Or override per article using frontmatter
 
 ### CI-specific behavior
 

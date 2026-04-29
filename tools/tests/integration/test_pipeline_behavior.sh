@@ -12,13 +12,10 @@ load_pipeline_lib "tags"
 tag "test_pipeline_behavior.sh" "integration"
 
 run_tests() {
-    export DRY_RUN=true
-    export DEVTO_TOKEN="mock"
-    export HASHNODE_TOKEN="mock"
-    export HASHNODE_PUBLICATION_ID="mock"
-    export MEDIUM_TOKEN="mock"
+    # Setup test environment with all mocks
+    setup_test_environment
     
-    echo "# Test 1: Single publisher (devto only)"
+    tlog_section "Test 1: Single publisher (devto only)"
     
     use_fixture "posts/single-publisher.md" "posts/test-devto-only.md"
     
@@ -27,13 +24,13 @@ run_tests() {
     output=$(./.github/scripts/main.sh 2>&1)
     exit_code=$?
     
+    # Assertions using assert_* functions
     assert_equals "$exit_code" "0" "pipeline exit code"
     assert_contains "$output" "Publishing to DEV.to" "should publish to DEV.to"
     assert_not_contains "$output" "Publishing to Hashnode" "should NOT publish to Hashnode"
     assert_not_contains "$output" "Publishing to Medium" "should NOT publish to Medium"
     
-    echo ""
-    echo "# Test 2: Multiple publishers (devto, hashnode)"
+    tlog_section "Test 2: Multiple publishers (devto, hashnode)"
     
     use_fixture "posts/multi-publisher.md" "posts/test-multi-publisher.md"
     
@@ -47,8 +44,7 @@ run_tests() {
     assert_contains "$output" "Publishing to Hashnode" "should publish to Hashnode"
     assert_not_contains "$output" "Publishing to Medium" "should NOT publish to Medium"
     
-    echo ""
-    echo "# Test 3: Gist disabled (no table conversion)"
+    tlog_section "Test 3: Gist disabled (no table conversion)"
     
     use_fixture "posts/gist-false.md" "posts/test-gist-disabled.md"
     
@@ -61,5 +57,7 @@ run_tests() {
     assert_contains "$output" "Gist tables disabled" "gist tables should be disabled"
 }
 
-run_tests
-tap_exit_code
+# Run in subshell to prevent environment pollution
+(
+    run_tests
+)

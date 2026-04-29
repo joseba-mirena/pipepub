@@ -11,7 +11,7 @@
 |---------|---------|
 | **Name** | [![PipePub](https://pipepub.github.io/cdn/image/badge/logo/pipepub.svg)](https://github.com/pipepub "PipePub - Publish like a PRO") |
 | **Package** | ![Repository](https://img.shields.io/badge/pipepub/pipepub--white?labelColor=white "GitHub Repository") |
-| **Version** | [![Version](https://pipepub.github.io/cdn/image/badge/version/current.svg)](/CHANGELOG.md#v1.0.0 "PipePub v.1.0.0") |
+| **Version** | [![Version](https://pipepub.github.io/cdn/image/badge/version/current.svg)](/CHANGELOG.md#history "PipePub v.1.0.0") |
 | **DOC** | [![README](https://pipepub.github.io/cdn/image/badge/doc/readme.svg)](/docs/README.md "Read me") |
 | **License** | [![License](https://pipepub.github.io/cdn/image/badge/license/current.svg)](/LICENSE "Free MIT license") |
 

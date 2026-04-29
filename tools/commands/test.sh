@@ -24,6 +24,13 @@ clean_test_files() {
         done < <(find "$SCRIPT_DIR/../.logs" -name "*.log" 2>/dev/null)
     fi
     
+    # Find pipeline debug files
+    if [[ -d "$SCRIPT_DIR/../.tmp" ]]; then
+        while IFS= read -r file; do
+            files_to_delete+=("$file")
+        done < <(find "$SCRIPT_DIR/../.tmp" -name "*.log" 2>/dev/null)
+    fi
+    
     # Find report files
     if [[ -d "$SCRIPT_DIR/../.reports" ]]; then
         while IFS= read -r file; do
@@ -50,7 +57,7 @@ clean_test_files() {
     if [[ ${#files_to_delete[@]} -gt 0 ]]; then
         chat_info "Files:"
         for file in "${files_to_delete[@]}"; do
-            chat_list_item "" "  $(basename "$file")"
+            chat_error "  $(basename "$file")"
         done
         chat_blank
     fi
@@ -95,7 +102,7 @@ main() {
     main_data+=("category:Test Suites")
     
     # Check if test runner exists
-    if [[ -f "$SCRIPT_DIR/tests/run_all_tests.sh" ]]; then
+    if [[ -f "$SCRIPT_DIR/tests/run.sh" ]]; then
         main_data+=("item:Test runner:success")
     else
         main_data+=("item:Test runner:error")
@@ -113,6 +120,7 @@ main() {
     # Info
     info_lines+=("Run tests to verify app integrity:ⓘ")
     info_lines+=("Tests are located in tools/tests/:ⓘ")
+    info_lines+=("Dev tests require dev service files in tools/config/services-dev/:ⓘ")
     
     # Actions
     actions_data+=("action:1:Run all tests")
@@ -121,7 +129,8 @@ main() {
     actions_data+=("action:4:Run E2E tests only")
     actions_data+=("action:5:Run with debug output")
     actions_data+=("action:6:Update snapshots")
-    actions_data+=("action:7:Clean test files")
+    actions_data+=("action:7:Run dev tests (with dev service overlay)")
+    actions_data+=("action:8:Clean test files")
     
     # Set context for footer
     set_options_context
@@ -152,61 +161,57 @@ main() {
             case $choice in
                 1)
                     panel_clear
-                    "$SCRIPT_DIR/tests/run_all_tests.sh"
+                    "$SCRIPT_DIR/tests/run.sh"
                     panel_pause
                     main
                     ;;
                 2)
                     panel_clear
-                    for test in "$SCRIPT_DIR"/tests/unit/*.sh; do
-                        if [[ -f "$test" ]]; then
-                            echo "Running: $(basename "$test")"
-                            "$test"
-                            echo ""
-                        fi
-                    done
+                    "$SCRIPT_DIR/tests/run.sh" --unit
                     panel_pause
                     main
                     ;;
                 3)
                     panel_clear
-                    for test in "$SCRIPT_DIR"/tests/integration/*.sh; do
-                        if [[ -f "$test" ]]; then
-                            echo "Running: $(basename "$test")"
-                            "$test"
-                            echo ""
-                        fi
-                    done
+                    "$SCRIPT_DIR/tests/run.sh" --integration
                     panel_pause
                     main
                     ;;
                 4)
                     panel_clear
-                    for test in "$SCRIPT_DIR"/tests/e2e/*.sh; do
-                        if [[ -f "$test" ]]; then
-                            echo "Running: $(basename "$test")"
-                            "$test"
-                            echo ""
-                        fi
-                    done
+                    "$SCRIPT_DIR/tests/run.sh" --e2e
                     panel_pause
                     main
                     ;;
                 5)
                     panel_clear
-                    "$SCRIPT_DIR/tests/run_all_tests.sh" --debug
+                    "$SCRIPT_DIR/tests/run.sh" --debug
                     panel_pause
                     main
                     ;;
                 6)
                     panel_clear
                     chat_warning "Updating snapshots..."
-                    UPDATE_SNAPSHOTS=true "$SCRIPT_DIR/tests/run_all_tests.sh"
+                    UPDATE_SNAPSHOTS=true "$SCRIPT_DIR/tests/run.sh"
                     chat_success "Snapshots updated"
                     panel_pause
                     main
                     ;;
                 7)
+                    panel_clear
+                    # Check if dev service files exist
+                    if [[ -d "$SCRIPT_DIR/../tools/config/services-dev" ]] || [[ -f "$SCRIPT_DIR/../tools/config/registry-dev.conf" ]]; then
+                        chat_info "Running dev tests with service overlay..."
+                        "$SCRIPT_DIR/tests/run.sh" --dev
+                    else
+                        chat_warning "No dev service files found"
+                        chat_info "Create dev service configs in tools/config/services-dev/"
+                        chat_info "Or add dev registry in tools/config/registry-dev.conf"
+                    fi
+                    panel_pause
+                    main
+                    ;;
+                8)
                     panel_clear
                     clean_test_files
                     panel_pause

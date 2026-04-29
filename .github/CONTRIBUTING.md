@@ -15,7 +15,7 @@
 |------|---------|
 | **Name** | [![PipePub](https://pipepub.github.io/cdn/image/badge/logo/pipepub.svg)](https://github.com/pipepub "PipePub - Publish like a PRO") |
 | **Package** | ![Repository](https://pipepub.github.io/cdn/image/badge/repo/pipepub.svg "GitHub Repository") |
-| **Version** | [![Version](https://pipepub.github.io/cdn/image/badge/version/current.svg)](/CHANGELOG.md#v1.0.0 "PipePub v.1.0.0") |
+| **Version** | [![Version](https://pipepub.github.io/cdn/image/badge/version/current.svg)](/CHANGELOG.md#history "PipePub v.1.0.0") |
 | **DOC** | [![CONTRIBUTING](https://pipepub.github.io/cdn/image/badge/doc/contributing.svg)](/.github/CONTRIBUTING.md "Contributing guide") |
 | **License** | [![License](https://pipepub.github.io/cdn/image/badge/license/current.svg)](/LICENSE "Free MIT license") |
 
@@ -108,7 +108,7 @@
 
 - Ensure your code follows the project's style guidelines
 - Add or update tests as necessary
-- Run the full test suite: `./tools/tests/run_all_tests.sh`
+- Run the full test suite: `./tools/tests/run.sh`
 - Update documentation for any user-facing changes
 
 **PR requirements:**
@@ -137,7 +137,7 @@ cd pipepub
 chmod +x tools/pipepub.sh tools/commands/*.sh tools/tests/**/*.sh
 
 # Run tests to verify setup
-./tools/tests/run_all_tests.sh
+./tools/tests/run.sh
 
 # Run the interactive menu
 ./tools/pipepub.sh

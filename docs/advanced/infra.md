@@ -15,7 +15,7 @@
 |------|---------|
 | **Name** | [![PipePub](https://pipepub.github.io/cdn/image/badge/logo/pipepub.svg)](https://github.com/pipepub "PipePub - Publish like a PRO") |
 | **Package** | ![Repository](https://pipepub.github.io/cdn/image/badge/repo/pipepub.svg "GitHub Repository") |
-| **Version** | [![Version](https://pipepub.github.io/cdn/image/badge/version/current.svg)](/CHANGELOG.md#v1.0.0 "PipePub v.1.0.0") |
+| **Version** | [![Version](https://pipepub.github.io/cdn/image/badge/version/current.svg)](/CHANGELOG.md#history "PipePub v.1.0.0") |
 | **DOC** | [![infra](https://pipepub.github.io/cdn/image/badge/doc/infra.svg)](/docs/advanced/infra.md "Infrastructure guide") |
 | **License** | [![License](https://pipepub.github.io/cdn/image/badge/license/current.svg)](/LICENSE "Free MIT license") |
 
@@ -78,11 +78,11 @@ jobs:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 2
-      
+
       - name: Check files to post
         run: |
           # Lists files in posts/ folder
-          
+
       - name: Run PipePub pipeline
         env:
           GH_PAT_GIST_TOKEN: ${{ secrets.GH_PAT_GIST_TOKEN }}
@@ -91,13 +91,11 @@ jobs:
           HASHNODE_PUBLICATION_ID: ${{ secrets.HASHNODE_PUBLICATION_ID }}
           MEDIUM_TOKEN: ${{ secrets.MEDIUM_TOKEN }}
           PUBLISHER_LANG: ${{ vars.PUBLISHER_LANG || 'en-us' }}
-          PUBLISHER_STATUS: ${{ vars.PUBLISHER_STATUS || 'draft' }}
           PUBLISHER_GIST: ${{ vars.PUBLISHER_GIST || 'true' }}
-          PUBLISHER_AUTO: ${{ vars.PUBLISHER_AUTO || true }}
           DEBUG: ${{ vars.DEBUG || 'false' }}
           MANUAL_FILENAMES: ${{ github.event.inputs.filenames }}
         run: .github/scripts/main.sh
-      
+
       - name: Upload processing logs
         if: always()
         uses: actions/upload-artifact@v6
@@ -105,7 +103,7 @@ jobs:
           name: publish-logs
           path: .tmp/
           retention-days: 7
-      
+
       - name: Notify result
         if: always()
         run: |
@@ -175,10 +173,20 @@ article1.md article2.md article3.md
 | Variable | Values | Default | Description |
 |----------|--------|---------|-------------|
 | `PUBLISHER_LANG` | `en-us`, `es-es`, etc. | `en-us` | Language/locale |
-| `PUBLISHER_STATUS` | `draft`, `public` | `draft` | Default publish status |
 | `PUBLISHER_GIST` | `true`, `false` | `true` | Table-to-Gist conversion |
-| `PUBLISHER_AUTO` | `true`, `false` | `true` | Auto-publish on push |
 | `DEBUG` | `true`, `false` | `false` | Enable verbose logging |
+
+### Service defaults configuration
+
+Default publish status and auto-publish behavior are configured per service in:
+
+```text
+.github/config/services/devto.conf      # SERVICE_DEFAULT_STATUS="draft"
+.github/config/services/hashnode.conf   # SERVICE_DEFAULT_AUTO="true"
+.github/config/services/medium.conf     # SERVICE_DEFAULT_STATUS="draft"
+```
+
+These files are committed to your repository and can be changed via pull request. Frontmatter in individual articles overrides these defaults.
 
 📖 **[Secrets guide →](/docs/basics/settings.md#github-secrets)**
 
@@ -204,8 +212,16 @@ name: CI Tests
 on:
   pull_request:
     branches: [main, master]
+    paths-ignore:
+      - '**.md'
+      - 'docs/assets/**'
+      - 'images/**'
   push:
     branches: [main, master]
+    paths-ignore:
+      - '**.md'
+      - 'docs/assets/**'
+      - 'images/**'
 
 env:
   DRY_RUN: true
@@ -221,7 +237,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - name: Run quick test suite
-        run: ./tools/tests/run_all_tests.sh
+        run: ./tools/tests/run.sh --quick
       - name: Upload test logs
         if: always()
         uses: actions/upload-artifact@v6
@@ -239,7 +255,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - name: Run full test suite
-        run: ./tools/tests/run_all_tests.sh --debug
+        run: ./tools/tests/run.sh --debug
       - name: Upload test logs
         if: always()
         uses: actions/upload-artifact@v6

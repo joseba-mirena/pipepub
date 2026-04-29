@@ -75,7 +75,6 @@ process_files() {
         
         # Set up debug logging if enabled
         if [[ "${LOG_LEVEL:-}" == "debug" ]]; then
-            # Create .tmp directory if it doesn't exist
             mkdir -p ".tmp"
             local timestamp=$(date +%Y%m%d_%H%M%S)
             export LOG_FILE=".tmp/pipepub_${timestamp}_${filename%.md}.log"
@@ -83,15 +82,21 @@ process_files() {
             chat_info "Debug log: $LOG_FILE"
         fi
         
-        # Run pipeline and capture output
+        # Run pipeline and capture output while showing it live
         local pipeline_output
-        pipeline_output=$(.github/scripts/main.sh 2>&1)
+        pipeline_output=$(.github/scripts/main.sh 2>&1 | tee /dev/tty)
         local exit_code=$?
         
-        # Determine success/failure by checking actual published count
-        local published_count=$(echo "$pipeline_output" | grep -o "Successfully published: [0-9]*" | grep -o "[0-9]*" | tail -1)
-        
-        if [[ "$published_count" -gt 0 ]]; then
+        # Determine success/failure by checking the new output format
+        # Check for "All operations succeeded!" or "Operations: X succeeded, 0 failed"
+        if echo "$pipeline_output" | grep -q "All operations succeeded!"; then
+            chat_success "✓ $filename published successfully"
+            ((success_count++))
+        elif echo "$pipeline_output" | grep -q "Operations: [0-9]* succeeded, 0 failed"; then
+            chat_success "✓ $filename published successfully"
+            ((success_count++))
+        elif [[ $exit_code -eq 0 ]]; then
+            # Fallback: if exit code 0 but no success message, assume success
             chat_success "✓ $filename published successfully"
             ((success_count++))
         else
@@ -99,13 +104,12 @@ process_files() {
             ((fail_count++))
             # Show last few error lines
             echo "$pipeline_output" | grep -E "(ERROR|❌|Failed)" | tail -3 | while read -r line; do
-                # Strip ANSI codes for cleaner display
                 clean_line=$(echo "$line" | sed 's/\x1b\[[0-9;]*m//g')
                 chat_error "  $clean_line"
             done
         fi
         
-        # In debug mode, show the full output
+        # In debug mode, show the full output if needed
         if [[ "${LOG_LEVEL:-}" == "debug" ]]; then
             chat_blank
             chat_info "Full pipeline output:"

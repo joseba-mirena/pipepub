@@ -15,7 +15,7 @@
 |------|---------|
 | **Name** | [![PipePub](https://pipepub.github.io/cdn/image/badge/logo/pipepub.svg)](https://github.com/pipepub "PipePub - Publish like a PRO") |
 | **Package** | ![Repository](https://pipepub.github.io/cdn/image/badge/repo/pipepub.svg "GitHub Repository") |
-| **Version** | [![Version](https://pipepub.github.io/cdn/image/badge/version/current.svg)](/CHANGELOG.md#v1.0.0 "PipePub v.1.0.0") |
+| **Version** | [![Version](https://pipepub.github.io/cdn/image/badge/version/current.svg)](/CHANGELOG.md#history "PipePub v.1.0.0") |
 | **DOC** | [![faq](https://pipepub.github.io/cdn/image/badge/doc/faq.svg)](/docs/basics/faq.md "FAQ document") |
 | **License** | [![License](https://pipepub.github.io/cdn/image/badge/license/current.svg)](/LICENSE "Free MIT license") |
 
@@ -29,7 +29,10 @@
 | [📋 General questions](#general-questions) |
 | [🔑 Secrets & tokens](#secrets--tokens) |
 | [📝 Publishing issues](#publishing-issues) |
+| [🖼️ Cover images](#cover-images) |
 | [🔍 Logs & debugging](#logs--debugging) |
+| [🧪 Testing](#testing) |
+| [🛠️ Development](#development) |
 | [⚙️ Platform-specific](#platform-specific) |
 
 </details>
@@ -57,6 +60,22 @@ PipePub is an open-source GitHub Actions pipeline that automatically publishes m
 **No.** If you only use the GitHub Actions workflow (the template), you don't need to install anything locally. Just add your secrets and push markdown files.
 
 **For local development** (power users), you'll need Bash 4+, git, curl, jq, and openssl.
+
+<br>
+
+### ❓ Why are GitHub Actions disabled after I fork the repository?
+
+GitHub disables Actions on forked repositories by default for security. This prevents malicious code from running automatically in forks.
+
+**To enable Actions:**
+
+1. Go to your repository **Settings** → **Actions** → **General**
+2. Under "Actions permissions", select **"Allow all actions and reusable workflows"**
+3. Click **Save**
+
+Once enabled, your pipeline will run automatically when you push articles to the `posts/` folder.
+
+📖 **[GitHub documentation →](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-your-repository)**
 
 <br>
 
@@ -177,13 +196,26 @@ That is it!
 
 ### ❓ Why is my article a draft instead of public?
 
-By default, `PUBLISHER_STATUS=draft`. This lets you review before publishing publicly.
+By default, all services publish as **draft**. This lets you review before publishing publicly.
 
-To change to public, use [Frontmatter](/docs/basics/markdown.md#frontmatter "Frontmatter guide") or update the environment variable in `.github/workflows/pipepub.yml`:
+**Priority order (highest to lowest):**
+1. Frontmatter `status` (per article)
+2. Service default (`.github/config/services/*.conf`)
+
+To change to public:
+
+- **Per article**: Add `status: public` to frontmatter
+- **Globally**: Modify `SERVICE_DEFAULT_STATUS` in `.github/config/services/*.conf`
+
+Example frontmatter:
 
 ```yaml
-PUBLISHER_STATUS: 'public'
+---
+status: public
+---
 ```
+
+📖 **[Frontmatter guide →](/docs/basics/markdown.md#frontmatter)**
 
 <br>
 
@@ -224,6 +256,41 @@ Each platform has different tag rules:
 
 <br>
 
+<a id="cover-images"></a>
+
+## 🖼️ Cover images
+
+<br>
+
+### ❓ How do I add a cover image to my article?
+
+Add `image` to your frontmatter:
+
+```yaml
+---
+title: My Article
+image: https://example.com/cover.jpg
+---
+```
+
+PipePub handles the rest automatically for all supported platforms.
+
+<br>
+
+### ❓ My cover image doesn't appear on Hashnode
+
+**Hashnode's API does not support a dedicated `coverImage` field.** However, PipePub automatically embeds your cover image as the first element in the article content. Hashnode then detects the first image and uses it as the cover.
+
+**Checklist:**
+
+1. Is the image URL publicly accessible via HTTPS?
+2. Is the image URL correctly set in frontmatter as `image` (aliases: `cover_image`, `cover`, `hero`)?
+3. Check that the image URL is not blocked or requiring authentication
+
+📖 **[Hashnode cover image guide →](/docs/services/hashnode.md#cover-images)**
+
+<br>
+
 <a id="logs--debugging"></a>
 
 ## 🔍 Logs & debugging
@@ -232,13 +299,12 @@ Each platform has different tag rules:
 
 ### ❓ Where can I find logs?
 
-You can download logs and reports from actions artifacts.
-
-| Log type | Location |
-|----------|----------|
-| Workflow logs | GitHub Actions tab → click failed run |
-| Test logs | `.logs/test_run_all_tests_<timestamp>.log` |
-| Debug logs | `.tmp/pipepub_<timestamp>.log` |
+| Log type | Location | When created |
+|----------|----------|--------------|
+| Workflow logs | GitHub Actions tab → click failed run | Every run |
+| Pipeline debug | `.tmp/pipepub_*.log` | When `LOG_LEVEL=debug` |
+| Test output | `.logs/test_*.log` | After running tests |
+| Dry run report | `.reports/dry-run-*.json` | After dry run |
 
 <br>
 
@@ -246,7 +312,7 @@ You can download logs and reports from actions artifacts.
 
 Add to your repository secrets or environment:
 
-```
+```text
 LOG_LEVEL=debug
 LOG_OUTPUT=both
 ```
@@ -257,16 +323,161 @@ Or run locally:
 LOG_LEVEL=debug ./tools/pipepub.sh publish
 ```
 
+📖 **[Debugging guide →](/docs/advanced/environment.md#debugging)**
+
+<br>
+
+<a id="testing"></a>
+
+## 🧪 Testing
+
+<br>
+
+### ❓ How do I run tests locally?
+
+```bash
+# Run all tests
+./tools/tests/run.sh
+
+# Run quick tests (unit + integration)
+./tools/tests/run.sh --quick
+
+# Run dev tests with service overlay
+./tools/tests/run.sh --dev
+
+# Update snapshots
+./tools/tests/run.sh --update-snapshots
+```
+
+📖 **[Test suite documentation →](/docs/advanced/tests.md)**
+
+<br>
+
+### ❓ How do I run only specific types of tests?
+
+Use test tags with environment variables:
+
+```bash
+# Run only unit tests
+TEST_TAG_INCLUDE=unit ./tools/tests/run.sh
+
+# Exclude slow tests
+TEST_TAG_EXCLUDE=slow ./tools/tests/run.sh
+```
+
+Built-in tags: `unit`, `integration`, `e2e`, `fast`, `smoke`
+
+📖 **[Test tagging →](/docs/advanced/tests.md#test-tagging)**
+
+<br>
+
+### ❓ My API payload tests are failing after an update
+
+When you change API payload structure, snapshots need updating:
+
+```bash
+# Update all snapshots
+./tools/tests/run.sh --update-snapshots
+
+# Update specific test
+./tools/tests/unit/test_devto_api.sh --update-snapshots
+```
+
+📖 **[Snapshot management →](/docs/advanced/tests.md#snapshot-management)**
+
+<br>
+
+### ❓ How are tests run in GitHub Actions?
+
+| Trigger | Command | Duration |
+|---------|---------|----------|
+| Pull Request | `./tools/tests/run.sh --quick` | ~2 min |
+| Push to main | `./tools/tests/run.sh --debug` | ~5 min |
+
+All test artifacts (logs, reports) are uploaded for debugging.
+
+📖 **[CI integration →](/docs/advanced/infra.md#ci-test-workflow)**
+
 <br>
 
 ### ❓ What information is included in test logs?
 
-When running `./tools/tests/run_all_tests.sh`, you'll see:
+When running `./tools/tests/run.sh`, you'll see:
 
 - System information (OS, Kernel, Bash version)
 - Environment configuration (LOG_LEVEL, DRY_RUN, CI)
-- Test execution details
+- Test execution details (TAP output)
 - Debug log file path
+
+<br>
+
+<a id="development"></a>
+
+## 🛠️ Development
+
+<br>
+
+### ❓ How do I develop a new platform integration?
+
+PipePub supports development overlays without modifying production files.
+
+> **Example:** See `docs/assets/example/dev/service/` for a complete working example (Ghost service).
+
+1. Create `tools/config/registry-dev.conf`:
+
+```text
+myservice|myservice.sh|MYSERVICE_TOKEN
+```
+
+2. Create `tools/config/services-dev/myservice.conf` with configuration:
+
+```bash
+SERVICE_DISPLAY="My Service"
+SERVICE_AUTH_TYPE="Bearer"
+SERVICE_ENDPOINT="https://api.myservice.com/posts"
+SERVICE_HANDLER_FUNC="publish_to_myservice"
+SERVICE_MAX_TAGS=5
+```
+
+3. Create `tools/handlers-dev/myservice.sh` with the publish function.
+
+4. Create `tools/tests/dev/test_myservice_dev.sh` with tests.
+
+5. Run tests with `--dev` flag to validate:
+
+```bash
+./tools/tests/run.sh --dev
+```
+
+📖 **[Example files →](/docs/assets/example/dev/service/)**
+
+📖 **[Service loading guide →](/docs/advanced/tools.md#service-loading)**
+
+<br>
+
+### ❓ How do I test my development service?
+
+Create a test file in `tools/tests/dev/`:
+
+```bash
+# tools/tests/dev/test_myservice_dev.sh
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/../lib/setup.sh"
+
+run_tests() {
+    # Your test logic here
+    assert_equals "expected" "actual" "test passes"
+}
+
+run_tests
+```
+
+Then run:
+
+```bash
+./tools/tests/run.sh --dev --filter=test_myservice_dev.sh
+```
+
+📖 **[Dev test mode →](/docs/advanced/tests.md#dev-test-mode)**
 
 <br>
 

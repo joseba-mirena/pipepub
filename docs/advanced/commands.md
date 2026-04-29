@@ -15,7 +15,7 @@
 |------|---------|
 | **Name** | [![PipePub](https://pipepub.github.io/cdn/image/badge/logo/pipepub.svg)](https://github.com/pipepub "PipePub - Publish like a PRO") |
 | **Package** | ![Repository](https://pipepub.github.io/cdn/image/badge/repo/pipepub.svg "GitHub Repository") |
-| **Version** | [![Version](https://pipepub.github.io/cdn/image/badge/version/current.svg)](/CHANGELOG.md#v1.0.0 "PipePub v.1.0.0") |
+| **Version** | [![Version](https://pipepub.github.io/cdn/image/badge/version/current.svg)](/CHANGELOG.md#history "PipePub v.1.0.0") |
 | **DOC** | [![commands](https://pipepub.github.io/cdn/image/badge/doc/commands.svg)](/docs/advanced/commands.md "Commands reference") |
 | **License** | [![License](https://pipepub.github.io/cdn/image/badge/license/current.svg)](/LICENSE "Free MIT license") |
 
@@ -132,7 +132,7 @@ git push origin main
 
 ### Step 4: Automatic publishing
 
-If `auto: true` (default), your article will be published automatically in less than a minute.
+If `auto: true` (default per service), your article will be published automatically in less than a minute.
 
 ### Push multiple articles
 
@@ -217,24 +217,36 @@ Verifies:
 
 Launches the test selection interface.
 
+### Test flags
+
+| Flag | Description |
+|------|-------------|
+| `--quick` | Run unit + integration tests (skip e2e) |
+| `--unit` | Run only unit tests |
+| `--integration` | Run only integration tests |
+| `--e2e` | Run only e2e tests |
+| `--filter=NAME` | Run only test file matching NAME |
+| `--update-snapshots` | Update snapshot files |
+| `--debug` | Enable debug logging |
+| `--dev` | Run dev tests with service overlay |
+
 ### Direct test commands
 
-| Command | Description |
-|---------|-------------|
-| `./tools/tests/run_all_tests.sh` | Run full test suite (unit + integration) |
-| `./tools/tests/run_unit_tests.sh` | Run only unit tests |
-| `./tools/tests/run_dry_run.sh` | Run dry-run integration test |
-| `./tools/tests/clean_test_files.sh` | Clean up test artifacts |
-
-### Running specific unit tests
-
 ```bash
-./tools/tests/unit/test_frontmatter.sh
-./tools/tests/unit/test_tags.sh
-./tools/tests/unit/test_content.sh
-./tools/tests/unit/test_devto_api.sh
-./tools/tests/unit/test_hashnode_api.sh
-./tools/tests/unit/test_medium_api.sh
+# Run all tests
+./tools/tests/run.sh
+
+# Run quick tests (unit + integration)
+./tools/tests/run.sh --quick
+
+# Run with dev service overlay
+./tools/tests/run.sh --dev
+
+# Update snapshots
+./tools/tests/run.sh --update-snapshots
+
+# Run specific test file
+./tools/tests/run.sh --filter=test_tags.sh
 ```
 
 📖 **[Test suite documentation →](/docs/advanced/tests.md)**
@@ -269,8 +281,6 @@ Launches the test selection interface.
 | `LOG_OUTPUT` | `console`, `file`, `both` | `console` | Where to send logs |
 | `LOG_QUIET` | `true`, `false` | `false` | Suppress all output |
 | `PUBLISHER_GIST` | `true`, `false` | `true` | Enable table-to-Gist conversion |
-| `PUBLISHER_STATUS` | `draft`, `public` | `draft` | Default publish status |
-| `PUBLISHER_AUTO` | `true`, `false` | `true` | Auto-publish on push |
 | `PUBLISHER_LANG` | `en-us`, `es-es`, etc. | `en-us` | Language/locale |
 
 📖 **[Full environment guide →](/docs/advanced/environment.md)**

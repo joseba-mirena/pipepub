@@ -12,18 +12,16 @@ load_pipeline_lib "tags"
 tag "run_dry_run.sh" "e2e"
 
 run_tests() {
-    echo "# Test: E2E Dry Run"
+    tlog_section "Test: E2E Dry Run"
+    
+    # Setup test environment with all mocks
+    setup_test_environment
     
     local timestamp=$(date +%s)
     local test_post="posts/.test-e2e-${timestamp}.md"
     use_fixture "posts/with-table.md" "$test_post"
     
-    export DRY_RUN=true
     export MANUAL_FILENAMES="$(basename "$test_post")"
-    export DEVTO_TOKEN="mock"
-    export HASHNODE_TOKEN="mock"
-    export HASHNODE_PUBLICATION_ID="mock"
-    export MEDIUM_TOKEN="mock"
     
     START_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
     START_TIMESTAMP=$(date +%s)
@@ -35,11 +33,12 @@ run_tests() {
     END_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
     DURATION=$((END_TIMESTAMP - START_TIMESTAMP))
     
+    # Assertions using assert_* functions (they output TAP)
     assert_equals "$exit_code" "0" "pipeline exit code"
     assert_contains "$output" "DRY RUN MODE" "dry run mode detected"
-    assert_contains "$output" "Successfully published: 1" "published count"
+    assert_contains "$output" "All operations succeeded!" "published count"
     
-    # Create JSON report in project root
+    # Create JSON report
     mkdir -p "$PROJECT_ROOT/.reports"
     REPORT_FILE="$PROJECT_ROOT/.reports/dry-run-$(date +%Y%m%d_%H%M%S).json"
     
@@ -68,8 +67,10 @@ run_tests() {
 }
 EOF
     
-    echo "# Report saved: $REPORT_FILE"
+    tlog_success "Report saved: $REPORT_FILE"
 }
 
-run_tests
-tap_exit_code
+# Run in subshell to prevent environment pollution
+(
+    run_tests
+)

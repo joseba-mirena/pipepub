@@ -21,7 +21,7 @@ show_menu() {
     
     # Core Infrastructure section
     main_data+=("category:Core Infrastructure")
-    github_token=$(get_secret "github_token")
+    github_token=$(get_secret "GH_PAT_GIST_TOKEN")
     if [[ -n "$github_token" ]]; then
         main_data+=("item:GitHub (Gist access):success")
     else
@@ -115,7 +115,7 @@ add_secrets_interactive() {
     
     # Core Infrastructure section - show actual status
     main_data+=("category:Core Infrastructure")
-    github_token=$(get_secret "github_token")
+    github_token=$(get_secret "GH_PAT_GIST_TOKEN")
     if [[ -n "$github_token" ]]; then
         main_data+=("item:GitHub Token (Gist access):success")
     else
@@ -191,8 +191,8 @@ add_github_token() {
     fi
     
     if [[ -n "$token" ]]; then
-        if validate_secret_value "$token" "github_token"; then
-            set_secret "github_token" "$token"
+        if validate_secret_value "$token" "GH_PAT_GIST_TOKEN"; then
+            set_secret "GH_PAT_GIST_TOKEN" "$token"
             chat_success "GitHub token saved"
         else
             chat_error "Token not saved"
@@ -216,7 +216,7 @@ add_secrets() {
     local requires_oauth=$(get_service_requires_oauth "$service")
     
     for field in $(get_service_fields "$service"); do
-        local display_field=$(echo "$field" | tr '_' ' ' | sed 's/\b\(.\)/\u\1/g')
+        local display_field="$field"
         
         local help_text=$(get_field_help "$service" "$field")
         if [[ -n "$help_text" ]]; then
@@ -234,7 +234,7 @@ add_secrets() {
         
         if [[ -n "$value" ]]; then
             if validate_secret_value "$value" "$field"; then
-                set_secret "${service}_${field}" "$value"
+                set_secret "$field" "$value"
                 chat_success "$display_field saved"
             else
                 chat_warning "$display_field not saved (review secret format)"
@@ -267,7 +267,7 @@ remove_secrets_interactive() {
         fi
     done
     
-    github_token=$(get_secret "github_token")
+    github_token=$(get_secret "GH_PAT_GIST_TOKEN")
     local has_github_token=false
     if [[ -n "$github_token" ]]; then
         has_github_token=true
@@ -354,7 +354,7 @@ remove_secrets() {
     fi
     
     for field in $(get_service_fields "$service"); do
-        delete_secret "${service}_${field}"
+        delete_secret "$field"
     done
     
     chat_success "$service_name secrets removed"
@@ -369,7 +369,7 @@ remove_github_token() {
         return
     fi
     
-    delete_secret "github_token"
+    delete_secret "GH_PAT_GIST_TOKEN"
     chat_success "GitHub token removed"
     panel_pause
     show_menu
@@ -405,11 +405,10 @@ list_secrets() {
             
             # Show individual fields only if they have values
             for field in $(get_service_fields "$service"); do
-                local value=$(get_secret "${service}_${field}")
+                local value=$(get_secret "$field")
                 if [[ -n "$value" ]]; then
-                    local display=$(echo "$field" | tr '_' ' ' | sed 's/\b\(.\)/\u\1/g')
+                    local display="$field"
                     local masked=$(mask_secret "$value")
-                    # Put the masked value inside parentheses, no colon in the text
                     main_data+=("item:    └─ $display ($masked):text")
                 fi
             done
@@ -417,7 +416,7 @@ list_secrets() {
     done
     
     # Core Infrastructure section
-    github_value=$(get_secret "github_token")
+    github_value=$(get_secret "GH_PAT_GIST_TOKEN")
     if [[ -n "$github_value" ]]; then
         found=true
         main_data+=("category:Core Infrastructure")
@@ -476,15 +475,14 @@ export_secrets() {
     
     for service in $(get_services); do
         for field in $(get_service_fields "$service"); do
-            local value=$(get_secret "${service}_${field}")
+            local value=$(get_secret "$field")
             if [[ -n "$value" ]]; then
-                local env_var=$(echo "${service}_${field}" | tr '[:lower:]' '[:upper:]')
-                secrets_output+=("$env_var=$value")
+                secrets_output+=("$field=$value")
             fi
         done
     done
     
-    local github_token=$(get_secret "github_token")
+    local github_token=$(get_secret "GH_PAT_GIST_TOKEN")
     if [[ -n "$github_token" ]]; then
         secrets_output+=("GH_PAT_GIST_TOKEN=$github_token")
     fi
@@ -609,7 +607,7 @@ cmd_line() {
                         ;;
                 esac
             done
-            github_token=$(get_secret "github_token")
+            github_token=$(get_secret "GH_PAT_GIST_TOKEN")
             if [[ -n "$github_token" ]]; then
                 echo "✓ GitHub Token (Gist access)"
             else
@@ -619,14 +617,13 @@ cmd_line() {
         export)
             for service in $(get_services); do
                 for field in $(get_service_fields "$service"); do
-                    local value=$(get_secret "${service}_${field}")
+                    local value=$(get_secret "$field")
                     if [[ -n "$value" ]]; then
-                        local env_var=$(echo "${service}_${field}" | tr '[:lower:]' '[:upper:]')
-                        echo "$env_var=$value"
+                        echo "$field=$value"
                     fi
                 done
             done
-            local github_token=$(get_secret "github_token")
+            local github_token=$(get_secret "GH_PAT_GIST_TOKEN")
             if [[ -n "$github_token" ]]; then
                 echo "GH_PAT_GIST_TOKEN=$github_token"
             fi

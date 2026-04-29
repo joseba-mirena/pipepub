@@ -40,28 +40,19 @@ publish_to_medium() {
         publish_status="public"
     fi
     
-    # Format gist URLs for Medium: raw URL (Medium auto-renders)
+    # Raw gist URLs for Medium
     local final_content="$content"
-    final_content=$(echo "$final_content" | sed -E 's|(https://gist\.github\.com/[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+)|\1|g')
     
-    # Parse tags using generic utility
-    local -a parsed_tags=()
-    parse_tags "$tags" parsed_tags
+    # Process tags using service-agnostic function
+    # This uses SERVICE_MAX_TAGS, SERVICE_TAG_MIN_LENGTH, SERVICE_TAG_MAX_LENGTH, SERVICE_TAG_PATTERN
+    # from the loaded service config (medium.conf)
+    local -a processed_tags=()
+    process_tags_for_service "$tags" processed_tags
     
-    # Apply Medium specific rules: max 5 tags, underscores to hyphens
+    # Convert underscores to hyphens for Medium (Medium prefers hyphens)
     local -a medium_tags=()
-    for tag in "${parsed_tags[@]}"; do
-        if [[ ${#medium_tags[@]} -ge 5 ]]; then
-            log_debug "Medium: Max 5 tags reached, stopping"
-            break
-        fi
-        local medium_tag=$(echo "$tag" | sed 's/_/-/g')
-        if [[ ${#medium_tag} -ge 1 ]] && [[ ${#medium_tag} -le 25 ]]; then
-            medium_tags+=("$medium_tag")
-            log_debug "Medium tag accepted: '$tag' -> '$medium_tag'"
-        else
-            log_debug "Medium tag rejected (length ${#medium_tag}): '$tag'"
-        fi
+    for tag in "${processed_tags[@]}"; do
+        medium_tags+=("$(echo "$tag" | sed 's/_/-/g')")
     done
     
     if [[ ${#medium_tags[@]} -eq 0 ]]; then

@@ -11,7 +11,10 @@ load_pipeline_lib "logging"
 tag "test_multipost.sh" "integration"
 
 run_tests() {
-    echo "# Test: Multi-post handling"
+    tlog_section "Test: Multi-post handling"
+    
+    # Setup test environment with all mocks
+    setup_test_environment
     
     local test_posts=()
     
@@ -26,19 +29,17 @@ run_tests() {
     done
     filenames="${filenames# }"
     
-    export DRY_RUN=true
     export MANUAL_FILENAMES="$filenames"
-    export DEVTO_TOKEN="mock"
-    export HASHNODE_TOKEN="mock"
-    export HASHNODE_PUBLICATION_ID="mock"
-    export MEDIUM_TOKEN="mock"
     
     output=$(./.github/scripts/main.sh 2>&1)
     exit_code=$?
     
+    # Assertions using assert_* functions
     assert_equals "$exit_code" "0" "pipeline exit code"
     assert_contains "$output" "Found 3 file(s) to process" "multi-post detection"
 }
 
-run_tests
-tap_exit_code
+# Run in subshell to prevent environment pollution
+(
+    run_tests
+)

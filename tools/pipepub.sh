@@ -58,7 +58,7 @@ main() {
     
     # Core Infrastructure section
     main_data+=("category:Core Infrastructure")
-    github_token=$(get_secret "github_token")
+    github_token=$(get_secret "GH_PAT_GIST_TOKEN")
     if [[ -n "$github_token" ]]; then
         main_data+=("item:GitHub (Gist access):success")
     else

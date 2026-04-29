@@ -11,7 +11,7 @@ load_pipeline_lib "tags"
 tag "test_devto_api.sh" "unit"
 
 run_tests() {
-    echo "# Test: DEV.to Payload Generation"
+    tlog_section "Test: DEV.to Payload Generation"
     
     local test_title="Test Article"
     local test_tags="delete me, auto, test, draft"
@@ -40,4 +40,3 @@ run_tests() {
 }
 
 run_tests
-tap_exit_code

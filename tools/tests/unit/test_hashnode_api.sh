@@ -11,7 +11,7 @@ load_pipeline_lib "tags"
 tag "test_hashnode_api.sh" "unit"
 
 run_tests() {
-    echo "# Test: Hashnode Payload Generation"
+    tlog_section "Test: Hashnode Payload Generation"
     
     local test_title="Test Article"
     local test_subtitle="This is a test subtitle"
@@ -43,4 +43,3 @@ run_tests() {
 }
 
 run_tests
-tap_exit_code

@@ -4,7 +4,7 @@
 # Simple frontmatter parser that sets global variables
 
 parse_frontmatter() {
-    local file_path="$1"
+    local content="$1"
     
     # Initialize empty - defaults will be applied by caller
     FRONTMATTER_TAGS=""
@@ -16,13 +16,8 @@ parse_frontmatter() {
     FRONTMATTER_TITLE=""
     FRONTMATTER_SUBTITLE=""
     
-    # Check if file exists
-    if [[ ! -f "$file_path" ]]; then
-        return 1
-    fi
-    
-    # Check if file has frontmatter
-    if ! head -n1 "$file_path" | grep -q "^---$"; then
+    # Check if file content has frontmatter
+    if [[ ! $(echo "$content" | head -n1) == "---" ]]; then
         return 1
     fi
     
@@ -42,10 +37,10 @@ parse_frontmatter() {
         elif [[ $in_frontmatter -eq 1 ]]; then
             frontmatter+="$line"$'\n'
         fi
-    done < "$file_path"
+    done <<< "$content"
     
     if [[ -z "$frontmatter" ]]; then
-        log_debug "No frontmatter found in $file_path"
+        log_debug "No frontmatter found in content"
         return 1
     fi
     

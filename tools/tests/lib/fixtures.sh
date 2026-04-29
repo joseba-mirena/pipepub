@@ -1,5 +1,7 @@
 #!/bin/bash
 # tools/tests/lib/fixtures.sh - Fixture and snapshot management
+# NOTE: This file depends on assertions.sh being sourced first
+# (assert_* and skip_test functions must be available)
 
 # Get project root
 get_project_root() {
@@ -22,7 +24,7 @@ get_fixture() {
     local path="$FIXTURES_DIR/$category/$name"
     
     if [[ ! -f "$path" ]]; then
-        echo "ERROR: Fixture not found: $path" >&2
+        tlog_error "Fixture not found: $path"
         return 1
     fi
     echo "$path"
@@ -60,7 +62,7 @@ assert_snapshot() {
         else
             echo "$actual" > "$snapshot_path"
         fi
-        echo "# 📸 Snapshot updated: $snapshot_path"
+        tlog_info "📸 Snapshot updated: $snapshot_path"
         return 0
     fi
     
@@ -71,10 +73,8 @@ assert_snapshot() {
         else
             echo "$actual" > "$snapshot_path"
         fi
-        echo "# 📸 Snapshot created: $snapshot_path"
-        TOTAL_TESTS=$((TOTAL_TESTS + 1))
-        echo "ok $TOTAL_TESTS - SKIP: $message (snapshot created)"
-        SKIPPED_TESTS=$((SKIPPED_TESTS + 1))
+        tlog_info "📸 Snapshot created: $snapshot_path"
+        skip_test "$message (snapshot created)"
         return 0
     fi
     
@@ -87,20 +87,8 @@ assert_snapshot() {
         expected_normalized=$(echo "$expected" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
     fi
     
-    TOTAL_TESTS=$((TOTAL_TESTS + 1))
-    
-    if [[ "$actual_normalized" == "$expected_normalized" ]]; then
-        echo "ok $TOTAL_TESTS - $message"
-        PASSED_TESTS=$((PASSED_TESTS + 1))
-        return 0
-    else
-        echo "not ok $TOTAL_TESTS - $message"
-        echo "#   Snapshot: $snapshot_path"
-        echo "#   Diff:"
-        diff -u <(echo "$expected_normalized") <(echo "$actual_normalized") | head -20 | sed 's/^/#     /'
-        FAILED_TESTS=$((FAILED_TESTS + 1))
-        return 1
-    fi
+    # Use assert_equals from assertions.sh
+    assert_equals "$actual_normalized" "$expected_normalized" "$message"
 }
 
 # Assert JSON response against snapshot

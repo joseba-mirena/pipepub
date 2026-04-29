@@ -11,7 +11,7 @@ load_pipeline_lib "tags"
 tag "test_tags.sh" "unit fast"
 
 run_tests() {
-    echo "# Test 1: Individual tag sanitization"
+    tlog_section "Test 1: Individual tag sanitization"
     
     declare -a test_cases=(
         "delete me"
@@ -40,8 +40,7 @@ run_tests() {
         assert_equals "$actual_output" "$expected_output" "sanitize_tag '$input'"
     done
     
-    echo ""
-    echo "# Test 2: parse_tags with multiple tags"
+    tlog_section "Test 2: parse_tags with multiple tags"
     
     INPUT_TAGS="delete me, auto, test, dev ops, draft"
     declare -a expected_tags=("delete_me" "auto" "test" "dev_ops" "draft")
@@ -57,4 +56,3 @@ run_tests() {
 }
 
 run_tests
-tap_exit_code

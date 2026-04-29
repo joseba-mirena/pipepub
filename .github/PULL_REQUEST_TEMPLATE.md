@@ -36,7 +36,7 @@ Closes #
 
 <!-- How did you test these changes? -->
 
-- [ ] Ran full test suite: `./tools/tests/run_all_tests.sh`
+- [ ] Ran full test suite: `./tools/tests/run.sh`
 - [ ] Added/updated tests for new functionality
 - [ ] Manual testing completed (describe below)
 
@@ -76,11 +76,3 @@ Closes #
 <!-- If no breaking changes, delete this section -->
 
 ---
-
-<!-- Related documentation persona routing -->
-
-**Related documentation**:
-
-[![CONTRIBUTING](https://pipepub.github.io/cdn/image/badge/doc/contributing.svg)](/.github/CONTRIBUTING.md "Contributing guide")
-[![Tests](https://pipepub.github.io/cdn/image/badge/doc/tests.svg)](/docs/advanced/tests.md "Test suite")
-[![Reference](https://pipepub.github.io/cdn/image/badge/doc/reference.svg)](/docs/advanced/reference.md "Architecture reference")

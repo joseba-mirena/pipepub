@@ -36,39 +36,25 @@ publish_to_devto() {
         published="true"
     fi
     
-    # Format gist URLs for DEV.to: {% embed URL %}
-    local final_content="$content"
-    final_content=$(echo "$final_content" | sed -E 's|(https://gist\.github\.com/[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+)|{% embed \1 %}|g')
+    # Format gist URLs for DEV.to
+    local final_content=$(echo "$content" | sed -E 's|(https://gist\.github\.com/[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+)|{% embed \1 %}|g')
     
-    # Parse tags using generic utility
-    local -a parsed_tags=()
-    parse_tags "$tags" parsed_tags
+    # Process tags using service-agnostic function
+    # This uses SERVICE_MAX_TAGS, SERVICE_TAG_MIN_LENGTH, SERVICE_TAG_MAX_LENGTH, SERVICE_TAG_PATTERN
+    # from the loaded service config (devto.conf)
+    local -a processed_tags=()
+    process_tags_for_service "$tags" processed_tags
     
-    # Apply DEV.to specific rules: max 4 tags, remove underscores/hyphens
-    local -a devto_tags=()
-    for tag in "${parsed_tags[@]}"; do
-        if [[ ${#devto_tags[@]} -ge 4 ]]; then
-            log_debug "DEV.to: Max 4 tags reached, stopping"
-            break
-        fi
-        local devto_tag=$(echo "$tag" | sed 's/[-_]//g')
-        if [[ ${#devto_tag} -ge 2 ]] && [[ ${#devto_tag} -le 30 ]]; then
-            devto_tags+=("$devto_tag")
-            log_debug "DEV.to tag accepted: '$tag' -> '$devto_tag'"
-        else
-            log_debug "DEV.to tag rejected (length ${#devto_tag}): '$tag'"
-        fi
-    done
-    
-    if [[ ${#devto_tags[@]} -eq 0 ]]; then
-        devto_tags=("technology" "programming")
+    # Check if we have any tags after processing
+    if [[ ${#processed_tags[@]} -eq 0 ]]; then
+        processed_tags=("technology" "programming")
         log_warning "No valid tags for DEV.to, using defaults"
     fi
     
-    log_info "Final DEV.to tags (${#devto_tags[@]}): ${devto_tags[*]}"
+    log_info "Final DEV.to tags (${#processed_tags[@]}): ${processed_tags[*]}"
     
     # Build tags JSON array
-    local tags_json=$(tags_to_json devto_tags)
+    local tags_json=$(tags_to_json processed_tags)
     
     # Build payload
     local payload

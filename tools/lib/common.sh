@@ -9,6 +9,7 @@ readonly _COMMON_SH_LOADED=1
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 export APP_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+export PIPELINE_ROOT="$APP_ROOT/.github"
 
 # ============================================================================
 # Environment File Loading
@@ -70,12 +71,13 @@ else
     DEBUG=false
 fi
 
-source "$SCRIPT_DIR/config/services.sh"
+# Load pipeline-based service definitions (single source of truth)
+source "$SCRIPT_DIR/lib/services.sh"
 source "$SCRIPT_DIR/lib/keychain.sh"
 source "$SCRIPT_DIR/lib/panel.sh"
 source "$SCRIPT_DIR/lib/options.sh"
 
-# Get list of all services
+# Get list of all services (delegates to services.sh)
 get_services() {
     get_all_services
 }
@@ -102,7 +104,8 @@ get_service_status() {
     local has_any=false
     
     for field in $required_fields; do
-        if secret_exists "${service}_${field}"; then
+        # Use uppercase field names for keychain (consistent with pipeline)
+        if secret_exists "$field"; then
             has_any=true
         else
             has_all=false
@@ -124,17 +127,17 @@ load_service_secrets() {
     local fields=$(get_service_fields "$service")
     
     for field in $fields; do
-        local value=$(get_secret "${service}_${field}")
+        # Use uppercase field name as the secret key (consistent with pipeline)
+        local value=$(get_secret "$field")
         if [[ -n "$value" ]]; then
-            local env_var=$(echo "${service}_${field}" | tr '[:lower:]' '[:upper:]')
-            export "$env_var"="$value"
+            export "$field"="$value"
         fi
     done
 }
 
 # Load GitHub token into environment
 load_github_token() {
-    local token=$(get_secret "github_token")
+    local token=$(get_secret "GH_PAT_GIST_TOKEN")
     if [[ -n "$token" ]]; then
         export GH_PAT_GIST_TOKEN="$token"
         return 0

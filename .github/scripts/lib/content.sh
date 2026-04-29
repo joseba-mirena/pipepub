@@ -19,6 +19,7 @@ extract_title() {
     echo "$title"
 }
 
+# not used ATM
 extract_tags() {
     local frontmatter_tags="$1"
     local content="$2"
@@ -54,11 +55,11 @@ extract_tags() {
 
 # Extract content without frontmatter (preserving ALL other --- in the document)
 extract_clean_content() {
-    local file_path="$1"
+    local content="$1"
     
     # Remove ONLY the first frontmatter block (between first two ---)
     # Preserve all other --- that appear in code blocks or content
-    awk '
+    echo "$content" | awk '
         BEGIN { in_frontmatter=0; frontmatter_ended=0; }
         {
             if (frontmatter_ended) {
@@ -77,5 +78,5 @@ extract_clean_content() {
                 print;
             }
         }
-    ' "$file_path"
+    '
 }

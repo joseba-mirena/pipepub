@@ -15,7 +15,7 @@
 |------|---------|
 | **Name** | [![PipePub](https://pipepub.github.io/cdn/image/badge/logo/pipepub.svg)](https://github.com/pipepub "PipePub - Publish like a PRO") |
 | **Package** | ![Repository](https://pipepub.github.io/cdn/image/badge/repo/pipepub.svg "GitHub Repository") |
-| **Version** | [![Version](https://pipepub.github.io/cdn/image/badge/version/current.svg)](/CHANGELOG.md#v1.0.0 "PipePub v.1.0.0") |
+| **Version** | [![Version](https://pipepub.github.io/cdn/image/badge/version/current.svg)](/CHANGELOG.md#history "PipePub v.1.0.0") |
 | **DOC** | [![settings](https://pipepub.github.io/cdn/image/badge/doc/settings.svg)](/docs/basics/settings.md "Settings guide") |
 | **License** | [![License](https://pipepub.github.io/cdn/image/badge/license/current.svg)](/LICENSE "Free MIT license") |
 
@@ -27,10 +27,11 @@
 | Section |
 |---------|
 | [🔑 GitHub Secrets](#github-secrets) |
+| [⚙️ Enabling GitHub Actions](#enable-actions) |
 | [⚙️ Pipeline Variables](#pipeline-variables) |
 | [📝 Frontmatter Settings](#frontmatter-settings) |
-| [🔄 Publishing Behavior](#publishing-behavior) |
-| [🔧 Advanced Configuration](#advanced-configuration) |
+| [🔧 Publishing Behavior](#publishing-behavior) |
+| [🔬 Advanced Configuration](#advanced-configuration) |
 
 </details>
 
@@ -60,6 +61,24 @@
 
 <br>
 
+<a id="enable-actions"></a>
+
+## ⚙️ Enabling GitHub Actions
+
+When you create a repository from the PipePub template, GitHub Actions may be disabled by default.
+
+**To enable:**
+
+| Step | Action |
+|------|--------|
+| 1 | Go to **Settings** → **Actions** → **General** |
+| 2 | Under "Actions permissions", select **"Allow all actions and reusable workflows"** |
+| 3 | Click **Save** |
+
+> **Note:** This is a one-time setup per repository. Once enabled, all workflows will run automatically.
+
+<br>
+
 <a id="pipeline-variables"></a>
 
 ## ⚙️ Pipeline Variables
@@ -71,10 +90,20 @@
 | Variable | Values | Default | Description |
 |----------|--------|---------|-------------|
 | `PUBLISHER_LANG` | `en-us`, `es-es`, etc. | `en-us` | Language/locale for content |
-| `PUBLISHER_STATUS` | `draft`, `public` | `draft` | Default publish status |
 | `PUBLISHER_GIST` | `true`, `false` | `true` | Convert tables to GitHub Gists |
-| `PUBLISHER_AUTO` | `true`, `false` | `true` | Auto-publish on push |
 | `DEBUG` | `true`, `false` | `false` | Enable verbose logging |
+
+**Note:** `PUBLISHER_STATUS` and `PUBLISHER_AUTO` are no longer used as global variables. Default status and auto-publish behavior are now configured per service in `.github/config/services/*.conf`. Individual articles can still override these via frontmatter.
+
+### Service defaults
+
+| Service | Default status | Default auto |
+|---------|----------------|--------------|
+| DEV.to | `draft` | `true` |
+| Hashnode | `draft` | `true` |
+| Medium | `draft` | `true` |
+
+These can be modified in `.github/config/services/*.conf`.
 
 <br>
 
@@ -88,21 +117,39 @@ Add these at the top of any `.md` file in `posts/`:
 
 ```yaml
 ---
+title: My Awesome Article
+subtitle: A comprehensive guide
 tags: technology, github, automation
 publisher: devto, hashnode
+status: public
+auto: false
 gist: true
-status: draft
-auto: true
+image: https://example.com/cover.jpg
 ---
 ```
 
-| Field | Type | Overrides | Description |
-|-------|------|-----------|-------------|
-| `tags` | comma-separated string | N/A | Article tags (platform limits apply) |
-| `publisher` | comma-separated string | All platforms | Publish only to specified platforms |
-| `gist` | boolean | `PUBLISHER_GIST` | Convert tables to Gists for this article |
-| `status` | `draft` or `public` | `PUBLISHER_STATUS` | Draft or public for this article |
-| `auto` | boolean | `PUBLISHER_AUTO` | Auto-publish on push for this article |
+### Frontmatter reference
+
+| Field | Aliases | Type | Overrides | Description |
+|-------|---------|------|-----------|-------------|
+| `title` | - | string | N/A | Article title (overrides first H1 heading) |
+| `subtitle` | - | string | N/A | Article subtitle (platform support varies) |
+| `tags` | - | comma-separated | N/A | Article tags (platform limits apply) |
+| `publisher` | - | comma-separated | All platforms | Publish only to specified platforms |
+| `status` | - | `draft` or `public` | Service default | Draft or public for this article |
+| `auto` | - | `true` or `false` | Service default | Auto-publish on push for this article |
+| `gist` | - | `true` or `false` | `PUBLISHER_GIST` | Convert tables to Gists for this article |
+| `image` | `cover_image`, `cover`, `hero` | URL | N/A | Cover image URL (platform support varies) |
+
+### Field details
+
+| Field | Details |
+|-------|---------|
+| `title` | If not provided, PipePub uses the first `# H1` heading from content |
+| `subtitle` | Supported by Hashnode and Medium. DEV.to ignores subtitle. |
+| `image` | Supported natively by DEV.to and Medium. Hashnode requires image to be first element in content (automatic). |
+| `status` | Default values are `draft` for all services (configurable per service). |
+| `auto` | Default values are `true` for all services (configurable per service). |
 
 📖 **[Full markdown guide →](/docs/basics/markdown.md)**
 
@@ -110,22 +157,22 @@ auto: true
 
 <a id="publishing-behavior"></a>
 
-## 🔄 Publishing Behavior
+## 🔧 Publishing Behavior
 
 > *How settings affect the publishing workflow.*
 
 ### Automatic vs Manual Publishing
 
-| `PUBLISHER_AUTO` / `auto` | Behavior |
-|---------------------------|----------|
-| `true` (default) | Article publishes automatically when pushed to `posts/` |
+| `auto` (frontmatter) / service default | Behavior |
+|----------------------------------------|----------|
+| `true` (default per service) | Article publishes automatically when pushed to `posts/` |
 | `false` | Article only publishes via manual workflow dispatch |
 
 ### Draft vs Public
 
-| `PUBLISHER_STATUS` / `status` | Behavior |
-|------------------------------|----------|
-| `draft` (default) | Article appears as draft on platforms — review before publishing |
+| `status` (frontmatter) / service default | Behavior |
+|-------------------------------------------|----------|
+| `draft` (default per service) | Article appears as draft on platforms — review before publishing |
 | `public` | Article publishes immediately (use with caution) |
 
 ### Table Conversion (Gist)
@@ -153,7 +200,7 @@ auto: true
 
 <a id="advanced-configuration"></a>
 
-## 🔧 Advanced Configuration
+## 🔬 Advanced Configuration
 
 > *For local development and advanced use cases.*
 
@@ -165,6 +212,7 @@ If you want to:
 - Use the **interactive menu** (`./tools/pipepub.sh`)
 - Configure **logging** (`LOG_LEVEL`, `LOG_OUTPUT`)
 - Set up **keychain** for secret storage
+- Develop new services with **dev overrides**
 
 📖 **[See the Environment Setup guide →](/docs/advanced/environment.md)**
 

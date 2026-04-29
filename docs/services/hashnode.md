@@ -15,7 +15,7 @@
 |------|---------|
 | **Name** | [![PipePub](https://pipepub.github.io/cdn/image/badge/logo/pipepub.svg)](https://github.com/pipepub "PipePub - Publish like a PRO") |
 | **Package** | ![Repository](https://pipepub.github.io/cdn/image/badge/repo/pipepub.svg "GitHub Repository") |
-| **Version** | [![Version](https://pipepub.github.io/cdn/image/badge/version/current.svg)](/CHANGELOG.md#v1.0.0 "PipePub v.1.0.0") |
+| **Version** | [![Version](https://pipepub.github.io/cdn/image/badge/version/current.svg)](/CHANGELOG.md#history "PipePub v.1.0.0") |
 | **DOC** | [![hashnode](https://pipepub.github.io/cdn/image/badge/doc/hashnode.svg)](/docs/services/hashnode.md "Hashnode guide") |
 | **License** | [![License](https://pipepub.github.io/cdn/image/badge/license/current.svg)](/LICENSE "Free MIT license") |
 
@@ -30,6 +30,7 @@
 | [⚙️ Configuration](#configuration) |
 | [🏷️ Tag rules](#tag-rules) |
 | [📝 Publishing behavior](#publishing-behavior) |
+| [🖼️ Cover images](#cover-images) |
 | [🔧 Troubleshooting](#troubleshooting) |
 
 </details>
@@ -85,6 +86,22 @@ Add it as a repository secret named `HASHNODE_PUBLICATION_ID`.
 | `HASHNODE_TOKEN` | Your Hashnode Personal Access Token |
 | `HASHNODE_PUBLICATION_ID` | Your Hashnode publication ID |
 
+### Repository Variables (optional)
+
+| Variable | Values | Default | Description |
+|----------|--------|---------|-------------|
+| `PUBLISHER_GIST` | `true`, `false` | `true` | Convert tables to GitHub Gists |
+| `DEBUG` | `true`, `false` | `false` | Enable verbose logging |
+
+### Service defaults
+
+Default behavior can be configured in `.github/config/services/hashnode.conf`:
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `SERVICE_DEFAULT_STATUS` | `draft` | Default publish status |
+| `SERVICE_DEFAULT_AUTO` | `true` | Default auto-publish behavior |
+
 ### Optional Frontmatter
 
 To publish only to Hashnode (and not other platforms):
@@ -92,6 +109,15 @@ To publish only to Hashnode (and not other platforms):
 ```yaml
 ---
 publisher: hashnode
+---
+```
+
+To override default status or auto-publish for a specific article:
+
+```yaml
+---
+status: public
+auto: false
 ---
 ```
 
@@ -143,7 +169,6 @@ publisher: hashnode
 |---------|---------|----------|
 | **Status** | `draft` | Articles publish as drafts for review |
 | **Formats** | Markdown | Full markdown support (tables via Gists) |
-| **Images** | Supported | Use raw GitHub URLs |
 | **Tags** | Converted | See tag rules above |
 
 ### Changing to public
@@ -156,7 +181,54 @@ status: public
 ---
 ```
 
-Or change the default in your workflow variables (`PUBLISHER_STATUS=public`).
+Or modify the service default in `.github/config/services/hashnode.conf`:
+
+```bash
+SERVICE_DEFAULT_STATUS="public"
+```
+
+<br>
+
+<a id="cover-images"></a>
+
+## 🖼️ Cover images
+
+> *Hashnode's GraphQL API does not support a dedicated `coverImage` field in `CreateDraftInput`.*
+
+### How PipePub handles cover images
+
+When you add a cover image in frontmatter:
+
+```yaml
+---
+image: https://example.com/cover.jpg
+---
+```
+
+PipePub automatically embeds it as the first element in the article content:
+
+```markdown
+![Cover Image](https://example.com/cover.jpg)
+
+[rest of your article content...]
+```
+
+Hashnode then detects the first image in the content and uses it as the post cover image.
+
+### Important notes
+
+| Note | Description |
+|------|-------------|
+| **External URLs work** | You can use any publicly accessible HTTPS image URL |
+| **No upload required** | Unlike some platforms, Hashnode accepts external image URLs |
+| **First image wins** | The first image in your content becomes the cover |
+| **Format** | Standard markdown image syntax: `![alt text](url)` |
+
+### Limitations
+
+- Hashnode API has no native `coverImage` field for mutations
+- The workaround described above is fully automatic - no action needed from you
+- Cover image will not appear as a separate metadata field in the API response, but will display correctly on the published article
 
 <br>
 
@@ -193,6 +265,15 @@ Hashnode preserves underscores and hyphens but converts spaces to underscores.
 ### ❌ Table not rendering
 
 Ensure `GH_PAT_GIST_TOKEN` is configured for Gist conversion, or set `gist: false` in frontmatter to keep plain markdown.
+
+### ❌ Cover image not appearing
+
+**Checklist:**
+
+1. Is the image URL publicly accessible via HTTPS?
+2. Is the image URL correctly set in frontmatter as `image` (aliases: `cover_image`, `cover`, `hero`)?
+3. Is the image the first element in your content? (PipePub does this automatically)
+4. Check that the image URL is not blocked or requiring authentication
 
 <br>
 

@@ -32,32 +32,26 @@ publish_to_hashnode() {
         return 1
     fi
     
+    # Process cover image: add as first content in the article
+    local final_content="$content"
     if [[ -n "$cover_image" ]]; then
-        log_info "Cover image provided but Hashnode API does not support setting cover images"
+        log_info "Adding cover image as first element in content: $cover_image"
+        final_content="![Cover Image]($cover_image)
+
+$content"
     fi
     
-    # Format gist URLs for Hashnode: raw URL on its own line
-    local final_content="$content"
-    final_content=$(echo "$final_content" | sed -E 's|(https://gist\.github\.com/[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+)|\n\1\n|g')
+    # Process tags using service-agnostic function
+    local -a processed_tags=()
+    process_tags_for_service "$tags" processed_tags
     
-    # Parse tags using generic utility
-    local -a parsed_tags=()
-    parse_tags "$tags" parsed_tags
-    
-    # Apply Hashnode specific rules: max 5 tags, alphanumeric only
+    # Hashnode requires tags as objects with name and slug
     local -a hashnode_tags=()
-    for tag in "${parsed_tags[@]}"; do
-        if [[ ${#hashnode_tags[@]} -ge 5 ]]; then
-            log_debug "Hashnode: Max 5 tags reached, stopping"
-            break
-        fi
-        local clean_tag=$(echo "$tag" | sed 's/[-_]//g' | sed 's/[^a-z0-9]//g')
-        if [[ -n "$clean_tag" ]]; then
-            hashnode_tags+=("{\"name\":\"$clean_tag\",\"slug\":\"$clean_tag\"}")
-            log_debug "Hashnode tag accepted: '$tag' -> '$clean_tag'"
-        else
-            log_debug "Hashnode tag rejected (empty after cleaning): '$tag'"
-        fi
+    for tag in "${processed_tags[@]}"; do
+        # Remove hyphens and underscores (Hashnode prefers alphanumeric only)
+        local clean_tag=$(echo "$tag" | sed 's/[-_]//g')
+        hashnode_tags+=("{\"name\":\"$clean_tag\",\"slug\":\"$clean_tag\"}")
+        log_debug "Hashnode tag: '$tag' -> '$clean_tag'"
     done
     
     if [[ ${#hashnode_tags[@]} -eq 0 ]]; then
