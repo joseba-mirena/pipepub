@@ -2,7 +2,7 @@
 
 ### Pull Request
 
-> *Thank you for contributing to PipePub!*
+> *Thank you for contributing to PipePub! :love:u:*
 
 <hr>
 
@@ -18,17 +18,9 @@
 - [ ] ✨ New feature (non-breaking change which adds functionality)
 - [ ] 💥 Breaking change (fix or feature that would cause existing functionality to not work as expected)
 - [ ] 📚 Documentation update
+- [ ] ⚙️ Configuration update
 - [ ] 🧹 Code refactor / cleanup
 - [ ] ✅ Test addition / update
-
-<br>
-
-## Related Issue
-
-<!-- Link to the issue this PR addresses -->
-<!-- Example: Closes #123 or Fixes #456 -->
-
-Closes #
 
 <br>
 
@@ -36,8 +28,9 @@ Closes #
 
 <!-- How did you test these changes? -->
 
-- [ ] Ran full test suite: `./tools/tests/run.sh`
 - [ ] Added/updated tests for new functionality
+- [ ] Ran full test suite: `./tools/tests/run.sh`
+- [ ] Published a real article
 - [ ] Manual testing completed (describe below)
 
 **Manual test steps**:
@@ -65,14 +58,23 @@ Closes #
 
 <!-- Add any other context, screenshots, or terminal output about the PR here -->
 
-<br>
+---
+
+<!-- If no related issue, delete this section -->
+
+## Related Issue
+
+<!-- Link to the issue this PR addresses -->
+<!-- Example: Closes #123 or Fixes #456 -->
+
+Closes #
+
+<!-- If no breaking changes, delete this section -->
 
 ## Breaking Changes
 
 <!-- If this PR contains breaking changes, describe them below -->
 
 **Breaking Change Details**:
-
-<!-- If no breaking changes, delete this section -->
 
 ---

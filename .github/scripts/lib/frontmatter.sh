@@ -27,7 +27,12 @@ parse_frontmatter() {
     local in_frontmatter=0
     local frontmatter_ended=0
     
-    while IFS= read -r line && [[ $frontmatter_ended -eq 0 ]]; do
+    # FIXED: handle last line without trailing newline
+    while IFS= read -r line || [[ -n "$line" ]]; do
+        if [[ $frontmatter_ended -eq 1 ]]; then
+            break
+        fi
+        
         if [[ $in_frontmatter -eq 0 ]] && [[ "$line" == "---" ]]; then
             in_frontmatter=1
             continue
@@ -45,7 +50,7 @@ parse_frontmatter() {
     fi
     
     # Parse each line of the frontmatter only
-    while IFS= read -r line; do
+    while IFS= read -r line || [[ -n "$line" ]]; do
         [[ -z "$line" ]] && continue
         
         if [[ "$line" =~ ^([a-zA-Z_]+):[[:space:]]*(.*)$ ]]; then

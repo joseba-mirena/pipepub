@@ -15,6 +15,7 @@ call_api_with_retry() {
     local method="${4:-POST}"
     local content_type="${5:-application/json}"
     local auth_type="${6:-Bearer}"
+    local extra_headers="${7:-}"
     
     if [[ "${DRY_RUN:-false}" == "true" ]]; then
         log_debug "DRY RUN: $method $url"
@@ -41,6 +42,7 @@ call_api_with_retry() {
         case "$auth_type" in
             "Bearer")   curl_args+=("-H" "Authorization: Bearer $token") ;;
             "api-key")  curl_args+=("-H" "api-key: $token") ;;
+            "Ghost")    curl_args+=("-H" "Authorization: Ghost $token") ;;
             "token")    curl_args+=("-H" "Authorization: Token $token") ;;
             "none")     ;;
             *)          curl_args+=("-H" "Authorization: Bearer $token") ;;
@@ -49,6 +51,14 @@ call_api_with_retry() {
         curl_args+=("-H" "Content-Type: $content_type")
         curl_args+=("-H" "User-Agent: PipePub/1.0")
         
+        # Add extra headers if provided
+        if [[ -n "$extra_headers" ]]; then
+            IFS='|' read -ra headers <<< "$extra_headers"
+            for header in "${headers[@]}"; do
+                curl_args+=("-H" "$header")
+            done
+        fi
+
         if [[ "$method" != "GET" ]] && [[ -n "$payload" ]]; then
             curl_args+=("-d" "$payload")
         fi
@@ -102,6 +112,7 @@ call_api_with_retry() {
             403) log_error "Forbidden (403) - Insufficient permissions"; return 1 ;;
             404) log_error "Not Found (404) - Check endpoint URL"; return 1 ;;
             409) log_error "Conflict (409) - Resource may already exist"; return 1 ;;
+            422) log_error "Unprocessable Entity (422) - Check payload format"; return 1 ;;
             429) 
                 log_warning "Rate limited (429), waiting 60 seconds"
                 sleep 60

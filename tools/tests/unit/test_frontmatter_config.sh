@@ -83,7 +83,7 @@ run_tests() {
     content=$(cat "posts/multi-publisher.md")
     parse_frontmatter "$content"
     
-    assert_equals "$FRONTMATTER_PUBLISHER" "devto, hashnode" "publisher should be devto, hashnode"
+    assert_equals "$FRONTMATTER_PUBLISHER" "devto, hashnode, ghost" "publisher should be devto, hashnode, ghost"
     
     tlog_section "Test 9: Cover image"
     
@@ -107,7 +107,7 @@ run_tests() {
     assert_equals "$FRONTMATTER_STATUS" "public" "status"
     assert_equals "$FRONTMATTER_AUTO" "false" "auto"
     assert_equals "$FRONTMATTER_GIST" "true" "gist"
-    assert_equals "$FRONTMATTER_PUBLISHER" "devto, hashnode, medium" "publisher"
+    assert_equals "$FRONTMATTER_PUBLISHER" "devto, hashnode, medium, ghost" "publisher"
     assert_equals "$FRONTMATTER_COVER_IMAGE" "https://example.com/cover.jpg" "cover_image"
 }
 

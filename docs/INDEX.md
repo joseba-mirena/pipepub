@@ -65,8 +65,9 @@
 | Document | Description |
 |----------|-------------|
 | [![DEV.to](https://pipepub.github.io/cdn/image/badge/doc/devto.svg)](/docs/services/devto.md "DEV.to document") | API token, tag rules, limits |
+| [![Ghost](https://pipepub.github.io/cdn/image/badge/doc/ghost.svg)](/docs/services/ghost.md "Ghost document") | Admin API key, domain, tag rules |
 | [![Hashnode](https://pipepub.github.io/cdn/image/badge/doc/hashnode.svg)](/docs/services/hashnode.md "Hashnode document") | Token, publication ID, tag rules |
-| [![Medium](https://pipepub.github.io/cdn/image/badge/doc/medium.svg)](/docs/services/medium.md "Medium document") | Legacy tokens, tag rules, OAuth roadmap |
+| [![Medium](https://pipepub.github.io/cdn/image/badge/doc/medium.svg)](/docs/services/medium.md "Medium document") | Legacy token, tag rules, OAuth roadmap |
 | [![GitHub](https://pipepub.github.io/cdn/image/badge/doc/github.svg)](/docs/services/github.md "GitHub document") | Gist token for table conversion |
 
 <br>
@@ -146,6 +147,7 @@
 │   │   ├── handlers/
 │   │   │   ├── devto.sh
 │   │   │   ├── gist_tables.sh
+│   │   │   ├── ghost.sh
 │   │   │   ├── hashnode.sh
 │   │   │   └── medium.sh
 │   │   ├── lib/
@@ -203,6 +205,7 @@
 │   ├── services/
 │   │   ├── devto.md
 │   │   ├── github.md
+│   │   ├── ghost.md
 │   │   ├── hashnode.md
 │   │   └── medium.md
 │   ├── INDEX.md
@@ -281,6 +284,7 @@
 │   │   │   ├── test_devto_api.sh
 │   │   │   ├── test_frontmatter_config.sh
 │   │   │   ├── test_frontmatter.sh
+│   │   │   ├── test_ghost_api.sh
 │   │   │   ├── test_hashnode_api.sh
 │   │   │   ├── test_medium_api.sh
 │   │   │   ├── test_smoke.sh

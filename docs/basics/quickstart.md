@@ -28,7 +28,6 @@
 |---------|
 | [🚀 Create your copy](#create-your-copy) |
 | [🔑 Add your secrets](#add-your-secrets) |
-| [⚙️ Enable GitHub Actions](#enable-github-actions) |
 | [🌐 Upload your article](#upload-your-article) |
 | [📋 Publishing modes](#publishing-modes) |
 | [📝 Write your article](#write-your-article) |
@@ -70,30 +69,14 @@ Click **"New repository secret"** and add any of the following (only add the pla
 | Secret | Platform | Required for |
 |--------|----------|--------------|
 | `DEVTO_TOKEN` | DEV.to | Publishing to DEV.to |
+| `GHOST_TOKEN` | Ghost | Publishing to Ghost |
+| `GHOST_DOMAIN` | Ghost | Publishing to Ghost |
 | `HASHNODE_TOKEN` | Hashnode | Publishing to Hashnode |
 | `HASHNODE_PUBLICATION_ID` | Hashnode | Publishing to Hashnode |
 | `MEDIUM_TOKEN` | Medium | Publishing to Medium (legacy only) |
 | `GH_PAT_GIST_TOKEN` | GitHub | Table-to-Gist conversion (optional) |
 
 📖 **[Detailed platform setup guides →](/docs/INDEX.md#services)**
-
-<br>
-
-<a id="enable-github-actions"></a>
-
-### ⚙️ Enable GitHub Actions
-
-After creating your repository from the template, GitHub Actions may be **disabled by default** for security reasons.
-
-**To enable workflows:**
-
-1. Go to your repository **Settings** → **Actions** → **General**
-2. Under "Actions permissions", select **"Allow all actions and reusable workflows"**
-3. Click **Save**
-
-> **Why?** GitHub disables Actions on forked repositories as a security measure. This is normal and happens for every fork.
-
-✅ Once enabled, your pipeline will run automatically when you upload articles.
 
 <br>
 

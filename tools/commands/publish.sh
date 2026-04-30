@@ -59,9 +59,11 @@ copy_example_file() {
 }
 
 # Process selected files
+# Process selected files
 process_files() {
     local selected_files=("$@")
     local success_count=0
+    local partial_count=0
     local fail_count=0
     
     for file in "${selected_files[@]}"; do
@@ -82,46 +84,52 @@ process_files() {
             chat_info "Debug log: $LOG_FILE"
         fi
         
-        # Run pipeline and capture output while showing it live
+        # Run pipeline with appropriate output handling
         local pipeline_output
-        pipeline_output=$(.github/scripts/main.sh 2>&1 | tee /dev/tty)
-        local exit_code=$?
-        
-        # Determine success/failure by checking the new output format
-        # Check for "All operations succeeded!" or "Operations: X succeeded, 0 failed"
-        if echo "$pipeline_output" | grep -q "All operations succeeded!"; then
-            chat_success "✓ $filename published successfully"
-            ((success_count++))
-        elif echo "$pipeline_output" | grep -q "Operations: [0-9]* succeeded, 0 failed"; then
-            chat_success "✓ $filename published successfully"
-            ((success_count++))
-        elif [[ $exit_code -eq 0 ]]; then
-            # Fallback: if exit code 0 but no success message, assume success
-            chat_success "✓ $filename published successfully"
-            ((success_count++))
+        if [[ "${LOG_LEVEL:-}" == "debug" ]]; then
+            pipeline_output=$(.github/scripts/main.sh 2>&1 | tee /dev/tty)
         else
-            chat_error "✗ $filename failed"
+            panel_spinner_start "Publishing $filename..."
+            pipeline_output=$(.github/scripts/main.sh 2>&1)
+            panel_spinner_stop
+        fi
+        
+        chat_blank
+        
+        # Extract summary block and operation counts
+        local summary_block=$(echo "$pipeline_output" | grep -A10 "Summary for $filename:")
+        
+        # Count successes and failures from the summary block
+        local services_success=$(echo "$summary_block" | grep -c "✓ .*: success")
+        local services_failed=$(echo "$summary_block" | grep -c "✗ .*: failed")
+        local services_total=$((services_success + services_failed))
+        
+        if [[ $services_total -eq 0 ]]; then
+            # No services found for this file (should not happen)
+            chat_error "$filename - no services configured"
+            ((fail_count++))
+        elif [[ $services_failed -eq 0 ]]; then
+            # All services succeeded
+            chat_success "$filename published successfully"
+            ((success_count++))
+        elif [[ $services_success -eq 0 ]]; then
+            # All services failed
+            chat_error "$filename - all services failed"
             ((fail_count++))
             # Show last few error lines
             echo "$pipeline_output" | grep -E "(ERROR|❌|Failed)" | tail -3 | while read -r line; do
-                clean_line=$(echo "$line" | sed 's/\x1b\[[0-9;]*m//g')
-                chat_error "  $clean_line"
+                clean_line=$(echo "$line" | sed 's/\x1b\[[0-9;]*m//g' | tr -d '❌')
+                chat_error "${clean_line}"
             done
-        fi
-        
-        # In debug mode, show the full output if needed
-        if [[ "${LOG_LEVEL:-}" == "debug" ]]; then
-            chat_blank
-            chat_info "Full pipeline output:"
-            echo "$pipeline_output" | while read -r line; do
-                clean_line=$(echo "$line" | sed 's/\x1b\[[0-9;]*m//g')
-                echo "  $clean_line"
-            done
+        else
+            # Partial success
+            chat_warning "$filename - $services_success succeeded, $services_failed failed"
+            ((partial_count++))
         fi
     done
     
     chat_blank
-    chat_info "Summary: $success_count succeeded, $fail_count failed"
+    chat_info "Summary: $success_count fully succeeded, $partial_count partial, $fail_count failed"
 }
 
 # Delete selected files (interactive)

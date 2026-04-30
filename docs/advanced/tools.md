@@ -225,6 +225,7 @@ Menu options:
 | Command | Description |
 |---------|-------------|
 | `./tools/commands/secrets.sh add devto` | Add DEV.to token |
+| `./tools/commands/secrets.sh add ghost` | Add Ghost credentials |
 | `./tools/commands/secrets.sh add hashnode` | Add Hashnode credentials |
 | `./tools/commands/secrets.sh add medium` | Add Medium token (legacy) |
 | `./tools/commands/secrets.sh add github` | Add GitHub token (gist scope) |
@@ -355,6 +356,7 @@ tools/
     ├── unit/
     │   ├── test_content.sh
     │   ├── test_devto_api.sh
+    │   ├── test_ghost_api.sh
     │   ├── test_frontmatter.sh
     │   ├── test_frontmatter_config.sh
     │   ├── test_hashnode_api.sh
@@ -368,7 +370,6 @@ tools/
     ├── e2e/
     │   └── run_dry_run.sh
     ├── dev/                   # Dev tests (git ignored)
-    │   └── test_ghost_dev.sh  # Example: Ghost dev test
     ├── fixtures/
     │   ├── input/posts/       # Test fixtures
     │   └── snapshots/json/    # API payload snapshots

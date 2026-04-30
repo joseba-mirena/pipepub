@@ -49,7 +49,15 @@
 
 ### ❓ What is PipePub?
 
-PipePub is an open-source GitHub Actions pipeline that automatically publishes markdown articles to DEV.to, Hashnode, Medium, and other platforms — with support for tags, tables, and images.
+PipePub is an open-source GitHub Actions pipeline that automatically publishes markdown articles to DEV.to, Ghost, Hashnode, Medium, and other platforms — with support for tags, tables, and images.
+
+<br>
+
+### ❓ How much this cost?
+
+**100% FREE**. PipeHub is open source and GitHub accounts are also free.
+
+We kindly ask that you consider making a financial contribution to support this project.
 
 <br>
 
@@ -65,7 +73,11 @@ PipePub is an open-source GitHub Actions pipeline that automatically publishes m
 
 ### ❓ Why are GitHub Actions disabled after I fork the repository?
 
-GitHub disables Actions on forked repositories by default for security. This prevents malicious code from running automatically in forks.
+If you just use PipeHub, **we recommend you to use the repositoy as template**.
+
+If you pretend to contribute to PipeHub, we recommend you to fork the repositoy.
+
+**GitHub disables Actions on forked repositories** by default for security. This prevents malicious code from running automatically in forks.
 
 **To enable Actions:**
 
@@ -84,19 +96,19 @@ Once enabled, your pipeline will run automatically when you push articles to the
 | Platform | Status |
 |----------|--------|
 | DEV.to | ✅ Live |
+| Ghost | ✅ Live |
 | Hashnode | ✅ Live |
-| Medium | ⚠️ Legacy tokens only (OAuth 🔜 Coming soon) |
-| GitHub (Gists) | ✅ Live |
-| Ghost | 🔜 Coming soon (short term) |
-| WordPress | 📝 Planned (medium term) |
+| Medium | ✅ Live (Legacy token) |
 
-**Coming soon:** OAuth for Medium, native Ghost integration, WordPress support.
+**Coming soon:** WordPress support.
+
+**On roadmap:** OAuth for Medium, LinkedIn and X twitter.
 
 <br>
 
 ### ❓ Is Medium API still available?
 
-**Currently, no.** Medium no longer issues new API tokens as of 2026. The `MEDIUM_TOKEN` secret **only works if you already have a legacy integration token**.
+**Currently, just legacy tokens.** Medium no longer issues new API tokens as of 2026. The `MEDIUM_TOKEN` secret **only works if you already have a legacy integration token**.
 
 **However, OAuth support is on the roadmap!** Once implemented, new users will be able to authenticate via OAuth and publish to Medium without a legacy token.
 
@@ -104,21 +116,23 @@ Once enabled, your pipeline will run automatically when you push articles to the
 
 <br>
 
-### ❓ When will Ghost be supported?
+### ❓ When will Wordpress be supported?
 
-**Ghost integration is coming soon (short term).** 
+**Wordpress integration is coming soon (short term).** 
 
-We're actively working on Ghost API support. Once live, you'll be able to publish to Ghost using an API token.
+We're actively working on Wordpress API support. Once live, you'll be able to publish to Wordpress using an API token.
+
+We'll support both WordPress.com (via API) and self-hosted (via Application Passwords). Stay tuned for updates.
 
 📖 Check the [services documentation](/docs/INDEX.md#services) for updates.
 
 <br>
 
-### ❓ Will WordPress be supported?
+### ❓ Will LinkedIn and X twitter be supported?
 
-**Yes, WordPress integration is planned (medium term).**
+**Yes, LinkedIn and X twitter integrations are planned (medium term).**
 
-We'll support both WordPress.com (via API) and self-hosted (via Application Passwords). Stay tuned for updates.
+We'll support both LinkedIn and X twitter. Stay tuned for updates.
 
 📖 Watch the [repository](https://github.com/pipepub/pipepub) for announcements.
 
@@ -143,6 +157,8 @@ Go to your repository: `Settings` → `Secrets and variables` → `Actions` → 
 | Secret | Required for | Optional? |
 |--------|--------------|-----------|
 | `DEVTO_TOKEN` | DEV.to publishing | ✅ Yes |
+| `GHOST_TOKEN` | Ghost publishing | ✅ Yes |
+| `GHOST_DOMAIN` | Ghost publishing | ✅ Yes |
 | `HASHNODE_TOKEN` | Hashnode publishing | ✅ Yes |
 | `HASHNODE_PUBLICATION_ID` | Hashnode publishing | ✅ Yes |
 | `MEDIUM_TOKEN` | Medium publishing | ✅ Yes (legacy only) |
@@ -235,6 +251,7 @@ If Gist conversion fails, or it is set to false, the table will remain as plain 
 Each publishing platform handles tables differently. Here's what you need to know:
 
 - **DEV.to**: If your article is published as a draft, you may need to open the draft and save it (or publish it publicly) for tables to render correctly. Public articles should display tables immediately.
+- **Ghost**: Tables may not appear until you preview the draft.
 - **Hashnode**: Tables may not appear until you publish the post publicly. Draft mode may not render embedded Gists.
 - **Medium**: Tables are converted to GitHub Gists. Ensure `GH_PAT_GIST_TOKEN` is configured and the Gist is publicly accessible.
 
@@ -249,6 +266,7 @@ Each platform has different tag rules:
 | Platform | Max tags | Spaces | Special chars |
 |----------|----------|--------|---------------|
 | DEV.to | 4 | Removed | Removed |
+| Ghost | 5 | → `-` | Only `-` allowed (alphanumeric + hyphen) |
 | Hashnode | 5 | → `_` | `_` and `-` allowed |
 | Medium | 5 | → `-` | `-` allowed, `_` → `-` |
 
@@ -517,21 +535,21 @@ Example: `https://hashnode.com/your-publication-id`
 
 <br>
 
-### ❓ Ghost: When will it be supported?
+### ❓ Wordpress: When will it be supported?
 
-**Ghost integration is coming soon (short term).** 
+**Wordpress integration is coming soon (short term).** 
 
-We're actively working on Ghost API support. Once live, you'll be able to publish to Ghost using an API token.
+We're actively working on Wordpress API support. Once live, you'll be able to publish to Wordpress using an API token.
+
+We'll support both WordPress.com (via API) and self-hosted (via Application Passwords). Stay tuned for updates.
 
 📖 Check the [services documentation](/docs/INDEX.md#services) for updates.
 
 <br>
 
-### ❓ WordPress: Will it be supported?
+### ❓ LinkedIn and X Twitter: Will they be supported?
 
-**Yes, WordPress integration is planned (medium term).**
-
-We'll support both WordPress.com (via API) and self-hosted (via Application Passwords). Stay tuned for updates.
+**Yes, LinkedIn and X Twitter integration are planned (medium term).**
 
 📖 Watch the [repository](https://github.com/pipepub/pipepub) for announcements.
 
@@ -551,9 +569,10 @@ PipePub converts markdown tables to GitHub Gists for proper rendering. This requ
 
 | Feature | Status |
 |---------|--------|
-| Medium OAuth | 🔜 Soon |
-| Ghost integration | 🔜 Short term |
-| WordPress integration | 📝 Medium term |
+| Wordpress integration | 🔜 Short term |
+| Medium OAuth | 📝 Medium term |
+| LinkeIn OAuth | 📝 Medium term |
+| X Twitter OAuth | 📝 Medium term |
 | Additional platforms | 📝 Under consideration |
 
 📖 **[Full development roadmap →](/docs/advanced/reference.md#roadmap)**

@@ -2,9 +2,9 @@
 
 [![Publish like a PRO](https://pipepub.github.io/cdn/image/logo/pipepub-full-right.png)](https://github.com/pipepub "PipeHub - Publish like a PRO")
 
-### DEV.to Integration Guide
+### Ghost Integration Guide
 
-> *Publish your articles to DEV.to automatically*
+> *Publish your articles to Ghost automatically*
 
 <hr>
 
@@ -16,7 +16,7 @@
 | **Name** | [![PipePub](https://pipepub.github.io/cdn/image/badge/logo/pipepub.svg)](https://github.com/pipepub "PipePub - Publish like a PRO") |
 | **Package** | ![Repository](https://pipepub.github.io/cdn/image/badge/repo/pipepub.svg "GitHub Repository") |
 | **Version** | [![Version](https://pipepub.github.io/cdn/image/badge/version/current.svg)](/CHANGELOG.md#history "PipePub v.1.0.0") |
-| **DOC** | [![devto](https://pipepub.github.io/cdn/image/badge/doc/devto.svg)](/docs/services/devto.md "DEV.to guide") |
+| **DOC** | [![Ghost](https://pipepub.github.io/cdn/image/badge/doc/ghost.svg)](/docs/services/ghost.md "Ghost guide") |
 | **License** | [![License](https://pipepub.github.io/cdn/image/badge/license/current.svg)](/LICENSE "Free MIT license") |
 
 </details>
@@ -26,7 +26,7 @@
 
 | Section |
 |---------|
-| [🔑 Getting your API key](#getting-your-api-key) |
+| [🔑 Getting your API credentials](#getting-your-api-credentials) |
 | [⚙️ Configuration](#configuration) |
 | [📝 Publishing behavior](#publishing-behavior) |
 | [🏷️ Tag rules](#tag-rules) |
@@ -38,19 +38,24 @@
 
 <br>
 
-<a id="getting-your-api-key"></a>
+### Ghost 6.x requirements
 
-## 🔑 Getting your API key
+> Ghost 5.x reached End of Life in January 2026. PipePub requires **Ghost 6.0 or higher** for full compatibility.  If you use Ghost v5.x, please, consider to upgrade it.
 
-![DEV.to API key](https://pipepub.github.io/cdn/image/screenshot/devto-community-api-key-thumb.jpg "DEV.to API key")
+<a id="getting-your-api-credentials"></a>
 
-> *Generate your DEV.to API key for authentication.*
+## 🔑 Getting your API credentials
 
-1. Log in to your [DEV.to account](https://dev.to/)
-2. Go to **Settings** → **Extensions** (`https://dev.to/settings/extensions`)
-3. Under "API Keys", click **"Generate API key"**
-4. Copy the generated key immediately (you won't see it again)
-5. Add it as a repository secret named `DEVTO_TOKEN`
+![Ghost integration](https://pipepub.github.io/cdn/image/screenshot/ghost-integration-keys.png "Ghost integration")
+
+> *Generate your Ghost integration and find your Admin API key and API URL.*
+
+1. Log in to your Ghost Admin panel 
+2. Go to **Settings** → Advanced **Integrations**
+3. Under "Advanced", click **"Add custom Integration"**
+4. Give it a name (e.g., "PipePub") and click **Add** button
+5. Add Admin API key as a repository secret named `GHOST_TOKEN`
+6. Add API URL (do not add: `https://`; add just the domain: `www.mydomainname.dev`) as a repository secret named `GHOST_DOMAIN`
 
 ![GitHub repository secret](https://pipepub.github.io/cdn/image/screenshot/github-repository-secret-thumb.jpg "GitHub repository secret")
 
@@ -62,21 +67,31 @@
 
 ## ⚙️ Configuration
 
-> *Set up DEV.to publishing in your repository.*
+> *Set up Ghost publishing in your repository.*
 
-### Repository Secret
+### Repository Secrets
 
 | Secret | Value |
 |--------|-------|
-| `DEVTO_TOKEN` | Your DEV.to API key |
+| `GHOST_TOKEN` | Your Ghost Admin API key |
+| `GHOST_DOMAIN` | Your Ghost API URL |
 
 ### Optional Frontmatter
 
-To publish only to DEV.to (and not other platforms):
+To publish only to Ghost (and not other platforms):
 
 ```yaml
 ---
-publisher: devto
+publisher: ghost
+---
+```
+
+To override default status or auto-publish for a specific article:
+
+```yaml
+---
+status: public
+auto: false
 ---
 ```
 
@@ -85,9 +100,9 @@ publisher: devto
 ```yaml
 ---
 tags: tag1, tag2, tag3, tag4
-publisher: devto, ghost, hashnode, medium
+publisher: ghost, devto, hashnode, medium
 gist: true
-title: DEV.to Test Article
+title: Ghost Test Article
 subtitle: Publish like a PRO 
 image: https://pipepub.github.io/cdn/image/hero/publish-like-a-pro.jpg
 status: draft
@@ -101,13 +116,12 @@ auto: true
 
 ## 📝 Publishing behavior
 
-> *How DEV.to handles your articles.*
+> *How Ghost handles your articles.*
 
 | Setting | Default | Behavior |
 |---------|---------|----------|
 | **Status** | `draft` | Articles publish as drafts for review |
 | **Formats** | Markdown | Full markdown support (optional tables via Gists) |
-| **Images** | Supported | Use raw full URLs |
 | **Tags** | Converted | See tag rules above |
 
 ### Changing to public
@@ -126,33 +140,35 @@ status: public
 
 ## 🏷️ Tag rules
 
-> *DEV.to has specific tag requirements.*
+> *Ghost has specific tag requirements for the API.*
 
 | Rule | Limit / Requirement |
 |------|---------------------|
-| **Maximum tags** | 4 tags per article |
-| **Allowed characters** | Alphanumeric only (a-z, 0-9) |
-| **Space handling** | Removed entirely |
-| **Special characters** | Removed (`_`, `-`, `#`, etc.) |
-| **Length limit** | 2-30 characters per tag |
+| **Maximum tags** | 5 tags per article |
+| **Allowed characters** | Alphanumeric + hyphen (`-`) only |
+| **Space handling** | Converted to hyphens (`-`) |
+| **Underscore `_`** | Removed (not allowed) |
+| **Hyphen `-`** | Kept as is |
+| **Length limit** | 1-25 characters per tag |
 | **Case sensitivity** | Lowercase (converted automatically) |
 
 ### Tag conversion examples
 
 | Original Tag | Converted Tag |
 |--------------|---------------|
-| `cloud computing` | `cloudcomputing` |
-| `github-actions` | `githubactions` |
+| `cloud computing` | `cloud-computing` |
+| `github-actions` | `github-actions` |
 | `test_tag` | `testtag` |
 | `CI/CD` | `cicd` |
-| `c# programming` | `cprogramming` |
+| `DevOps` | `devops` |
 
-### Best practices for DEV.to tags
+### Best practices for Ghost tags
 
-1. **Use simple, single words** — spaces and special characters are removed
-2. **Keep tags short** — under 30 characters
-3. **Use lowercase** — tags are case-insensitive but converted to lowercase
-4. **Limit to 4 tags** — extra tags are ignored
+1. **Use hyphens for multi-word tags** — spaces become hyphens
+2. **Avoid underscores** — they are removed entirely
+3. **Keep tags short** — under 25 characters
+4. **Use lowercase** — tags are automatically lowercased
+5. **Limit to 5 tags** — extra tags are ignored
 
 📖 **[General tag guidelines →](/docs/basics/markdown.md#platform-specific-tag-rules)**
 
@@ -162,19 +178,24 @@ status: public
 
 ## 🔧 Troubleshooting
 
-### ❌ Article not appearing on DEV.to
+### ❌ Article not appearing on Ghost
 
 **Checklist:**
 
-1. Is `DEVTO_TOKEN` secret correctly added?
-2. Does your article have a title (or `# H1` heading)?
-3. Verify the article was sent (check workflow logs)
+1. Is `GHOST_TOKEN` secret correctly added?
+2. Is `GHOST_DOMAIN` secret correctly added?
+3. Does your article have a title (or `# H1` heading)?
+4. Verify the article was sent (check workflow logs)
+
+### ❌ "Domain not found" error
+
+Your API URL is incorrect. Check your Ghost integration API URL.
 
 ### ❌ Tags not showing correctly
 
-DEV.to only accepts alphanumeric characters. Special characters and spaces are removed automatically.
+Ghost only accepts alphanumeric characters and hyphens. Spaces become hyphens, underscores are removed.
 
-**Example:** `"cloud computing"` → `"cloudcomputing"`
+**Example:** `"cloud_computing"` → `"cloudcomputing"`
 
 ### ❌ Table not rendering
 
@@ -188,10 +209,6 @@ Ensure `GH_PAT_GIST_TOKEN` is configured for Gist conversion, or set `gist: fals
 2. Is the image URL correctly set in frontmatter as `image` (aliases: `cover_image`, `cover`, `hero`)?
 3. Check that the image URL is not blocked or requiring authentication
 
-### ❌ Rate limit exceeded
-
-DEV.to API allows 5,000 requests per hour. Space out your commits if publishing many articles at once.
-
 <br>
 
 [↑ Back to top](#top)
@@ -201,7 +218,7 @@ DEV.to API allows 5,000 requests per hour. Space out your commits if publishing 
 **Related documentation**:
 
 [![README](https://pipepub.github.io/cdn/image/badge/doc/readme.svg)](/docs/README.md "Main documentation")
-[![Ghost](https://pipepub.github.io/cdn/image/badge/doc/ghost.svg)](/docs/services/ghost.md "Ghost guide")
+[![DEV.to](https://pipepub.github.io/cdn/image/badge/doc/devto.svg)](/docs/services/devto.md "DEV.to guide")
 [![Hashnode](https://pipepub.github.io/cdn/image/badge/doc/hashnode.svg)](/docs/services/hashnode.md "Hashnode guide")
 [![Medium](https://pipepub.github.io/cdn/image/badge/doc/medium.svg)](/docs/services/medium.md "Medium guide")
 [![GitHub](https://pipepub.github.io/cdn/image/badge/doc/github.svg)](/docs/services/github.md "GitHub Gist guide")

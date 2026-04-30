@@ -1,6 +1,6 @@
 ---
 tags: delete me, auto, test, dev op, draft, pipeline
-publisher: devto, hashnode, medium
+publisher: devto, ghost, hashnode, medium
 gist: true
 title: PipePub Test Article
 subtitle: Publish like a PRO 
@@ -33,7 +33,7 @@ auto: true
 | Field | Values | Default | Description |
 |-------|--------|---------|-------------|
 | `tags` | string | n/a | Article tags (comma-separated) |
-| `publisher` | `devto`, `hashnode`, `medium` | all platforms | Which platforms to publish to |
+| `publisher` | `devto`, `ghost`, `hashnode`, `medium` | all platforms | Which platforms to publish to |
 | `gist` | `true`, `false` | `true` | Convert tables to GitHub Gists |
 | `title` | string | n/a | Article title (uses # header if not provided) |
 | `subtitle` | string | n/a | Article subtitle |
@@ -48,7 +48,7 @@ auto: true
 ```markdown
 ---
 tags: tag1, tag2, tag3, tag4, tag5
-publisher: devto, hashnode, medium
+publisher: devto, ghost, hashnode, medium
 gist: true
 title: Article title
 subtitle: Article subtitle

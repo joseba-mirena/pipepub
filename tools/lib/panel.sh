@@ -123,6 +123,12 @@ panel_build() {
                 main_lines+=("$(_panel_title "$value1" "$PAN_STYLE_TITLE" "$PAN_ICON_CATEGORY")")
                 in_category=true
                 ;;
+            raw)
+                main_lines+=("  ${PAN_STYLE_TEXT}${data#raw:}")
+                ;;
+            muted)
+                main_lines+=("  ${PAN_STYLE_MUTED}${data#muted:}")
+                ;;
             item)
                 local name="$value1"
                 local status="$value2"
@@ -132,6 +138,9 @@ panel_build() {
                         ;;
                     warning)
                         main_lines+=("   ${PAN_STYLE_WARNING}${PAN_ICON_WARNING}${PAN_STYLE_MUTED} ${name} (partial)")
+                        ;;
+                    error)
+                        main_lines+=("   ${PAN_STYLE_ERROR}${PAN_ICON_ERROR}${PAN_STYLE_MUTED} ${name}")
                         ;;
                     info)
                         main_lines+=(" ${PAN_STYLE_INFO}${PAN_ICON_INFO}${PAN_STYLE_TEXT} ${name}")

@@ -50,7 +50,7 @@ get_all_services() {
     # 1. Load from production registry FIRST (base services)
     local prod_registry=$(get_prod_registry)
     if [[ -f "$prod_registry" ]]; then
-        while IFS='|' read -r name rest; do
+        while IFS='|' read -r name rest || [[ -n "$name" ]]; do
             [[ -z "$name" || "$name" =~ ^[[:space:]]*# ]] && continue
             name=$(echo "$name" | xargs)
             add_service "$name"
@@ -60,7 +60,7 @@ get_all_services() {
     # 2. Load from development registry (adds new services, can override existing)
     local dev_registry=$(get_dev_registry)
     if [[ -f "$dev_registry" ]]; then
-        while IFS='|' read -r name rest; do
+        while IFS='|' read -r name rest || [[ -n "$name" ]]; do
             [[ -z "$name" || "$name" =~ ^[[:space:]]*# ]] && continue
             name=$(echo "$name" | xargs)
             
@@ -139,7 +139,7 @@ get_service_fields() {
     # Check production registry first
     local prod_registry=$(get_prod_registry)
     if [[ -f "$prod_registry" ]]; then
-        while IFS='|' read -r name handler_file required_fields; do
+        while IFS='|' read -r name handler_file required_fields || [[ -n "$name" ]]; do
             [[ -z "$name" || "$name" =~ ^[[:space:]]*# ]] && continue
             name=$(echo "$name" | xargs)
             if [[ "$name" == "$service" ]]; then
@@ -153,7 +153,7 @@ get_service_fields() {
     if [[ -z "$fields" ]]; then
         local dev_registry=$(get_dev_registry)
         if [[ -f "$dev_registry" ]]; then
-            while IFS='|' read -r name handler_file required_fields; do
+            while IFS='|' read -r name handler_file required_fields || [[ -n "$name" ]]; do
                 [[ -z "$name" || "$name" =~ ^[[:space:]]*# ]] && continue
                 name=$(echo "$name" | xargs)
                 if [[ "$name" == "$service" ]]; then
@@ -288,7 +288,7 @@ get_service_handler_file() {
     # Check production registry first
     local prod_registry=$(get_prod_registry)
     if [[ -f "$prod_registry" ]]; then
-        while IFS='|' read -r name handler_file_tmp required_fields; do
+        while IFS='|' read -r name handler_file_tmp required_fields || [[ -n "$name" ]]; do
             [[ -z "$name" || "$name" =~ ^[[:space:]]*# ]] && continue
             name=$(echo "$name" | xargs)
             if [[ "$name" == "$service" ]]; then
@@ -302,7 +302,7 @@ get_service_handler_file() {
     if [[ -z "$handler_file" ]]; then
         local dev_registry=$(get_dev_registry)
         if [[ -f "$dev_registry" ]]; then
-            while IFS='|' read -r name handler_file_tmp required_fields; do
+            while IFS='|' read -r name handler_file_tmp required_fields || [[ -n "$name" ]]; do
                 [[ -z "$name" || "$name" =~ ^[[:space:]]*# ]] && continue
                 name=$(echo "$name" | xargs)
                 if [[ "$name" == "$service" ]]; then

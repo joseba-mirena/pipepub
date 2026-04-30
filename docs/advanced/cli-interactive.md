@@ -76,7 +76,7 @@ The main menu displays:
 
 | Section | Content |
 |---------|---------|
-| **Publishing Services** | List of all platforms (DEV.to, Hashnode, Medium) with status |
+| **Publishing Services** | List of all platforms (DEV.to, Ghost, Hashnode, Medium) with status |
 | **Core Infrastructure** | GitHub token status (required for Gist table conversion) |
 | **Info line** | Publishing readiness or action hint |
 | **Actions** | Numbered menu items (1-4) |
@@ -248,7 +248,6 @@ The secrets sub-menu displays:
 | `➊` | Add/update secrets | Select service and enter token(s) |
 | `➋` | Remove secrets | Select configured service to remove secrets |
 | `➌` | List all configured services | Shows which services have secrets (masked values) |
-| `➍` | Export secrets | Outputs secrets as `KEY=VALUE` for GitHub Actions |
 
 ### Adding secrets
 
@@ -265,15 +264,6 @@ When removing secrets:
 1. Select configured service from list
 2. Confirm deletion
 3. All secrets for that service are removed from keychain
-
-### Export format
-
-```text
-DEVTO_TOKEN=your_token_here
-HASHNODE_TOKEN=your_token_here
-HASHNODE_PUBLICATION_ID=your_publication_id
-GH_PAT_GIST_TOKEN=your_github_token
-```
 
 <br>
 

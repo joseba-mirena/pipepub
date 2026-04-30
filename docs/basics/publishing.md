@@ -160,6 +160,7 @@ The selected articles will be published in less than a minute.
 
 ```yaml
 ---
+publisher: devto, ghost, hashnode, medium
 auto: false
 status: draft
 ---

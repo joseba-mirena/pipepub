@@ -30,7 +30,7 @@
 | Problem | PipePub solves it |
 |---------|-------------------|
 | No markdown support | ✅ Auto-conversion |
-| No tables on Medium | ✅ GitHub Gist workaround |
+| No tables on Publisher | ✅ GitHub Gist workaround |
 | Need to update published data | ✅ Tables updateable anytime — no republish needed |
 | Publishing to multiple platforms | ✅ One push → all platforms |
 | Tags management | ✅ YAML frontmatter |
@@ -45,12 +45,13 @@
 | **A writer** | Focus on content, not APIs |
 | **A developer** | Automation without maintenance |
 | **A team** | Consistent publishing workflow |
+| **YOU** | Spread the word |
 
 <br>
 
 ## 📦 How it works?
 
-> *In plain English*
+> *No technical, in plain English*
 
 1. **Create or upload** your markdown file in your `posts/` folder
 
@@ -70,10 +71,13 @@
 | Platform | Status |
 |----------|--------|
 | DEV.to | ✅ Live |
+| Ghost | ✅ Live |
 | Hashnode | ✅ Live |
-| Medium | ⚠️ Legacy token (OAuth coming soon) |
-| Ghost | 🔜 Coming soon |
-| WordPress | 📝 Planned |
+| Medium | ✅ Live (Legacy token) |
+| WordPress | 🔜 Coming soon |
+| Medium | 🔜 OAuth coming soon |
+
+**On roadmap:** LinkedIn and X twitter.
 
 <br>
 
@@ -92,16 +96,6 @@
 🔄 **[Use this template](https://github.com/pipepub/pipepub/generate)**
 
 🐛 **[Report an issue](https://github.com/pipepub/pipepub/issues)**
-
-<br>
-
-## ⚙️ Important: Enable GitHub Actions
-
-After creating your repository from the template, **enable GitHub Actions** in your repository settings:
-
-`Settings` → `Actions` → `General` → **"Allow all actions and reusable workflows"**
-
-> GitHub disables Actions on forked repositories by default for security.
 
 <br>
 

@@ -46,6 +46,7 @@
 | ![FEAT](https://pipepub.github.io/cdn/image/badge/release/feat.svg) | Table to Gist conversion |
 | ![FEAT](https://pipepub.github.io/cdn/image/badge/release/feat.svg) | Frontmatter support |
 | ![FEAT](https://pipepub.github.io/cdn/image/badge/release/feat.svg) | DEV.to integration |
+| ![FEAT](https://pipepub.github.io/cdn/image/badge/release/feat.svg) | Ghost integration |
 | ![FEAT](https://pipepub.github.io/cdn/image/badge/release/feat.svg) | HashNode integration |
 | ![FEAT](https://pipepub.github.io/cdn/image/badge/release/feat.svg) | Medium integration |
 | ![FEAT](https://pipepub.github.io/cdn/image/badge/release/feat.svg) | CLI tools |

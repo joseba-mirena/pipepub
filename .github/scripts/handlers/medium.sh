@@ -43,9 +43,7 @@ publish_to_medium() {
     # Raw gist URLs for Medium
     local final_content="$content"
     
-    # Process tags using service-agnostic function
-    # This uses SERVICE_MAX_TAGS, SERVICE_TAG_MIN_LENGTH, SERVICE_TAG_MAX_LENGTH, SERVICE_TAG_PATTERN
-    # from the loaded service config (medium.conf)
+    # Process tags
     local -a processed_tags=()
     process_tags_for_service "$tags" processed_tags
     

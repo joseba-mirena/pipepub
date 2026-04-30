@@ -1,0 +1,20 @@
+{
+  "posts": [
+    {
+      "custom_excerpt": "This is a test subtitle",
+      "feature_image": "https://example.com/cover.jpg",
+      "tags": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "ghost"
+        },
+        {
+          "name": "api"
+        }
+      ],
+      "title": "Ghost Test Article"
+    }
+  ]
+}

@@ -1,9 +1,9 @@
 #!/bin/bash
-#===============================================================================
-# Library: md_to_html.sh
-# Description: Pure bash Markdown to HTML converter
-#===============================================================================
+# .github/scripts/lib/html.sh - Markdown to HTML
 
+set -euo pipefail
+
+# Debug mode (set MD_DEBUG=1 to enable)
 MD_DEBUG="${MD_DEBUG:-0}"
 _debug() { [ "$MD_DEBUG" -eq 1 ] && echo "[DEBUG] $*" >&2; }
 

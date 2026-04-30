@@ -27,6 +27,7 @@
 | Section |
 |---------|
 | [🤝 How to contribute](#how-to-contribute) |
+| [⚙️ Enable GitHub Actions](#enable-github-actions) |
 | [🐛 Reporting bugs](#reporting-bugs) |
 | [✨ Suggesting features](#suggesting-features) |
 | [📝 Pull requests](#pull-requests) |
@@ -52,6 +53,24 @@
 5. **Commit your changes** with clear, descriptive messages
 6. **Push to your fork** (`git push origin feature/amazing-feature`)
 7. **Open a Pull Request** against the `main` branch
+
+<br>
+
+<a id="enable-github-actions"></a>
+
+### ⚙️ Enable GitHub Actions
+
+After creating your fork, GitHub Actions may be **disabled by default** for security reasons.
+
+**To enable workflows:**
+
+1. Go to your repository **Settings** → **Actions** → **General**
+2. Under "Actions permissions", select **"Allow all actions and reusable workflows"**
+3. Click **Save**
+
+> **Why?** GitHub disables Actions on forked repositories as a security measure. This is normal and happens for every fork.
+
+✅ Once enabled, your pipeline will run automatically when you upload articles.
 
 <br>
 

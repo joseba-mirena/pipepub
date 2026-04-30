@@ -167,6 +167,7 @@ Launches the interactive secrets management interface.
 | Command | Description |
 |---------|-------------|
 | `./tools/pipepub.sh secrets add devto` | Add DEV.to token |
+| `./tools/pipepub.sh secrets add ghost` | Add Ghost Admin API key + API URL |
 | `./tools/pipepub.sh secrets add hashnode` | Add Hashnode token + publication ID |
 | `./tools/pipepub.sh secrets add medium` | Add Medium legacy token |
 | `./tools/pipepub.sh secrets add github` | Add GitHub token (gist scope) |

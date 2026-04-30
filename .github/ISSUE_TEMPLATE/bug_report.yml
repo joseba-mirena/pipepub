@@ -16,7 +16,7 @@ body:
     attributes:
       label: Describe the bug
       description: A clear and concise description of what the bug is
-      placeholder: When I run `./tools/pipepub.sh publish`...
+      placeholder: When I publish an article...
     validations:
       required: true
 
@@ -26,10 +26,10 @@ body:
       label: To Reproduce
       description: Steps to reproduce the behavior
       placeholder: |
-        1. Run `./tools/pipepub.sh secrets add devto`
-        2. Add token `xxx`
-        3. Run `./tools/pipepub.sh publish`
-        4. See error
+        1. Write an article containing `# title`
+        2. Use this configuration `auto: false`
+        3. Publish from `GutHub`/`TUI`/`Command line`
+        4. See error: 
     validations:
       required: true
 
@@ -57,8 +57,8 @@ body:
       label: PipePub version
       description: Which version are you using?
       options:
+        - v1.x
         - v1.0.0
-        - v0.0.1
         - Development (main branch)
         - Other (please specify in additional context)
     validations:

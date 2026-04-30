@@ -34,7 +34,6 @@
 | [🏷️ Tag processing pipeline](#tag-processing-pipeline) |
 | [🌐 API library](#api-library) |
 | [📝 Content library](#content-library) |
-| [📊 HTML converter](#html-converter) |
 | [📋 Logging library](#logging-library) |
 | [✅ Validation library](#validation-library) |
 | [📦 Gist tables handler](#gist-tables-handler) |
@@ -133,6 +132,7 @@ flowchart TD
 ```text
 .github/config/services/
 ├── devto.conf
+├── ghost.conf
 ├── medium.conf
 └── hashnode.conf
 ```
@@ -200,6 +200,7 @@ service_name|handler_file.sh|REQUIRED_FIELD1 REQUIRED_FIELD2
 
 ```text
 devto|devto.sh|DEVTO_TOKEN
+ghost|ghost.sh|GHOST_TOKEN GHOST_DOMAIN
 hashnode|hashnode.sh|HASHNODE_TOKEN HASHNODE_PUBLICATION_ID
 medium|medium.sh|MEDIUM_TOKEN
 ```
@@ -342,6 +343,7 @@ Location: `.github/scripts/lib/api.sh`
 | Type | Header format |
 |------|---------------|
 | `Bearer` | `Authorization: Bearer $token` |
+| `Ghost` | `Authorization: Ghost $token` |
 | `api-key` | `api-key: $token` |
 | `token` | `Authorization: Token $token` |
 | `none` | No authentication header |
@@ -356,6 +358,7 @@ Location: `.github/scripts/lib/api.sh`
 | 403 | Forbidden - logs error, returns 1 |
 | 404 | Not Found - logs error, returns 1 |
 | 409 | Conflict - logs error, returns 1 |
+| 422 | Unprocessable Entity - logs error, returns 1 |
 | 429 | Rate limited - waits 60 seconds, retries |
 | 5xx | Server error - retries with exponential backoff |
 
@@ -388,49 +391,6 @@ Location: `.github/scripts/lib/content.sh`
 - Removes ONLY the first YAML frontmatter block (`---` ... `---`)
 - Preserves all other `---` in code blocks or content
 - Returns the rest of the document unchanged
-
-<br>
-
-<a id="html-converter"></a>
-
-## 📊 HTML converter
-
-> *Pure bash Markdown to HTML converter.*
-
-Location: `.github/scripts/lib/html.sh`
-
-### Core functions
-
-| Function | Parameters | Description |
-|----------|------------|-------------|
-| `md_to_html` | `file`, `enable_tables`, `add_bootstrap`, `enable_toc`, `autolink`, `mailto` | Main conversion function |
-| `md_to_html_string` | `markdown`, `...` | Convert markdown string to HTML |
-| `md_to_html_debug` | `...` | Enable debug output during conversion |
-
-### Preset functions
-
-| Function | Tables | Bootstrap | TOC | Autolink | Mailto |
-|----------|--------|-----------|-----|----------|--------|
-| `md_to_html_default` | ✅ | ❌ | ❌ | ❌ | ❌ |
-| `md_to_html_bootstrap` | ✅ | ✅ | ❌ | ❌ | ❌ |
-| `md_to_html_full` | ✅ | ✅ | ✅ | ✅ | ✅ |
-| `md_to_html_minimal` | ❌ | ❌ | ❌ | ❌ | ❌ |
-
-### Supported markdown features
-
-| Feature | Support |
-|---------|---------|
-| Headings (ATX and Setext) | ✅ |
-| Bold (`**text**` or `__text__`) | ✅ |
-| Italic (`*text*` or `_text_`) | ✅ |
-| Inline code (`` `code` ``) | ✅ |
-| Links (`[text](url)`) | ✅ |
-| Images (`![alt](url)`) | ✅ |
-| Unordered lists (`-` or `*`) | ✅ |
-| Ordered lists (`1.`) | ✅ |
-| Blockquotes (`> text`) | ✅ |
-| Tables (when enabled) | ✅ |
-| Code blocks (```` ```lang ````) | ✅ |
 
 <br>
 
@@ -737,6 +697,7 @@ Where `field_name` is the uppercase field name from registry (e.g., `DEVTO_TOKEN
 | Service | Secret keys | Required |
 |---------|-------------|----------|
 | DEV.to | `DEVTO_TOKEN` | Yes |
+| Ghost | `GHOST_TOKEN`, `GHOST_DOMAIN` | Yes |
 | Hashnode | `HASHNODE_TOKEN`, `HASHNODE_PUBLICATION_ID` | Yes |
 | Medium | `MEDIUM_TOKEN` | Yes (legacy) |
 | GitHub | `GH_PAT_GIST_TOKEN` | No (for Gists) |

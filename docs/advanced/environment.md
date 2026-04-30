@@ -157,8 +157,9 @@ Default publish status and auto-publish behavior are configured **per service** 
 | Service | Config file | `SERVICE_DEFAULT_STATUS` | `SERVICE_DEFAULT_AUTO` |
 |---------|-------------|--------------------------|------------------------|
 | DEV.to | `devto.conf` | `draft` | `true` |
-| Medium | `medium.conf` | `draft` | `true` |
+| Ghost | `ghost.conf` | `draft` | `true` |
 | Hashnode | `hashnode.conf` | `draft` | `true` |
+| Medium | `medium.conf` | `draft` | `true` |
 
 These can be overridden per article using frontmatter:
 
@@ -199,6 +200,7 @@ Or direct commands:
 | Command | Description |
 |---------|-------------|
 | `./tools/pipepub.sh secrets add devto` | Add DEV.to token |
+| `./tools/pipepub.sh secrets add ghost` | Add Ghost credentials |
 | `./tools/pipepub.sh secrets add hashnode` | Add Hashnode credentials |
 | `./tools/pipepub.sh secrets add medium` | Add Medium token (legacy) |
 | `./tools/pipepub.sh secrets add github` | Add GitHub token (gist scope) |
@@ -211,6 +213,7 @@ Or direct commands:
 | Service | Required secrets |
 |---------|------------------|
 | DEV.to | `DEVTO_TOKEN` |
+| Ghost | `GHOST_TOKEN`, `GHOST_DOMAIN` |
 | Hashnode | `HASHNODE_TOKEN`, `HASHNODE_PUBLICATION_ID` |
 | Medium | `MEDIUM_TOKEN` (legacy only) |
 | GitHub | `GH_PAT_GIST_TOKEN` (gist scope) |

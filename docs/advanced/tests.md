@@ -231,6 +231,7 @@ TEST_TAG_EXCLUDE=slow ./tools/tests/run.sh
 | `test_tags.sh` | Tag sanitization, service-specific rules |
 | `test_content.sh` | Content extraction, H1 title detection |
 | `test_devto_api.sh` | DEV.to API payload construction |
+| `test_ghost_api.sh` | Ghost API payload construction |
 | `test_hashnode_api.sh` | Hashnode GraphQL payload construction |
 | `test_medium_api.sh` | Medium API payload construction |
 | `test_smoke.sh` | Basic smoke tests |
@@ -273,6 +274,7 @@ tools/tests/
 │   ├── test_tags.sh
 │   ├── test_content.sh
 │   ├── test_devto_api.sh
+│   ├── test_ghost_api.sh
 │   ├── test_hashnode_api.sh
 │   ├── test_medium_api.sh
 │   └── test_smoke.sh
@@ -294,6 +296,7 @@ tools/tests/
 │   └── snapshots/
 │       └── json/             # API payload snapshots
 │           ├── devto-payload.json
+│           ├── ghost-payload.json
 │           ├── hashnode-payload.json
 │           └── medium-payload.json
 │
@@ -347,6 +350,7 @@ PipePub Test Suite
 # Found 8 test file(s):
 #   - test_content.sh
 #   - test_devto_api.sh
+#   - test_ghost_api.sh
 #   - test_frontmatter.sh
 #   - test_frontmatter_config.sh
 #   - test_hashnode_api.sh

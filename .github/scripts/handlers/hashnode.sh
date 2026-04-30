@@ -41,7 +41,7 @@ publish_to_hashnode() {
 $content"
     fi
     
-    # Process tags using service-agnostic function
+    # Process tags
     local -a processed_tags=()
     process_tags_for_service "$tags" processed_tags
     

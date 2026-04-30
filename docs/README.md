@@ -26,6 +26,8 @@
 
 | Section |
 |---------|
+| [📋 Prerequisites](#prerequisites) |
+| [🎯 Features](#features) |
 | [🚀 For beginners](#for-beginners) |
 | [⚙️ For power users](#for-power-users) |
 | [🔌 Platform guides](#platform-guides) |
@@ -34,6 +36,34 @@
 </details>
 
 ---
+
+<br>
+
+<a id="prerequisites"></a>
+
+## 📋 Prerequisites
+
+- A **GitHub account** 🔗 [GitHub](https://github.com/)
+- A **coffee/tea/soda** and 5 minutes flat time.
+
+<br>
+
+<a id="features"></a>
+
+## 🎯 Features
+
+| Feature | Details |
+|---------|---------|
+| ✅ **100% FREE** | Free PipePub app and free GitHub account |
+| ✅ **Keep it simple** | Just upload or write your article(s) online |
+| ✅ **Easy markdown** | Write standard markdown, publish everywhere |
+| ✅ **Table support** | (optional) Markdown tables automatically converted to GitHub Gists (SEO-friendly) |
+| ✅ **Tag support** | (optional) YAML frontmatter tags |
+| ✅ **Image support** | (optional) Handle article cover image |
+| ✅ **Power users** | (optional) TUI menu and command line |
+| ✅ **Multi-file publishing** | Publish one or many articles in a single push |
+| ✅ **Draft by default** | Review before publishing publicly |
+| ✅ **Security** | Your tokens are never exposed, 100% secure |
 
 <br>
 
@@ -78,6 +108,7 @@
 | Document | Description |
 |----------|-------------|
 | [![DEV.to](https://pipepub.github.io/cdn/image/badge/doc/devto.svg)](/docs/services/devto.md "DEV.to document") | API token, tag rules, limits |
+| [![Ghost](https://pipepub.github.io/cdn/image/badge/doc/ghost.svg)](/docs/services/ghost.md "Ghost document") | Admin API key, API URL, tag rules |
 | [![Hashnode](https://pipepub.github.io/cdn/image/badge/doc/hashnode.svg)](/docs/services/hashnode.md "Hashnode document") | Token, publication ID, tag rules |
 | [![Medium](https://pipepub.github.io/cdn/image/badge/doc/medium.svg)](/docs/services/medium.md "Medium document") | Legacy tokens, tag rules, limitations |
 | [![GitHub](https://pipepub.github.io/cdn/image/badge/doc/github.svg)](/docs/services/github.md "GitHub document") | Gist token for table conversion |

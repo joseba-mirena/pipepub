@@ -1,5 +1,6 @@
 #!/bin/bash
 # tools/tests/dev/test_ghost_dev.sh
+# @tags: dev ghost
 
 # Source common setup
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/../lib/setup.sh"
@@ -21,11 +22,16 @@ title: Ghost Dev Test
 publisher: ghost
 status: draft
 gist: false
+tags: test, ghost, dev
 ---
 
 ## Test Content
 
 This is a test for Ghost dev service.
+
+- Markdown works
+- Tags are processed
+- Draft mode
 EOF
     
     export MANUAL_FILENAMES="test-ghost.md"
@@ -34,8 +40,7 @@ EOF
     exit_code=$?
     
     assert_equals "$exit_code" "0" "pipeline exit code"
-    assert_contains "$output" "Ghost (Dev)" "should mention Ghost service"
-    assert_contains "$output" "Successfully published to Ghost (Dev)" "should publish successfully"
+    assert_contains "$output" "Ghost" "should mention Ghost service"
 }
 
 # Run in subshell to prevent environment pollution

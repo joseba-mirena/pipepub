@@ -52,6 +52,8 @@
 | Secret | Platform | Required for |
 |--------|----------|--------------|
 | `DEVTO_TOKEN` | DEV.to | Publishing to DEV.to |
+| `GHOST_TOKEN` | Ghost | Publishing to Ghost |
+| `GHOST_DOMAIN` | Ghost | Publishing to Ghost |
 | `HASHNODE_TOKEN` | Hashnode | Publishing to Hashnode |
 | `HASHNODE_PUBLICATION_ID` | Hashnode | Publishing to Hashnode |
 | `MEDIUM_TOKEN` | Medium | Publishing to Medium (legacy only) |

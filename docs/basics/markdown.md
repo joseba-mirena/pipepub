@@ -50,7 +50,7 @@ Place frontmatter at the very beginning of your `.md` file, surrounded by `---`:
 ```markdown
 ---
 tags: technology, github, automation
-publisher: devto, hashnode
+publisher: devto, ghost, hashnode, medium
 gist: true
 title: Article title
 subtitle: Article subtitle
@@ -60,6 +60,8 @@ auto: true
 ---
 
 # Your Article Title
+
+> *If you do not set a title, this # header will be used*
 
 Your article content
 ```
@@ -226,8 +228,9 @@ https://raw.githubusercontent.com/<your-username>/<your-repo>/main/images/my-pho
 | Platform | Max Tags | Allowed Characters | Space Handling | Underscore `_` | Hyphen `-` | Length Limit | Case |
 |----------|----------|-------------------|----------------|----------------|------------|--------------|------|
 | **DEV.to** | 4 | Alphanumeric only (a-z, 0-9) | Removed | Removed | Removed | 2-30 chars | Lowercase |
+| **Ghost** | 5 | Alphanumeric + hyphen (`-`) | Converted to `-` | Removed | Kept | 1-25 chars | Lowercase |
 | **Hashnode** | 5 | Alphanumeric + `_` + `-` | Converted to `_` | Kept (name), `_` → `-` (slug) | Kept | No explicit limit | Preserved |
-| **Medium** | 5 | Alphanumeric + `_` + `-` | Converted to `-` | Converted to `-` | Kept | 1-25 chars | Lowercase (converted) |
+| **Medium** | 5 | Alphanumeric + `_` + `-` | Converted to `-` | Converted to `-` | Kept | 1-25 chars | Lowercase |
 
 ### Tag conversion examples
 

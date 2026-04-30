@@ -29,8 +29,8 @@
 | [⚠️ Important note](#important-note) |
 | [🔑 Getting your legacy token](#getting-your-legacy-token) |
 | [⚙️ Configuration](#configuration) |
-| [🏷️ Tag rules](#tag-rules) |
 | [📝 Publishing behavior](#publishing-behavior) |
+| [🏷️ Tag rules](#tag-rules) |
 | [🔧 Troubleshooting](#troubleshooting) |
 
 </details>
@@ -64,6 +64,8 @@ The `MEDIUM_TOKEN` secret only works if you already have a **legacy integration 
 3. If you have an existing token, copy it immediately
 4. Add it as a repository secret named `MEDIUM_TOKEN`
 
+![GitHub repository secret](https://pipepub.github.io/cdn/image/screenshot/github-repository-secret-thumb.jpg "GitHub repository secret")
+
 📖 **[How to add secrets →](/docs/basics/settings.md#github-secrets)**
 
 **If you don't have a token**, you cannot publish to Medium via PipePub at this time. Watch for OAuth support coming soon.
@@ -91,6 +93,49 @@ To publish only to Medium (and not other platforms):
 publisher: medium
 ---
 ```
+
+**Frontmatter example**
+
+```yaml
+---
+tags: tag1, tag2, tag3, tag4
+publisher: medium, devto, ghost, hashnode
+gist: true
+title: Medium Test Article
+subtitle: Publish like a PRO 
+image: https://pipepub.github.io/cdn/image/hero/publish-like-a-pro.jpg
+status: draft
+auto: true
+---
+```
+
+<br>
+
+<a id="publishing-behavior"></a>
+
+## 📝 Publishing behavior
+
+> *How Medium handles your articles.*
+
+| Setting | Default | Behavior |
+|---------|---------|----------|
+| **Status** | `draft` | Articles publish as drafts for review |
+| **Formats** | Markdown | Markdown converted to Medium HTML |
+| **Tables** | Gist embed | Requires `GH_PAT_GIST_TOKEN` |
+| **Images** | Supported | Use raw GitHub URLs |
+| **Tags** | Converted | See tag rules above |
+
+### Changing to public
+
+To publish immediately as public, set in frontmatter:
+
+```yaml
+---
+status: public
+---
+```
+
+Or change the default in your workflow variables (`PUBLISHER_STATUS=public`).
 
 <br>
 
@@ -132,34 +177,6 @@ publisher: medium
 
 <br>
 
-<a id="publishing-behavior"></a>
-
-## 📝 Publishing behavior
-
-> *How Medium handles your articles.*
-
-| Setting | Default | Behavior |
-|---------|---------|----------|
-| **Status** | `draft` | Articles publish as drafts for review |
-| **Formats** | Markdown | Markdown converted to Medium HTML |
-| **Tables** | Gist embed | Requires `GH_PAT_GIST_TOKEN` |
-| **Images** | Supported | Use raw GitHub URLs |
-| **Tags** | Converted | See tag rules above |
-
-### Changing to public
-
-To publish immediately as public, set in frontmatter:
-
-```yaml
----
-status: public
----
-```
-
-Or change the default in your workflow variables (`PUBLISHER_STATUS=public`).
-
-<br>
-
 <a id="troubleshooting"></a>
 
 ## 🔧 Troubleshooting
@@ -179,12 +196,19 @@ Or change the default in your workflow variables (`PUBLISHER_STATUS=public`).
 
 1. Is `MEDIUM_TOKEN` secret correctly added?
 2. Does your article have a title (`# H1` heading)?
-3. Check the Actions tab for workflow errors
-4. Verify the article was sent (check workflow logs)
+3. Verify the article was sent (check workflow logs)
 
 ### ❌ Table not rendering
 
 Medium does not support markdown tables. PipePub converts tables to GitHub Gists for proper rendering. Ensure `GH_PAT_GIST_TOKEN` is configured.
+
+### ❌ Cover image not appearing
+
+**Checklist:**
+
+1. Is the image URL publicly accessible via HTTPS?
+2. Is the image URL correctly set in frontmatter as `image` (aliases: `cover_image`, `cover`, `hero`)?
+3. Check that the image URL is not blocked or requiring authentication
 
 ### ❌ I don't have a legacy token
 
@@ -202,6 +226,7 @@ Medium closed new API token issuance in 2026. If you don't have a legacy token, 
 
 [![README](https://pipepub.github.io/cdn/image/badge/doc/readme.svg)](/docs/README.md "Main documentation")
 [![DEV.to](https://pipepub.github.io/cdn/image/badge/doc/devto.svg)](/docs/services/devto.md "DEV.to guide")
+[![Ghost](https://pipepub.github.io/cdn/image/badge/doc/ghost.svg)](/docs/services/ghost.md "Ghost guide")
 [![Hashnode](https://pipepub.github.io/cdn/image/badge/doc/hashnode.svg)](/docs/services/hashnode.md "Hashnode guide")
 [![GitHub](https://pipepub.github.io/cdn/image/badge/doc/github.svg)](/docs/services/github.md "GitHub Gist guide")
 [![Markdown](https://pipepub.github.io/cdn/image/badge/doc/markdown.svg)](/docs/basics/markdown.md "Markdown guide")

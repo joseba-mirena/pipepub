@@ -28,8 +28,8 @@
 |---------|
 | [🔑 Getting your API credentials](#getting-your-api-credentials) |
 | [⚙️ Configuration](#configuration) |
-| [🏷️ Tag rules](#tag-rules) |
 | [📝 Publishing behavior](#publishing-behavior) |
+| [🏷️ Tag rules](#tag-rules) |
 | [🖼️ Cover images](#cover-images) |
 | [🔧 Troubleshooting](#troubleshooting) |
 
@@ -69,6 +69,8 @@ https://hashnode.com/your-publication-id
 
 Add it as a repository secret named `HASHNODE_PUBLICATION_ID`.
 
+![GitHub repository secret](https://pipepub.github.io/cdn/image/screenshot/github-repository-secret-thumb.jpg "GitHub repository secret")
+
 📖 **[How to add secrets →](/docs/basics/settings.md#github-secrets)**
 
 <br>
@@ -86,22 +88,6 @@ Add it as a repository secret named `HASHNODE_PUBLICATION_ID`.
 | `HASHNODE_TOKEN` | Your Hashnode Personal Access Token |
 | `HASHNODE_PUBLICATION_ID` | Your Hashnode publication ID |
 
-### Repository Variables (optional)
-
-| Variable | Values | Default | Description |
-|----------|--------|---------|-------------|
-| `PUBLISHER_GIST` | `true`, `false` | `true` | Convert tables to GitHub Gists |
-| `DEBUG` | `true`, `false` | `false` | Enable verbose logging |
-
-### Service defaults
-
-Default behavior can be configured in `.github/config/services/hashnode.conf`:
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `SERVICE_DEFAULT_STATUS` | `draft` | Default publish status |
-| `SERVICE_DEFAULT_AUTO` | `true` | Default auto-publish behavior |
-
 ### Optional Frontmatter
 
 To publish only to Hashnode (and not other platforms):
@@ -118,6 +104,45 @@ To override default status or auto-publish for a specific article:
 ---
 status: public
 auto: false
+---
+```
+
+**Frontmatter example**
+
+```yaml
+---
+tags: tag1, tag2, tag3, tag4
+publisher: hashnode, devto, ghost, medium
+gist: true
+title: Hashnode Test Article
+subtitle: Publish like a PRO 
+image: https://pipepub.github.io/cdn/image/hero/publish-like-a-pro.jpg
+status: draft
+auto: true
+---
+```
+
+<br>
+
+<a id="publishing-behavior"></a>
+
+## 📝 Publishing behavior
+
+> *How Hashnode handles your articles.*
+
+| Setting | Default | Behavior |
+|---------|---------|----------|
+| **Status** | `draft` | Articles publish as drafts for review |
+| **Formats** | Markdown | Full markdown support (tables via Gists) |
+| **Tags** | Converted | See tag rules above |
+
+### Changing to public
+
+To publish immediately as public, set in frontmatter:
+
+```yaml
+---
+status: public
 ---
 ```
 
@@ -156,36 +181,6 @@ auto: false
 4. **Case-sensitive** — `DevOps` and `devops` are different tags
 
 📖 **[General tag guidelines →](/docs/basics/markdown.md#platform-specific-tag-rules)**
-
-<br>
-
-<a id="publishing-behavior"></a>
-
-## 📝 Publishing behavior
-
-> *How Hashnode handles your articles.*
-
-| Setting | Default | Behavior |
-|---------|---------|----------|
-| **Status** | `draft` | Articles publish as drafts for review |
-| **Formats** | Markdown | Full markdown support (tables via Gists) |
-| **Tags** | Converted | See tag rules above |
-
-### Changing to public
-
-To publish immediately as public, set in frontmatter:
-
-```yaml
----
-status: public
----
-```
-
-Or modify the service default in `.github/config/services/hashnode.conf`:
-
-```bash
-SERVICE_DEFAULT_STATUS="public"
-```
 
 <br>
 
@@ -244,7 +239,7 @@ Hashnode then detects the first image in the content and uses it as the post cov
 2. Is `HASHNODE_PUBLICATION_ID` secret correctly added?
 3. Does your article have a title (`# H1` heading)?
 4. Does your token have `publishPost` scope?
-5. Check the Actions tab for workflow errors
+5. Verify the article was sent (check workflow logs)
 
 ### ❌ "Publication not found" error
 
@@ -285,6 +280,7 @@ Ensure `GH_PAT_GIST_TOKEN` is configured for Gist conversion, or set `gist: fals
 
 [![README](https://pipepub.github.io/cdn/image/badge/doc/readme.svg)](/docs/README.md "Main documentation")
 [![DEV.to](https://pipepub.github.io/cdn/image/badge/doc/devto.svg)](/docs/services/devto.md "DEV.to guide")
+[![Ghost](https://pipepub.github.io/cdn/image/badge/doc/ghost.svg)](/docs/services/ghost.md "Ghost guide")
 [![Medium](https://pipepub.github.io/cdn/image/badge/doc/medium.svg)](/docs/services/medium.md "Medium guide")
 [![GitHub](https://pipepub.github.io/cdn/image/badge/doc/github.svg)](/docs/services/github.md "GitHub Gist guide")
 [![Markdown](https://pipepub.github.io/cdn/image/badge/doc/markdown.svg)](/docs/basics/markdown.md "Markdown guide")

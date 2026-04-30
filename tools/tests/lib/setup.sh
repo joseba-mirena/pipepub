@@ -174,7 +174,7 @@ setup_test_environment() {
     # Read registry from temp .github directory
     local registry_file=".github/config/registry.conf"
     if [[ -f "$registry_file" ]]; then
-        while IFS='|' read -r name handler required_fields; do
+        while IFS='|' read -r name handler required_fields || [[ -n "$name" ]]; do
             [[ -z "$name" || "$name" =~ ^[[:space:]]*# ]] && continue
             for field in $required_fields; do
                 export "$(echo "$field" | xargs)"="mock"

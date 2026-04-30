@@ -50,7 +50,7 @@
 | [Quick Start](/docs/basics/quickstart.md) | Get up and running in 5 minutes |
 | [FAQ](/docs/basics/faq.md) | Frequently asked questions |
 | [Settings Guide](/docs/basics/settings.md) | Pipeline configuration |
-| [Platform Guides](/docs/INDEX.md#services) | DEV.to, Hashnode, Medium, GitHub setup |
+| [Platform Guides](/docs/INDEX.md#services) | DEV.to, Ghost, Hashnode, Medium, GitHub setup |
 | [Advanced Guides](/docs/INDEX.md#advanced) | Local tools, environment, CLI, tests |
 
 📖 **[Main documentation →](/docs/README.md)**

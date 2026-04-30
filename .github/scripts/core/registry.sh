@@ -22,7 +22,7 @@ _get_service_required_fields() {
         return 1
     fi
     
-    while IFS='|' read -r name handler_file required_fields; do
+    while IFS='|' read -r name handler_file required_fields || [[ -n "$name" ]]; do
         [[ -z "$name" || "$name" =~ ^[[:space:]]*# ]] && continue
         name=$(echo "$name" | xargs)
         if [[ "$name" == "$service" ]]; then
@@ -88,7 +88,7 @@ get_available_services() {
         return 1
     fi
     
-    while IFS='|' read -r name handler_file required_fields; do
+    while IFS='|' read -r name handler_file required_fields || [[ -n "$name" ]]; do
         [[ -z "$name" || "$name" =~ ^[[:space:]]*# ]] && continue
         name=$(echo "$name" | xargs)
         

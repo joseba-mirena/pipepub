@@ -161,6 +161,8 @@ article1.md article2.md article3.md
 | Secret | Platform | Required for |
 |--------|----------|--------------|
 | `DEVTO_TOKEN` | DEV.to | Publishing to DEV.to |
+| `GHOST_TOKEN` | Ghost | Publishing to Ghost |
+| `GHOST_DOMAIN` | Ghost | Publishing to Ghost |
 | `HASHNODE_TOKEN` | Hashnode | Publishing to Hashnode |
 | `HASHNODE_PUBLICATION_ID` | Hashnode | Publishing to Hashnode |
 | `MEDIUM_TOKEN` | Medium | Publishing to Medium (legacy) |
@@ -182,7 +184,8 @@ Default publish status and auto-publish behavior are configured per service in:
 
 ```text
 .github/config/services/devto.conf      # SERVICE_DEFAULT_STATUS="draft"
-.github/config/services/hashnode.conf   # SERVICE_DEFAULT_AUTO="true"
+.github/config/services/ghost.conf      # SERVICE_DEFAULT_STATUS="draft"
+.github/config/services/hashnode.conf   # SERVICE_DEFAULT_STATUS="draft"
 .github/config/services/medium.conf     # SERVICE_DEFAULT_STATUS="draft"
 ```
 
@@ -356,6 +359,8 @@ pipeline {
 | Variable | Required for |
 |----------|--------------|
 | `DEVTO_TOKEN` | DEV.to publishing |
+| `GHOST_TOKEN` | Ghost Publishing |
+| `GHOST_DOMAIN` | Ghost Publishing |
 | `HASHNODE_TOKEN` | Hashnode publishing |
 | `HASHNODE_PUBLICATION_ID` | Hashnode publishing |
 | `MEDIUM_TOKEN` | Medium publishing (legacy) |

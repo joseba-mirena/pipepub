@@ -35,7 +35,7 @@ show_menu() {
     actions_data+=("action:1:Add/update secrets")
     actions_data+=("action:2:Remove secrets")
     actions_data+=("action:3:List all configured services")
-    actions_data+=("action:4:Export secrets (for GitHub Actions)")
+    #actions_data+=("action:4:Export secrets (for GitHub Actions)")
     
     # Set context for footer
     set_options_context
@@ -65,7 +65,7 @@ show_menu() {
                 1) add_secrets_interactive ;;
                 2) remove_secrets_interactive ;;
                 3) list_secrets ;;
-                4) export_secrets ;;
+                #4) export_secrets ;;
                 *)
                     panel_prompt_error "Invalid choice"
                     show_menu
@@ -382,7 +382,7 @@ list_secrets() {
     
     # Helper to mask secret values
     mask_secret() {
-        local value="$1"
+        local value=$(echo "$1" | tr -d ':')
         if [[ ${#value} -le 12 ]]; then
             echo "${value:0:4}****"
         else
@@ -490,7 +490,7 @@ export_secrets() {
     if [[ ${#secrets_output[@]} -gt 0 ]]; then
         main_data+=("category:Your secrets")
         for secret in "${secrets_output[@]}"; do
-            main_data+=("item:$secret:success")
+            main_data+=("raw:$secret")
         done
     else
         main_data+=("item:No secrets found to export:warning")

@@ -39,7 +39,7 @@ declare -A LABEL_TO_EMOJI=(
     ["[DEBUG]"]="🔍"
     ["[INFO]"]=""
     ["[SUCCESS]"]="✅"
-    ["[WARNING]"]="⚠️"
+    ["[WARNING]"]="⚠️ "
     ["[ERROR]"]="❌"
 )
 
